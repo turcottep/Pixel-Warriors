@@ -66,7 +66,7 @@ public class Player2 : MonoBehaviour {
     {
         player.grounded = true;
         maxJump = 2;
-        maxSpeed = 2.5f;
+        maxSpeed = 1.5f;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -94,6 +94,7 @@ public class Player2 : MonoBehaviour {
             transform.localScale = new Vector3(1, 1, 1);
         }
 
+        /*
         //Double jump
         if (Input.GetKeyDown(KeyCode.I) && maxJump > 0)
         {
@@ -115,6 +116,7 @@ public class Player2 : MonoBehaviour {
         if (Input.GetKey(KeyCode.J)) { x = -1; isRight = false; }
         else if (Input.GetKey(KeyCode.L)) { x = 1; isRight = true; }
         else { x = 0; }
+        */
 
         if (Input.GetKeyDown(KeyCode.K) && player.transform.position.y > 1.1)
         {
@@ -134,8 +136,29 @@ public class Player2 : MonoBehaviour {
         player.GetComponent<Collider2D>().isTrigger = false;
     }
 
+
+
     private void FixedUpdate()
     {
+
+        Transform autre = GameObject.FindGameObjectWithTag("Player1").transform;
+        float distance = Vector2.Distance(new Vector2(autre.transform.position.x,0) ,new Vector2( this.transform.position.x,0));
+
+        isRight = (autre.transform.position.x - this.transform.position.x > 0);
+       
+        if (distance > 0.5) {
+            if (isRight){ x = 1;}
+            else { x = -1; }
+        
+            Debug.Log("distance élevée");
+        }
+        else if(distance > 0.1){
+            x = 0;
+            
+            Debug.Log("distance faible: " + distance);
+        }
+
+
         float h = Input.GetAxisRaw("Horizontal");
         float decay = 0.8f;
 
@@ -163,4 +186,6 @@ public class Player2 : MonoBehaviour {
             rb2d.velocity = new Vector2(-maxSpeed, rb2d.velocity.y);
         }
     }
+
+
 }
