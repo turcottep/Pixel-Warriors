@@ -229,6 +229,7 @@ MonoBehaviour:
   attack_1: 0
   charge: 0
   goingDown: 0
+  dead: 0
 --- !u!61 &445289657
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -828,6 +829,7 @@ MonoBehaviour:
   attack_1: 0
   charge: 0
   goingDown: 0
+  dead: 0
 --- !u!50 &1791841990
 Rigidbody2D:
   serializedVersion: 4

@@ -15,9 +15,11 @@ public class Player2 : MonoBehaviour {
     public bool attack_1;
     public bool charge;
     public bool goingDown;
+    public bool dead;
 
     private int x = 0;
     private bool isRight;
+    private bool isDead;
 
     private Rigidbody2D rb2d;
     private Animator anim;
@@ -82,6 +84,7 @@ public class Player2 : MonoBehaviour {
         anim.SetBool("Attack", attack_1);
         anim.SetBool("Charge", charge);
         anim.SetBool("GoingDown", goingDown);
+        anim.SetBool("Dead", dead);
 
         //Flip character L/R
         if (isRight == false)
@@ -130,7 +133,6 @@ public class Player2 : MonoBehaviour {
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(.2f);
-        print("waiting...");
         player.GetComponent<Collider2D>().isTrigger = false;
     }
 
@@ -139,13 +141,33 @@ public class Player2 : MonoBehaviour {
         float h = Input.GetAxisRaw("Horizontal");
         float decay = 0.8f;
 
-		if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 2.6 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
-		{
-			lives--;
-			player.transform.position = new Vector3(0.3f, 1.6f, 0);
-		}
+        //Out of map
+        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
+        {
+            player.isDead = true;
+            lives--;
+        }
+        if (player.isDead == true)
+        {
+            if (lives == 0)
+            {
+                Destroy(player);
+            }
+            else
+            {
+                player.dead = true;
+                player.transform.position = new Vector3(0.3f, 1.6f, 0);
+                rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+                if (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.K))
+                {
+                    rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+                    player.isDead = false;
+                    player.dead = false;
+                }
+            }
+        }
 
-		if (rb2d.velocity.y < 0) { player.goingDown = true; }
+        if (rb2d.velocity.y < 0) { player.goingDown = true; }
         else { player.goingDown = false; }
 
         //Move player
