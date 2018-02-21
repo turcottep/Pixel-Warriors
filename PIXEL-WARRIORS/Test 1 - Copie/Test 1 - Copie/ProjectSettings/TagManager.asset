@@ -10,6 +10,8 @@ TagManager:
   - Out
   - Player1
   - Player2
+  - Hole
+  - Hole2
   layers:
   - Default
   - TransparentFX

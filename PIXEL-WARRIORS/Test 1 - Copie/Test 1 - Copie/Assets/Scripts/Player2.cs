@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player2 : MonoBehaviour {
+public class Player2 : MonoBehaviour
+{
 
     public float maxSpeed = 2.5f;
     public float speed = 8f;
@@ -43,17 +44,18 @@ public class Player2 : MonoBehaviour {
             Destroy(col.gameObject);
             percentage += 25;
         }
-		if (col.gameObject.tag == "Out")
-		{
-			lives--;
+        if (col.gameObject.tag == "Out")
+        {
+            lives--;
 
-			//y = -1
-			//y = 2.4
-			//x = -3.6
-			//x = 1.9
+            //y = -1
+            //y = 2.4
+            //x = -3.6
+            //x = 1.9
 
-		}
-	}
+
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -141,34 +143,112 @@ public class Player2 : MonoBehaviour {
     private void FixedUpdate()
     {
 
-        Transform autre = GameObject.FindGameObjectWithTag("Player1").transform;
-        float distance = Vector2.Distance(new Vector2(autre.transform.position.x,0) ,new Vector2( this.transform.position.x,0));
+        List<Transform> trous = new List<Transform>();
 
-        isRight = (autre.transform.position.x - this.transform.position.x > 0);
-       
-        if (distance > 0.5) {
-            if (isRight){ x = 1;}
-            else { x = -1; }
-        
-            Debug.Log("distance élevée");
+        Transform autre = GameObject.FindGameObjectWithTag("Player1").transform;
+        float distance = autre.position.x - this.transform.position.x;
+        isRight = distance > 0;
+
+        trous.Add(GameObject.FindGameObjectWithTag("Hole").transform);
+        trous.Add(GameObject.FindGameObjectWithTag("Hole2").transform);
+        List<float> distanceTrousX = new List<float>();
+        List<float> distanceTrousY = new List<float>();
+
+        foreach (Transform t in trous)
+        {
+            distanceTrousX.Add(t.position.x - this.transform.position.x);
+            distanceTrousY.Add(t.position.y - this.transform.position.y);
+
         }
-        else if(distance > 0.1){
+
+
+        //Debug.Log("x " + x);
+        //Debug.Log("distanceTrou " + distanceTrou);
+        //Debug.Log("test " + (distanceTrou * x)); 
+        bool saute = false;
+        foreach (float d in distanceTrousX)
+        {
+            saute = (d * x > 0 && d * x < 0.7);
+            if (saute) break;
+
+        }
+        if (saute && maxJump > 0)
+        {
+
+            maxSpeed = 2f;
+
+            Vector2 temp = rb2d.velocity;
+            temp.y = 0;
+            rb2d.velocity = new Vector2(temp.x, temp.y);
+            rb2d.AddForce(new Vector2(0, jumpPower));
+            maxJump--;
+
+            //Debug.Log("saut");
+
+        }
+
+        bool avance = false;
+        int trou = 0;
+        for (int i = 0; i < distanceTrousX.Count; i++)
+        {
+            avance = Mathf.Abs(distanceTrousX[i]) < 0.8;
+            if (avance)
+            {
+                trou = i;
+                break;
+            }
+        }
+        if (avance)
+        {
+            //Over Edge
+            //Debug.Log("y vel = " + rb2d.velocity.y );
+
+            //si il est plus bas que le trou
+            if (rb2d.velocity.y < -4.5)
+            {
+                Debug.Log("saute encore");
+
+                //saute encore
+                maxSpeed = 2f;
+
+                Vector2 temp = rb2d.velocity;
+                temp.y = 0;
+                rb2d.velocity = new Vector2(temp.x, temp.y);
+                rb2d.AddForce(new Vector2(0, jumpPower));
+                maxJump--;
+            }
+
+            if (x == 0)
+            {
+                if (isRight) { x = 1; }
+                else { x = -1; }
+            }
+        }
+        else if (Mathf.Abs(distance) > 0.5)
+        {
+            if (isRight) { x = 1; }
+            else { x = -1; }
+
+            //Debug.Log("distance élevée");
+        }
+        else if (Mathf.Abs(distance) > 0.1)
+        {
             x = 0;
-            
-            Debug.Log("distance faible: " + distance);
+
+            //Debug.Log("distance faible: " + distance);
         }
 
 
         float h = Input.GetAxisRaw("Horizontal");
         float decay = 0.8f;
 
-		if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 2.6 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
-		{
-			lives--;
-			player.transform.position = new Vector3(0.3f, 1.6f, 0);
-		}
+        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 2.6 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
+        {
+            lives--;
+            player.transform.position = new Vector3(0.3f, 1.6f, 0);
+        }
 
-		if (rb2d.velocity.y < 0) { player.goingDown = true; }
+        if (rb2d.velocity.y < 0) { player.goingDown = true; }
         else { player.goingDown = false; }
 
         //Move player
