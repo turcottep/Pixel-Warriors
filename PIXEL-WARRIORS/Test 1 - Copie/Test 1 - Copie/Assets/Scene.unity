@@ -162,7 +162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d46fd79fb10aabc4d959acdb52886168, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 445289657}
   - component: {fileID: 445289656}
   - component: {fileID: 445289662}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: player2
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -229,6 +229,7 @@ MonoBehaviour:
   attack_1: 0
   charge: 0
   goingDown: 0
+  dead: 0
 --- !u!61 &445289657
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -322,9 +323,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -925764361
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: 5b1d61090f07fa94991711a64bc14ab8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -714,7 +715,7 @@ GameObject:
   - component: {fileID: 1791841989}
   - component: {fileID: 1791841985}
   - component: {fileID: 1791841991}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -794,9 +795,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -925764361
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: afc91b249aa8eac4295b93cd5de72d0e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -828,6 +829,11 @@ MonoBehaviour:
   attack_1: 0
   charge: 0
   goingDown: 0
+<<<<<<< HEAD
+  sortingOrder: 0
+=======
+  dead: 0
+>>>>>>> be1d10326b80e7e294af1da508033abbf1dec029
 --- !u!50 &1791841990
 Rigidbody2D:
   serializedVersion: 4
@@ -1010,7 +1016,7 @@ GameObject:
   - component: {fileID: 2086996898}
   - component: {fileID: 2086996899}
   - component: {fileID: 2086996900}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1067,7 +1073,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2092121026}
   - component: {fileID: 2092121027}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

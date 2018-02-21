@@ -15,15 +15,19 @@ public class Player2 : MonoBehaviour {
     public bool attack_1;
     public bool charge;
     public bool goingDown;
+    public bool dead;
 
     private int x = 0;
     private bool isRight;
+    private bool isDead;
 
     private Rigidbody2D rb2d;
     private Animator anim;
     private Player2 player;
 
-    private Collider2D platform;
+	private SpriteRenderer ordre;
+
+	private Collider2D platform;
 
     void Start()
     {
@@ -34,9 +38,11 @@ public class Player2 : MonoBehaviour {
 
         platform = gameObject.GetComponent<Collider2D>();
 
-    }
+		ordre = GetComponent<SpriteRenderer>();
 
-    void OnCollisionEnter2D(Collision2D col)
+	}
+
+	void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Ball1")
         {
@@ -82,6 +88,7 @@ public class Player2 : MonoBehaviour {
         anim.SetBool("Attack", attack_1);
         anim.SetBool("Charge", charge);
         anim.SetBool("GoingDown", goingDown);
+        anim.SetBool("Dead", dead);
 
         //Flip character L/R
         if (isRight == false)
@@ -130,22 +137,57 @@ public class Player2 : MonoBehaviour {
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(.2f);
-        print("waiting...");
         player.GetComponent<Collider2D>().isTrigger = false;
     }
 
+	int getOrdre() {
+		return ordre.sortingOrder;
+	}
+
     private void FixedUpdate()
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float decay = 0.8f;
-
-		if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 2.6 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
+		if (x != 0)
 		{
-			lives--;
-			player.transform.position = new Vector3(0.3f, 1.6f, 0);
+			ordre.sortingOrder = 1;
+		}
+		else
+		{
+			ordre.sortingOrder = 0;
 		}
 
-		if (rb2d.velocity.y < 0) { player.goingDown = true; }
+		//Transform autre = GameObject.FindGameObjectWithTag("player2").transform;
+		
+
+		float h = Input.GetAxisRaw("Horizontal");
+        float decay = 0.8f;
+
+        //Out of map
+        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
+        {
+            player.isDead = true;
+            lives--;
+        }
+        if (player.isDead == true)
+        {
+            if (lives == 0)
+            {
+                Destroy(player);
+            }
+            else
+            {
+                player.dead = true;
+                player.transform.position = new Vector3(0.3f, 1.6f, 0);
+                rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+                if (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.K))
+                {
+                    rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+                    player.isDead = false;
+                    player.dead = false;
+                }
+            }
+        }
+
+        if (rb2d.velocity.y < 0) { player.goingDown = true; }
         else { player.goingDown = false; }
 
         //Move player

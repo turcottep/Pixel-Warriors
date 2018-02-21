@@ -827,10 +827,10 @@ TextureImporter:
       name: db_46
       rect:
         serializedVersion: 2
-        x: 457
-        y: 53
+        x: 434
+        y: 48
         width: 58
-        height: 42
+        height: 54
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
