@@ -12,15 +12,7 @@ public class Player : MonoBehaviour
 	public float percentage = 0f;
 	public int lives = 3;
 
-<<<<<<< HEAD
-	public bool grounded;
-	public bool attack_1;
-	public bool charge;
-	public bool goingDown;
 
-	private int x = 0;
-	private bool isRight;
-=======
     public bool grounded;
     public bool attack_1;
     public bool charge;
@@ -30,7 +22,6 @@ public class Player : MonoBehaviour
 	private int x = 0;
     private bool isRight;
     private bool isDead;
->>>>>>> be1d10326b80e7e294af1da508033abbf1dec029
 
 	private Rigidbody2D rb2d;
 	private Animator anim;
@@ -85,31 +76,10 @@ public class Player : MonoBehaviour
 		player.grounded = false;
 	}
 
-	void Update()
-	{
+    void Update()
+    {
 
-		anim.SetBool("Grounded", grounded);
-		anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
-		anim.SetBool("Attack", attack_1);
-		anim.SetBool("Charge", charge);
-		anim.SetBool("GoingDown", goingDown);
 
-<<<<<<< HEAD
-		//Flip character L/R
-		if (isRight == false)
-		{
-			transform.localScale = new Vector3(-1, 1, 1);
-		}
-
-		if (isRight == true)
-		{
-			transform.localScale = new Vector3(1, 1, 1);
-		}
-
-		//Double jump
-		if (Input.GetKeyDown(KeyCode.W) && maxJump > 0)
-		{
-=======
         anim.SetBool("Grounded", grounded);
         anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
         anim.SetBool("Attack", attack_1);
@@ -131,66 +101,24 @@ public class Player : MonoBehaviour
         //Double jump
         if (Input.GetKeyDown(KeyCode.W) && maxJump > 0)
         {
->>>>>>> be1d10326b80e7e294af1da508033abbf1dec029
-			maxSpeed = 2f;
+            maxSpeed = 2f;
 
-			Vector2 temp = rb2d.velocity;
-			temp.y = 0;
-			rb2d.velocity = new Vector2(temp.x, temp.y);
-			rb2d.AddForce(new Vector2(0, jumpPower));
-			maxJump--;
-		}
-
-		if (Input.GetKeyDown(KeyCode.R)) { attack_1 = true; }
-		else { attack_1 = false; }
-
-		if (Input.GetKey(KeyCode.F)) { charge = true; }
-		else { charge = false; }
-
-		if (Input.GetKey(KeyCode.A)) { x = -1; isRight = false; }
-		else if (Input.GetKey(KeyCode.D)) { x = 1; isRight = true; }
-		else { x = 0; }
-
-<<<<<<< HEAD
-		if (Input.GetKeyDown(KeyCode.S) && player.transform.position.y > 1.1)
-		{
-
-			player.GetComponent<Collider2D>().isTrigger = true;
-			StopCoroutine("Wait");
-			StartCoroutine("Wait");
-
-		}
-
-	}
-
-	IEnumerator Wait()
-	{
-		yield return new WaitForSeconds(.2f);
-		print("waiting...");
-		player.GetComponent<Collider2D>().isTrigger = false;
-	}
-
-	private void FixedUpdate()
-	{
-		if (x != 0 )
-		{
-			ordre.sortingOrder = 1;
-		}
-		else
-		{
-			ordre.sortingOrder = 0;
-		}
-
-		float h = Input.GetAxisRaw("Horizontal");
-=======
-        if (Input.GetKeyDown(KeyCode.S) && player.transform.position.y > 1.1)
-        {
-           
-            player.GetComponent<Collider2D>().isTrigger = true;
-            StopCoroutine("Wait");
-            StartCoroutine("Wait");
-      
+            Vector2 temp = rb2d.velocity;
+            temp.y = 0;
+            rb2d.velocity = new Vector2(temp.x, temp.y);
+            rb2d.AddForce(new Vector2(0, jumpPower));
+            maxJump--;
         }
+
+        if (Input.GetKeyDown(KeyCode.R)) { attack_1 = true; }
+        else { attack_1 = false; }
+
+        if (Input.GetKey(KeyCode.F)) { charge = true; }
+        else { charge = false; }
+
+        if (Input.GetKey(KeyCode.A)) { x = -1; isRight = false; }
+        else if (Input.GetKey(KeyCode.D)) { x = 1; isRight = true; }
+        else { x = 0; }
 
     }
 
@@ -203,11 +131,30 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         float h = Input.GetAxisRaw("Horizontal");
->>>>>>> be1d10326b80e7e294af1da508033abbf1dec029
 		float decay = 0.8f;
 
-        //Out of map
-		if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
+            if (x != 0)
+            {
+                ordre.sortingOrder = 1;
+            }
+            else
+            {
+                ordre.sortingOrder = 0;
+            }
+
+            float h = Input.GetAxisRaw("Horizontal");
+
+            if (Input.GetKeyDown(KeyCode.S) && player.transform.position.y > 1.1)
+            {
+
+                player.GetComponent<Collider2D>().isTrigger = true;
+                StopCoroutine("Wait");
+                StartCoroutine("Wait");
+
+            }
+
+            //Out of map
+            if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
 		{
             player.isDead = true;
 			lives--;
