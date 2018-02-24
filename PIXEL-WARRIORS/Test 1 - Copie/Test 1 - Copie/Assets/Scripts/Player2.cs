@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player2 : MonoBehaviour {
 
     public float maxSpeed = 2.5f;
-    public float speed = 8f;
+    public float speed = 15f;
     public float jumpPower = 175f;
     public float maxJump = 2f;
     public float percentage = 0f;
@@ -20,6 +20,7 @@ public class Player2 : MonoBehaviour {
     private int x = 0;
     private bool isRight;
     private bool isDead;
+    private int stun = 0;
 
     private Rigidbody2D rb2d;
     private Animator anim;
@@ -43,9 +44,12 @@ public class Player2 : MonoBehaviour {
         if (col.gameObject.tag == "Ball1")
         {
             Destroy(col.gameObject);
-            percentage += 25;
+            rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
+            percentage += (float)0.75;
+            stun = 10;
+            Debug.Log("pourcentage P2: " + percentage);
         }
-		if (col.gameObject.tag == "Out")
+        if (col.gameObject.tag == "Out")
 		{
 			lives--;
 
@@ -115,8 +119,8 @@ public class Player2 : MonoBehaviour {
         if (Input.GetKey(KeyCode.H)) { charge = true; }
         else { charge = false; }
 
-        if (Input.GetKey(KeyCode.J)) { x = -1; isRight = false; }
-        else if (Input.GetKey(KeyCode.L)) { x = 1; isRight = true; }
+        if (Input.GetKey(KeyCode.J) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
+        else if (Input.GetKey(KeyCode.L) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
         else { x = 0; }
 
         if (Input.GetKeyDown(KeyCode.K) && player.transform.position.y > 1.1)
@@ -171,18 +175,20 @@ public class Player2 : MonoBehaviour {
         else { player.goingDown = false; }
 
         //Move player
-        rb2d.AddForce(Vector2.right * x * speed, ForceMode2D.Impulse);
+        if (stun < 1)
+        { rb2d.AddForce(Vector2.right * x * 10 * speed, ForceMode2D.Force); }
+        else { stun--; }
         rb2d.velocity = new Vector2(rb2d.velocity.x * decay, rb2d.velocity.y);
 
         //Limit speed
-        if (rb2d.velocity.x > maxSpeed)
-        {
-            rb2d.velocity = new Vector2(maxSpeed, rb2d.velocity.y);
-        }
+        //if (rb2d.velocity.x > maxSpeed)
+        //{
+        //    rb2d.velocity = new Vector2(maxSpeed, rb2d.velocity.y);
+        //}
 
-        if (rb2d.velocity.x < -maxSpeed)
-        {
-            rb2d.velocity = new Vector2(-maxSpeed, rb2d.velocity.y);
-        }
+        //if (rb2d.velocity.x < -maxSpeed)
+        //{
+        //    rb2d.velocity = new Vector2(-maxSpeed, rb2d.velocity.y);
+        //}
     }
 }

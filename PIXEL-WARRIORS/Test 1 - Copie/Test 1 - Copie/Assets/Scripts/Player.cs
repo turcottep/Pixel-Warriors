@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
     public float maxSpeed = 2.5f;
-    public float speed = 8f;
+    public float speed = 15f;
     public float jumpPower = 175f;
     public float maxJump = 2f;
     public float percentage = 0f;
@@ -17,60 +18,67 @@ public class Player : MonoBehaviour {
     public bool goingDown;
     public bool dead;
 
-	private int x = 0;
+    private int x = 0;
     private bool isRight;
     private bool isDead;
+    private int stun = 0;
 
-	private Rigidbody2D rb2d;
+    private Rigidbody2D rb2d;
     private Animator anim;
     private Player player;
 
     private Collider2D platform;
 
-    void Start () {
+    void Start()
+    {
 
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
         player = gameObject.GetComponentInParent<Player>();
 
         platform = gameObject.GetComponent<Collider2D>();
-  
+
     }
 
-	void OnCollisionEnter2D(Collision2D col)
-	{
-		if (col.gameObject.tag == "Ball2")
-		{
-			Destroy(col.gameObject);
-			percentage += 25;
-		}
-		if (col.gameObject.tag == "Out")
-		{
-			lives--;
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ball2")
+        {
+            //Hit by an ennemy ball
+            Destroy(col.gameObject);
+            rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
+            percentage += (float)0.75;
+            stun = 10;
+            Debug.Log("pourcentage P1: " + percentage);
+        }
+        if (col.gameObject.tag == "Out")
+        {
+            lives--;
 
-		}
-	}
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D col)
     {
         player.grounded = true;
         maxJump = 2;
-		maxSpeed = 2.5f;
+        maxSpeed = 2.5f;
     }
 
     void OnTriggerStay2D(Collider2D col)
     {
         player.grounded = true;
         maxJump = 2;
-		maxSpeed = 2.5f;
-	}
+        maxSpeed = 2.5f;
+    }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         player.grounded = false;
     }
 
-    void Update () {
+    void Update()
+    {
 
         anim.SetBool("Grounded", grounded);
         anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
@@ -93,7 +101,7 @@ public class Player : MonoBehaviour {
         //Double jump
         if (Input.GetKeyDown(KeyCode.W) && maxJump > 0)
         {
-			maxSpeed = 2f;
+            maxSpeed = 2f;
 
             Vector2 temp = rb2d.velocity;
             temp.y = 0;
@@ -108,17 +116,18 @@ public class Player : MonoBehaviour {
         if (Input.GetKey(KeyCode.F)) { charge = true; }
         else { charge = false; }
 
-		if (Input.GetKey(KeyCode.A)) { x = -1; isRight = false; }
-		else if (Input.GetKey(KeyCode.D)) { x = 1; isRight = true; }
-		else { x = 0; }
+
+        if (Input.GetKey(KeyCode.A) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
+        else if (Input.GetKey(KeyCode.D) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
+        else { x = 0; }
 
         if (Input.GetKeyDown(KeyCode.S) && player.transform.position.y > 1.1)
         {
-           
+
             player.GetComponent<Collider2D>().isTrigger = true;
             StopCoroutine("Wait");
             StartCoroutine("Wait");
-      
+
         }
 
     }
@@ -132,14 +141,14 @@ public class Player : MonoBehaviour {
     private void FixedUpdate()
     {
         float h = Input.GetAxisRaw("Horizontal");
-		float decay = 0.8f;
+        float decay = 0.8f;
 
         //Out of map
-		if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
-		{
+        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
+        {
             player.isDead = true;
-			lives--;
-		}
+            lives--;
+        }
         if (player.isDead == true)
         {
             if (lives == 0)
@@ -157,28 +166,30 @@ public class Player : MonoBehaviour {
                     player.isDead = false;
                     player.dead = false;
                 }
-            } 
+            }
         }
-		
 
-		if (rb2d.velocity.y < 0) { player.goingDown = true; }
+
+        if (rb2d.velocity.y < 0) { player.goingDown = true; }
         else { player.goingDown = false; }
 
-		//Move player
-		rb2d.AddForce(Vector2.right * x *speed, ForceMode2D.Impulse);
-		rb2d.velocity = new Vector2(rb2d.velocity.x*decay, rb2d.velocity.y);
+        //Move player
+        if (stun < 1)
+        { rb2d.AddForce(Vector2.right * x * 10 * speed, ForceMode2D.Force); }
+        else { stun--; }
+        rb2d.velocity = new Vector2(rb2d.velocity.x * decay, rb2d.velocity.y);
 
         //Limit speed
-        if (rb2d.velocity.x > maxSpeed)
-        {
-            rb2d.velocity = new Vector2(maxSpeed, rb2d.velocity.y);
-        }
+        //if (rb2d.velocity.x > maxSpeed)
+        //{
+        //    rb2d.velocity = new Vector2(maxSpeed, rb2d.velocity.y);
+        //}
 
-        if(rb2d.velocity.x < -maxSpeed)
-        {
-            rb2d.velocity = new Vector2(-maxSpeed, rb2d.velocity.y);
-        }
+        //if(rb2d.velocity.x < -maxSpeed)
+        //{
+        //    rb2d.velocity = new Vector2(-maxSpeed, rb2d.velocity.y);
+        //}
     }
 
-	
+
 }

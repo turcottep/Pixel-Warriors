@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 396567941}
   - component: {fileID: 396567940}
+  - component: {fileID: 396567942}
   m_Layer: 0
   m_Name: island_left
   m_TagString: Untagged
@@ -187,6 +188,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!251 &396567942
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 396567939}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &445289655
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +220,7 @@ GameObject:
   - component: {fileID: 445289657}
   - component: {fileID: 445289656}
   - component: {fileID: 445289662}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: player2
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -521,6 +540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1134703779}
   - component: {fileID: 1134703780}
+  - component: {fileID: 1134703781}
   m_Layer: 0
   m_Name: HitBox Right
   m_TagString: Untagged
@@ -551,7 +571,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -566,6 +586,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!251 &1134703781
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1134703778}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 1
+  m_SideArc: 1
 --- !u!1 &1151373355
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1151373356}
   - component: {fileID: 1151373357}
+  - component: {fileID: 1151373358}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -605,7 +644,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 82204e0783f2a704ca84ed1b64f53780, type: 2}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -620,6 +659,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!251 &1151373358
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1151373355}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &1490528914
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,7 +772,8 @@ GameObject:
   - component: {fileID: 1791841989}
   - component: {fileID: 1791841985}
   - component: {fileID: 1791841991}
-  m_Layer: 0
+  - component: {fileID: 1791841988}
+  m_Layer: 8
   m_Name: player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -808,6 +866,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &1791841988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1791841984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 629bd4694da296e47bcf9c66b4524923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poing: {fileID: 0}
+  velocity: {x: 0, y: 0}
+  canShoot: 1
+  offset: {x: 0.4, y: 0.1}
+  cooldown: 0.1
+  anim: {fileID: 0}
+  player: {fileID: 0}
+  rb2d: {fileID: 0}
+  shootCharge: 0
 --- !u!114 &1791841989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,7 +1090,7 @@ GameObject:
   - component: {fileID: 2086996898}
   - component: {fileID: 2086996899}
   - component: {fileID: 2086996900}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1069,7 +1147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2092121026}
   - component: {fileID: 2092121027}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
