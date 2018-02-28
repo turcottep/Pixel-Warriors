@@ -51,9 +51,17 @@ public class Player : MonoBehaviour
             stun = 10;
             Debug.Log("pourcentage P1: " + percentage);
         }
-        if (col.gameObject.tag == "Out")
+        /*if (col.gameObject.tag == "Platform2")
         {
-            lives--;
+            Physics2D.IgnoreCollision(player.GetComponent<Collider2D>);
+        }*/
+    }
+
+
+    private void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Platform1" && Input.GetKey(KeyCode.S))
+        {
 
         }
     }
@@ -79,7 +87,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
         anim.SetBool("Grounded", grounded);
         anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
         anim.SetBool("Attack", attack_1);
@@ -121,14 +128,14 @@ public class Player : MonoBehaviour
         else if (Input.GetKey(KeyCode.D) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
         else { x = 0; }
 
-        if (Input.GetKeyDown(KeyCode.S) && player.transform.position.y > 1.1)
+        /*if (Input.GetKeyDown(KeyCode.S) && player.transform.position.y > 1.1)
         {
 
             player.GetComponent<Collider2D>().isTrigger = true;
             StopCoroutine("Wait");
             StartCoroutine("Wait");
 
-        }
+        }*/
 
     }
 
@@ -144,7 +151,7 @@ public class Player : MonoBehaviour
         float decay = 0.8f;
 
         //Out of map
-        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
+        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.7 || rb2d.transform.position.x < -4.5)
         {
             player.isDead = true;
             lives--;
@@ -158,6 +165,7 @@ public class Player : MonoBehaviour
             else
             {
                 player.dead = true;
+                percentage = 0;
                 player.transform.position = new Vector3(-2, 1.6f, 0);
                 rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
                 if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))

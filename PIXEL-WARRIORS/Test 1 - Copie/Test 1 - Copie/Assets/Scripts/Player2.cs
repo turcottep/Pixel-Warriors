@@ -49,16 +49,7 @@ public class Player2 : MonoBehaviour {
             stun = 10;
             Debug.Log("pourcentage P2: " + percentage);
         }
-        if (col.gameObject.tag == "Out")
-		{
-			lives--;
-
-			//y = -1
-			//y = 2.4
-			//x = -3.6
-			//x = 1.9
-
-		}
+       
 	}
 
     void OnTriggerEnter2D(Collider2D col)
@@ -82,7 +73,6 @@ public class Player2 : MonoBehaviour {
 
     void Update()
     {
-
         anim.SetBool("Grounded", grounded);
         anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
         anim.SetBool("Attack", attack_1);
@@ -102,7 +92,7 @@ public class Player2 : MonoBehaviour {
         }
 
         //Double jump
-        if (Input.GetKeyDown(KeyCode.I) && maxJump > 0)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && maxJump > 0)
         {
             maxSpeed = 2f;
 
@@ -113,17 +103,17 @@ public class Player2 : MonoBehaviour {
             maxJump--;
         }
 
-        if (Input.GetKeyDown(KeyCode.U)) { attack_1 = true; }
+        if (Input.GetKeyDown(KeyCode.Keypad1)) { attack_1 = true; }
         else { attack_1 = false; }
 
-        if (Input.GetKey(KeyCode.H)) { charge = true; }
+        if (Input.GetKey(KeyCode.Keypad2)) { charge = true; }
         else { charge = false; }
 
-        if (Input.GetKey(KeyCode.J) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
-        else if (Input.GetKey(KeyCode.L) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
+        if (Input.GetKey(KeyCode.LeftArrow) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
+        else if (Input.GetKey(KeyCode.RightArrow) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
         else { x = 0; }
 
-        if (Input.GetKeyDown(KeyCode.K) && player.transform.position.y > 1.1)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && player.transform.position.y > 1.1)
         {
 
             player.GetComponent<Collider2D>().isTrigger = true;
@@ -146,7 +136,7 @@ public class Player2 : MonoBehaviour {
         float decay = 0.8f;
 
         //Out of map
-        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
+        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.7 || rb2d.transform.position.x < -4.5)
         {
             player.isDead = true;
             lives--;
@@ -160,9 +150,10 @@ public class Player2 : MonoBehaviour {
             else
             {
                 player.dead = true;
+                percentage = 0;
                 player.transform.position = new Vector3(0.3f, 1.6f, 0);
                 rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-                if (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.K))
+                if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.UpArrow))
                 {
                     rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
                     player.isDead = false;
