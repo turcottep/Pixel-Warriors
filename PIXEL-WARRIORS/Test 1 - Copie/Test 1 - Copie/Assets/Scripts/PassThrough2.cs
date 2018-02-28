@@ -39,7 +39,7 @@ public class PassThrough2 : MonoBehaviour {
 
     IEnumerator Wait()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(0.5f);
         platform.GetComponent<Collider2D>().isTrigger = false;
     }
 }
