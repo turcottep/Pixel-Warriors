@@ -27,16 +27,12 @@ public class Player : MonoBehaviour
     private Animator anim;
     private Player player;
 
-    private Collider2D platform;
-
     void Start()
     {
 
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
         player = gameObject.GetComponentInParent<Player>();
-
-        platform = gameObject.GetComponent<Collider2D>();
 
     }
 
@@ -104,7 +100,10 @@ public class Player : MonoBehaviour
         }
 
         //Attack 1
-        if (Input.GetKeyDown(KeyCode.R)) { attack_1 = true; }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            attack_1 = true;       
+        }
         else { attack_1 = false; }
 
         //Attack 2

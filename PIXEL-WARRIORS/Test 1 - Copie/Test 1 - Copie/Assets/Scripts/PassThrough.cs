@@ -21,7 +21,8 @@ public class PassThrough : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player 1" && Input.GetKey(KeyCode.S))
         {
-            platform.GetComponent<Collider2D>().isTrigger = true;
+            platform.GetComponent<Collider2D>().enabled = false;
+            //platform.GetComponent<Collider2D>().isTrigger = true;
             StopCoroutine("Wait");
             StartCoroutine("Wait");
         }
@@ -32,7 +33,8 @@ public class PassThrough : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player 1" && Input.GetKey(KeyCode.S))
         {
-            platform.GetComponent<Collider2D>().isTrigger = true;
+            platform.GetComponent<Collider2D>().enabled = false;
+            //platform.GetComponent<Collider2D>().isTrigger = true;
             StopCoroutine("Wait");
             StartCoroutine("Wait");
         }
@@ -41,6 +43,7 @@ public class PassThrough : MonoBehaviour {
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(.5f);
-        platform.GetComponent<Collider2D>().isTrigger = false;
+        platform.GetComponent<Collider2D>().enabled = true;
+        //platform.GetComponent<Collider2D>().isTrigger = false;
     }
 }

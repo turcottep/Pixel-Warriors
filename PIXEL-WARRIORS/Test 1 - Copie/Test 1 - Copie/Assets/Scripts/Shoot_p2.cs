@@ -16,6 +16,7 @@ public class Shoot_p2 : MonoBehaviour {
 
     private bool shootCharge;
     private float direction = 0f;
+    private float lifeTime = 1.5f;
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class Shoot_p2 : MonoBehaviour {
             GameObject go = (GameObject)Instantiate(projectile, (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
             go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x * transform.localScale.x, velocity.y);
             GetComponent<Animator>().SetTrigger("Shoot");
+            Destroy(go, lifeTime);
             StartCoroutine("CanShoot");
         }
 

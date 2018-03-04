@@ -46,8 +46,14 @@ public class Player2 : MonoBehaviour {
             stun = 10 + (.5f * percentage);
             Debug.Log("pourcentage P2: " + percentage);
         }
-       
-	}
+
+    }
+
+    public void Damage(float damage)
+    {
+        percentage += damage;
+        Debug.Log("pourcentage P2: " + percentage);
+    }
 
     void OnTriggerEnter2D(Collider2D col)
     {

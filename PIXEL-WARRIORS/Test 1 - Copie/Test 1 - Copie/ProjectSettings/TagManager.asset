@@ -11,6 +11,7 @@ TagManager:
   - Poing
   - Platform1
   - Platform2
+  - Punch1
   layers:
   - Default
   - TransparentFX

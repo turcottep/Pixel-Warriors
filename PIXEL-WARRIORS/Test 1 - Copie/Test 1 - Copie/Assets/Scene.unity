@@ -902,7 +902,6 @@ GameObject:
   - component: {fileID: 1791841989}
   - component: {fileID: 1791841985}
   - component: {fileID: 1791841991}
-  - component: {fileID: 1791841988}
   m_Layer: 8
   m_Name: player
   m_TagString: Player 1
@@ -996,17 +995,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!114 &1791841988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1791841984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 629bd4694da296e47bcf9c66b4524923, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1791841989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1225,7 +1213,7 @@ GameObject:
   - component: {fileID: 2086996900}
   m_Layer: 8
   m_Name: feet
-  m_TagString: Untagged
+  m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1282,7 +1270,7 @@ GameObject:
   - component: {fileID: 2092121027}
   m_Layer: 9
   m_Name: feet
-  m_TagString: Untagged
+  m_TagString: Player 2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
