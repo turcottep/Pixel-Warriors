@@ -11,7 +11,8 @@ TagManager:
   - Poing
   - Platform1
   - Platform2
-  - Punch1
+  - Melee1
+  - Melee2
   layers:
   - Default
   - TransparentFX

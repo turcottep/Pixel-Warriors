@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     private Animator anim;
     private Player player;
 
+    private Vector2 pos;
+    private Vector2 knockback;
+
     void Start()
     {
 
@@ -34,6 +37,8 @@ public class Player : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         player = gameObject.GetComponentInParent<Player>();
 
+        //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
+        knockback.Set(-2, 0);
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -45,6 +50,17 @@ public class Player : MonoBehaviour
             rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
             percentage += 0.75f;
             stun = 10 + (.5f*percentage);
+            Debug.Log("pourcentage P1: " + percentage);
+        }
+
+        //Hit by melee
+        if (col.gameObject.tag == "Melee2")
+        {
+            player.transform.position = pos;
+            Destroy(col.gameObject);
+            rb2d.AddForce(knockback, ForceMode2D.Impulse);
+            percentage += 0.3f;
+            stun = 10 + (.5f * percentage);
             Debug.Log("pourcentage P1: " + percentage);
         }
     }
@@ -102,7 +118,7 @@ public class Player : MonoBehaviour
         //Attack 1
         if (Input.GetKeyDown(KeyCode.R))
         {
-            attack_1 = true;       
+            attack_1 = true;
         }
         else { attack_1 = false; }
 
@@ -120,6 +136,8 @@ public class Player : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal");
         float decay = 0.8f;
+
+        pos = transform.position;
 
         //Out of map
         if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.7 || rb2d.transform.position.x < -4.5)
