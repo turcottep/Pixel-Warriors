@@ -18,6 +18,17 @@ public class Player : MonoBehaviour
     public bool goingDown;
     public bool dead;
 
+    //controls
+    public KeyCode up = KeyCode.W;
+    public KeyCode left = KeyCode.A;
+    public KeyCode down = KeyCode.S;
+    public KeyCode right = KeyCode.D;
+    public KeyCode attack1 = KeyCode.R;
+    public KeyCode attack2 = KeyCode.F;
+    public KeyCode attack3 = KeyCode.C;
+
+    public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
+
     private int x = 0;
     private bool isRight;
     private bool isDead;
@@ -43,9 +54,9 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        //Hit by an ennemy projectile
         if (col.gameObject.tag == "Ball2")
         {
-            //Hit by an ennemy ball
             Destroy(col.gameObject);
             rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
             percentage += 0.75f;
@@ -104,7 +115,7 @@ public class Player : MonoBehaviour
         }
 
         //Double jump
-        if (Input.GetKeyDown(KeyCode.W) && maxJump > 0)
+        if (Input.GetKeyDown(up) && maxJump > 0)
         {
             maxSpeed = 2f;
 
@@ -116,19 +127,19 @@ public class Player : MonoBehaviour
         }
 
         //Attack 1
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(down))
         {
             attack_1 = true;
         }
         else { attack_1 = false; }
 
         //Attack 2
-        if (Input.GetKey(KeyCode.F)) { charge = true; }
+        if (Input.GetKey(attack2)) { charge = true; }
         else { charge = false; }
 
         //Gauche/Droite
-        if (Input.GetKey(KeyCode.A) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
-        else if (Input.GetKey(KeyCode.D) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
+        if (Input.GetKey(left) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
+        else if (Input.GetKey(right) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
         else { x = 0; }
     }
 
@@ -155,9 +166,9 @@ public class Player : MonoBehaviour
             {
                 player.dead = true;
                 percentage = 0;
-                player.transform.position = new Vector3(-2, 1.6f, 0);
+                player.transform.position = initialPosition;
                 rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+                if (Input.GetKey(up) || Input.GetKey(down))
                 {
                     rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
                     player.isDead = false;

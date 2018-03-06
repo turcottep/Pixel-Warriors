@@ -15,7 +15,7 @@ public class Melee1_p2 : MonoBehaviour {
     private Rigidbody2D rb2d;
 
     private bool attacking;
-    private float lifeTime = 0.2f;
+    private float lifeTime = 0.3f;
 
     void Start()
     {
