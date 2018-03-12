@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -18,17 +19,23 @@ public class Player : MonoBehaviour
     public bool goingDown;
     public bool dead;
 
+    public bool isButtonJumpPointerDown;
+    public bool isButtonAttackBPointerDown;
+    public bool isButtonLeftPointerDown;
+    public bool isButtonRightPointerDown;
+    public bool isButtonDownPointerDown;
+
+
     private int x = 0;
     private bool isRight;
     private bool isDead;
-    private float stun = 0f;
+    private int stun = 0;
 
     private Rigidbody2D rb2d;
     private Animator anim;
     private Player player;
 
-    private Vector2 pos;
-    private Vector2 knockback;
+    private Collider2D platform;
 
     void Start()
     {
@@ -37,8 +44,8 @@ public class Player : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         player = gameObject.GetComponentInParent<Player>();
 
-        //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
-        knockback.Set(-2, 0);
+        platform = gameObject.GetComponent<Collider2D>();
+
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -48,20 +55,13 @@ public class Player : MonoBehaviour
             //Hit by an ennemy ball
             Destroy(col.gameObject);
             rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
-            percentage += 0.75f;
-            stun = 10 + (.5f*percentage);
+            percentage += (float)0.75;
+            stun = 10;
             Debug.Log("pourcentage P1: " + percentage);
         }
-
-        //Hit by melee
-        if (col.gameObject.tag == "Melee2")
+        if (col.gameObject.tag == "Out")
         {
-            player.transform.position = pos;
-            Destroy(col.gameObject);
-            rb2d.AddForce(knockback, ForceMode2D.Impulse);
-            percentage += 0.3f;
-            stun = 10 + (.5f * percentage);
-            Debug.Log("pourcentage P1: " + percentage);
+            lives--;
         }
     }
 
@@ -98,6 +98,7 @@ public class Player : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
+
         if (isRight == true)
         {
             transform.localScale = new Vector3(1, 1, 1);
@@ -115,21 +116,55 @@ public class Player : MonoBehaviour
             maxJump--;
         }
 
-        //Attack 1
+        //Attack A
         if (Input.GetKeyDown(KeyCode.R))
         {
             attack_1 = true;
         }
-        else { attack_1 = false; }
+        else
+        {
+            attack_1 = false;
+        }
 
-        //Attack 2
-        if (Input.GetKey(KeyCode.F)) { charge = true; }
-        else { charge = false; }
+        //Attack B
+        if (Input.GetKey(KeyCode.F) || isButtonAttackBPointerDown)
+        {
+            charge = true;
+        }
+        else
+        {
+            charge = false;
+        }
 
-        //Gauche/Droite
-        if (Input.GetKey(KeyCode.A) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
-        else if (Input.GetKey(KeyCode.D) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
-        else { x = 0; }
+
+        if ((Input.GetKey(KeyCode.A) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed)
+        {
+            x = -1;
+            isRight = false;
+        }
+        else if ((Input.GetKey(KeyCode.D) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed)
+        {
+            x = 1;
+            isRight = true;
+        }
+        else
+        {
+            x = 0;
+        }
+
+        if ((Input.GetKeyDown(KeyCode.S) || isButtonDownPointerDown) && player.transform.position.y > 1.1)
+        {
+            player.GetComponent<Collider2D>().isTrigger = true;
+            StopCoroutine("Wait");
+            StartCoroutine("Wait");
+        }
+
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(.2f);
+        player.GetComponent<Collider2D>().isTrigger = false;
     }
 
     private void FixedUpdate()
@@ -137,10 +172,8 @@ public class Player : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float decay = 0.8f;
 
-        pos = transform.position;
-
         //Out of map
-        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.7 || rb2d.transform.position.x < -4.5)
+        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
         {
             player.isDead = true;
             lives--;
@@ -154,10 +187,9 @@ public class Player : MonoBehaviour
             else
             {
                 player.dead = true;
-                percentage = 0;
                 player.transform.position = new Vector3(-2, 1.6f, 0);
                 rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || isButtonDownPointerDown || isButtonJumpPointerDown)
                 {
                     rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
                     player.isDead = false;
@@ -166,7 +198,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        //Going down
+
         if (rb2d.velocity.y < 0) { player.goingDown = true; }
         else { player.goingDown = false; }
 
@@ -188,5 +220,68 @@ public class Player : MonoBehaviour
         //}
     }
 
+    public void buttonJump()
+    {
+        rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+        player.isDead = false;
+        player.dead = false;
+
+        if (maxJump > 0)
+        {
+            maxSpeed = 2f;
+
+            Vector2 temp = rb2d.velocity;
+            temp.y = 0;
+            rb2d.velocity = new Vector2(temp.x, temp.y);
+            rb2d.AddForce(new Vector2(0, jumpPower));
+            maxJump--;
+        }
+    }
+
+    public void buttonAttackA()
+    {
+        attack_1 = true;
+    }
+
+    public void buttonAttackBPointerDown()
+    {
+        isButtonAttackBPointerDown = true;
+    }
+
+    public void buttonAttackBPointerUp()
+    {
+        isButtonAttackBPointerDown = false;
+    }
+
+    public void buttonLeftPointerDown()
+    {
+        isButtonLeftPointerDown = true;
+    }
+
+    public void buttonLeftPointerUp()
+    {
+        isButtonLeftPointerDown = false;
+    }
+
+    public void buttonRightPointerDown()
+    {
+        isButtonRightPointerDown = true;
+    }
+
+    public void buttonRightPointerUp()
+    {
+        isButtonRightPointerDown = false;
+    }
+
+    public void buttonDownPointerDown()
+    {
+
+        isButtonDownPointerDown = true;
+    }
+
+    public void buttonDownPointerUp()
+    {
+        isButtonDownPointerDown = false;
+    }
 
 }

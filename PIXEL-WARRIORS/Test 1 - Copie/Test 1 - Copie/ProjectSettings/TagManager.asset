@@ -4,15 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - platform
   - Ball1
   - Ball2
+  - Out
   - Player 1
   - Player 2
   - Poing
-  - Platform1
-  - Platform2
-  - Melee1
-  - Melee2
   layers:
   - Default
   - TransparentFX

@@ -20,14 +20,13 @@ public class Player2 : MonoBehaviour {
     private int x = 0;
     private bool isRight;
     private bool isDead;
-    private float stun = 0;
+    private int stun = 0;
 
     private Rigidbody2D rb2d;
     private Animator anim;
     private Player2 player;
 
-    private Vector2 pos;
-    private Vector2 knockback;
+    private Collider2D platform;
 
     void Start()
     {
@@ -36,36 +35,31 @@ public class Player2 : MonoBehaviour {
         anim = gameObject.GetComponent<Animator>();
         player = gameObject.GetComponentInParent<Player2>();
 
-        //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
-        knockback.Set(2, 0);
+        platform = gameObject.GetComponent<Collider2D>();
 
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        //Hit by an ennemy ball
         if (col.gameObject.tag == "Ball1")
         {
             Destroy(col.gameObject);
             rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
-            percentage += 0.75f;
-            stun = 10 + (.5f * percentage);
+            percentage += (float)0.75;
+            stun = 10;
             Debug.Log("pourcentage P2: " + percentage);
         }
+        if (col.gameObject.tag == "Out")
+		{
+			lives--;
 
-        //Hit by melee
-        if (col.gameObject.tag == "Melee1")
-        {
-            player.transform.position = pos;
-            Destroy(col.gameObject);
-            rb2d.AddForce(knockback, ForceMode2D.Impulse);
-            percentage += 0.3f;
-            stun = 10 + (.5f * percentage);
-            Debug.Log("pourcentage P2: " + percentage);
-        }
-      
+			//y = -1
+			//y = 2.4
+			//x = -3.6
+			//x = 1.9
 
-    }
+		}
+	}
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -88,6 +82,7 @@ public class Player2 : MonoBehaviour {
 
     void Update()
     {
+
         anim.SetBool("Grounded", grounded);
         anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
         anim.SetBool("Attack", attack_1);
@@ -100,13 +95,14 @@ public class Player2 : MonoBehaviour {
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
+
         if (isRight == true)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
 
         //Double jump
-        if (Input.GetKeyDown(KeyCode.UpArrow) && maxJump > 0)
+        if (Input.GetKeyDown(KeyCode.I) && maxJump > 0)
         {
             maxSpeed = 2f;
 
@@ -117,18 +113,31 @@ public class Player2 : MonoBehaviour {
             maxJump--;
         }
 
-        //Attack 1
-        if (Input.GetKeyDown(KeyCode.Keypad1)) { attack_1 = true; }
+        if (Input.GetKeyDown(KeyCode.U)) { attack_1 = true; }
         else { attack_1 = false; }
 
-        //Attack2
-        if (Input.GetKey(KeyCode.Keypad2)) { charge = true; }
+        if (Input.GetKey(KeyCode.H)) { charge = true; }
         else { charge = false; }
 
-        //Gauche/Droite
-        if (Input.GetKey(KeyCode.LeftArrow) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
-        else if (Input.GetKey(KeyCode.RightArrow) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
+        if (Input.GetKey(KeyCode.J) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
+        else if (Input.GetKey(KeyCode.L) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
         else { x = 0; }
+
+        if (Input.GetKeyDown(KeyCode.K) && player.transform.position.y > 1.1)
+        {
+
+            player.GetComponent<Collider2D>().isTrigger = true;
+            StopCoroutine("Wait");
+            StartCoroutine("Wait");
+
+        }
+
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(.2f);
+        player.GetComponent<Collider2D>().isTrigger = false;
     }
 
     private void FixedUpdate()
@@ -136,10 +145,8 @@ public class Player2 : MonoBehaviour {
         float h = Input.GetAxisRaw("Horizontal");
         float decay = 0.8f;
 
-        pos = transform.position;
-
         //Out of map
-        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.7 || rb2d.transform.position.x < -4.5)
+        if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.4 || rb2d.transform.position.x < -3.6)
         {
             player.isDead = true;
             lives--;
@@ -153,10 +160,9 @@ public class Player2 : MonoBehaviour {
             else
             {
                 player.dead = true;
-                percentage = 0;
                 player.transform.position = new Vector3(0.3f, 1.6f, 0);
                 rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-                if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.UpArrow))
+                if (Input.GetKey(KeyCode.I) || Input.GetKey(KeyCode.K))
                 {
                     rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
                     player.isDead = false;
@@ -165,7 +171,6 @@ public class Player2 : MonoBehaviour {
             }
         }
 
-        //Going down
         if (rb2d.velocity.y < 0) { player.goingDown = true; }
         else { player.goingDown = false; }
 

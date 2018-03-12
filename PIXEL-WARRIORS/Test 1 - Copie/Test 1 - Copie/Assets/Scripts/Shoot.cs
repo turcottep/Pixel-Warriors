@@ -15,8 +15,6 @@ public class Shoot : MonoBehaviour {
     private Rigidbody2D rb2d;
 
     private bool shootCharge;
-    private float direction = 0f;
-    private float lifeTime = 1.5f;
 
     void Start () {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
@@ -26,33 +24,28 @@ public class Shoot : MonoBehaviour {
 	
 	void Update () {
         anim.SetBool("ShootCharge", shootCharge);
-        if (Input.GetKeyDown(KeyCode.C) && canShoot && !player.dead)
-        {          
+
+        if (Input.GetKeyDown(KeyCode.C) && canShoot)
+        {
+            /*if (player.grounded == false) { rb2d.constraints = RigidbodyConstraints2D.FreezePositionX; }
+            else { rb2d.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY; }*/           
             shootCharge = true;
         }
-        if (Input.GetKeyUp(KeyCode.C) && canShoot && !player.dead)
+        if (Input.GetKeyUp(KeyCode.C) && canShoot)
         {
+            //rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
             shootCharge = false;
-            GameObject go = (GameObject) Instantiate(projectile, (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
+         
+            GameObject go = (GameObject) Instantiate(projectile, (Vector2)transform.position + offset * transform.localScale.x, Quaternion.identity);
+
             go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x * transform.localScale.x, velocity.y);
+
             GetComponent<Animator>().SetTrigger("Shoot");
-            Destroy(go, lifeTime);
+
             StartCoroutine("CanShoot");
         }
 
 	}
-
-    private void FixedUpdate()
-    {
-        if (Input.GetKey(KeyCode.D))
-        {
-            direction = 0f;
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            direction = 180f;
-        }
-    }
 
     IEnumerator CanShoot()
     {

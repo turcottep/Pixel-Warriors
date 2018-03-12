@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212472835936234198}
   - component: {fileID: 58805457346263824}
   - component: {fileID: 50866432101082350}
+  - component: {fileID: 114264195804700178}
   m_Layer: 0
   m_Name: EnergyBall
   m_TagString: Ball1
@@ -77,6 +78,17 @@ CircleCollider2D:
   m_Offset: {x: 0.042389333, y: 0}
   serializedVersion: 2
   m_Radius: 0.17761058
+--- !u!114 &114264195804700178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1603513343824618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60eb189de91cd5142b0e373d5d8e9900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212472835936234198
 SpriteRenderer:
   m_ObjectHideFlags: 1
