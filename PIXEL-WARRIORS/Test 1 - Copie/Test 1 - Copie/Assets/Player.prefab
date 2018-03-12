@@ -164,6 +164,14 @@ MonoBehaviour:
   charge: 0
   goingDown: 0
   dead: 0
+  up: 119
+  left: 97
+  down: 115
+  right: 100
+  attack1: 114
+  attack2: 102
+  attack3: 99
+  initialPosition: {x: -2, y: 1.6, z: 0}
 --- !u!114 &114338642273641918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -202,9 +210,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 1071014070503304, guid: 05363df33444dff42a3fca649f1072b0, type: 2}
-  velocity: {x: 0, y: 0}
+  velocity: {x: 5, y: 0}
   offset: {x: 0.061873, y: 0}
-  cooldown: 0
+  cooldown: 0.3
+  lifeTime: 0.02
 --- !u!212 &212114765407680990
 SpriteRenderer:
   m_ObjectHideFlags: 1
