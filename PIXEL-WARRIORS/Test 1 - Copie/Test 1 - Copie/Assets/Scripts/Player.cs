@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
 	public float maxSpeed = 2.5f;
 	public float speed = 15f;
 	public float jumpPower = 175f;
@@ -27,7 +26,16 @@ public class Player : MonoBehaviour
 	public KeyCode attack2 = KeyCode.F;
 	public KeyCode attack3 = KeyCode.C;
 
-	public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
+    public bool isButtonJumpPointerDown;
+    public bool isButtonAttackAPointerDown;
+    public bool isButtonAttackBPointerDown;
+    public bool isButtonAttackCPointerDown;
+    public bool isButtonLeftPointerDown;
+    public bool isButtonRightPointerDown;
+    public bool isButtonUpPointerDown;
+    public bool isButtonDownPointerDown;
+
+    public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
 
 	private int x = 0;
 	private bool isRight;
@@ -43,7 +51,6 @@ public class Player : MonoBehaviour
 
 	void Start()
 	{
-
 		rb2d = gameObject.GetComponent<Rigidbody2D>();
 		anim = gameObject.GetComponent<Animator>();
 		player = gameObject.GetComponentInParent<Player>();
@@ -57,7 +64,6 @@ public class Player : MonoBehaviour
 		//Hit by an ennemy projectile
 		if ((player.tag == "Player 1" && col.gameObject.tag == "Ball2") || (player.tag == "Player 2" && col.gameObject.tag == "Ball1"))
 		{
-			
 			Destroy(col.gameObject);
 			rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
 			percentage += 0.75f;
@@ -119,7 +125,7 @@ public class Player : MonoBehaviour
 		}
 
 		//Double jump
-		if (Input.GetKeyDown(up) && maxJump > 0)
+		if ((Input.GetKeyDown(up) || isButtonJumpPointerDown) && maxJump > 0)
 		{
 			maxSpeed = 2f;
 
@@ -131,23 +137,23 @@ public class Player : MonoBehaviour
 		}
 
 		//Attack 1
-		if (Input.GetKeyDown(attack1))
+		if (Input.GetKeyDown(attack1) || isButtonAttackAPointerDown)
 		{
 			attack_1 = true;
 		}
 		else { attack_1 = false; }
 
 		//Attack 2
-		if (Input.GetKey(attack2)) { charge = true; }
+		if (Input.GetKey(attack2) || isButtonAttackBPointerDown) { charge = true; }
 		else { charge = false; }
 
 		//Gauche/Droite
-		if (Input.GetKey(left) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
-		else if (Input.GetKey(right) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
+		if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
+		else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
 		else { x = 0; }
 
 		//test
-		if (Input.GetKey(down))
+		if (Input.GetKey(down) || isButtonDownPointerDown)
 		{
 			Debug.Log("touchevue");
 		}
@@ -179,7 +185,7 @@ public class Player : MonoBehaviour
 				percentage = 0;
 				player.transform.position = initialPosition;
 				rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-				if (Input.GetKey(up) || Input.GetKey(down))
+				if (Input.GetKey(up) || Input.GetKey(down) || isButtonUpPointerDown || isButtonDownPointerDown)
 				{
 					rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
 					player.isDead = false;
@@ -210,5 +216,83 @@ public class Player : MonoBehaviour
 		//}
 	}
 
+    public void buttonAttackAPointerDown()
+    {
+        isButtonAttackAPointerDown = true;
+    }
 
+    public void buttonAttackAPointerUp()
+    {
+        isButtonAttackAPointerDown = false;
+    }
+
+    public void buttonAttackBPointerDown()
+    {
+        isButtonAttackBPointerDown = true;
+    }
+
+    public void buttonAttackBPointerUp()
+    {
+        isButtonAttackBPointerDown = false;
+    }
+
+    public void buttonAttackCPointerDown()
+    {
+        isButtonAttackCPointerDown = true;
+    }
+
+    public void buttonAttackCPointerUp()
+    {
+        isButtonAttackCPointerDown = false;
+    }
+
+    public void buttonLeftPointerDown()
+    {
+        isButtonLeftPointerDown = true;
+    }
+
+    public void buttonLeftPointerUp()
+    {
+        isButtonLeftPointerDown = false;
+    }
+
+    public void buttonRightPointerDown()
+    {
+        isButtonRightPointerDown = true;
+    }
+
+    public void buttonRightPointerUp()
+    {
+        isButtonRightPointerDown = false;
+    }
+
+    public void buttonDownPointerDown()
+    {
+        isButtonDownPointerDown = true;
+    }
+
+    public void buttonDownPointerUp()
+    {
+        isButtonDownPointerDown = false;
+    }
+
+    public void buttonUpPointerDown()
+    {
+        isButtonUpPointerDown = true;
+    }
+
+    public void buttonUpPointerUp()
+    {
+        isButtonUpPointerDown = false;
+    }
+
+    public void buttonJumpPointerDown()
+    {
+        isButtonJumpPointerDown = true;
+    }
+
+    public void buttonJumpPointerUp()
+    {
+        isButtonJumpPointerDown = false;
+    }
 }
