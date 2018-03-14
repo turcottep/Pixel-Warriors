@@ -13,6 +13,7 @@ TagManager:
   - Platform2
   - Melee1
   - Melee2
+  - Map
   layers:
   - Default
   - TransparentFX

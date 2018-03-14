@@ -5,17 +5,12 @@ using UnityEngine;
 public class PassThrough1 : MonoBehaviour {
 
     private Collider2D platform;
-    private Rigidbody2D rb2d;
-    private Animator anim;
 	private Player player;
 
 
 	void Start () {
   
         platform = gameObject.GetComponent<Collider2D>();
-        rb2d = gameObject.GetComponent<Rigidbody2D>();
-        anim = gameObject.GetComponent<Animator>();
-		
 
 	}
 

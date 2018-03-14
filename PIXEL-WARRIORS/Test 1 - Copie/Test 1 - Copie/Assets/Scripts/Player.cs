@@ -12,11 +12,13 @@ public class Player : MonoBehaviour
 	public float percentage = 0f;
 	public int lives = 3;
 
+    //Anim
 	public bool grounded;
 	public bool attack_1;
 	public bool charge;
 	public bool goingDown;
 	public bool dead;
+    public bool potion_throw;
 
 	//controls
 	public KeyCode up = KeyCode.W;
@@ -26,8 +28,9 @@ public class Player : MonoBehaviour
 	public KeyCode attack1 = KeyCode.R;
 	public KeyCode attack2 = KeyCode.F;
 	public KeyCode attack3 = KeyCode.C;
+    public KeyCode attack4 = KeyCode.G;
 
-	public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
+    public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
 
 	private int x = 0;
 	private bool isRight;
@@ -101,12 +104,14 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
+        //Anim
 		anim.SetBool("Grounded", grounded);
 		anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
 		anim.SetBool("Attack", attack_1);
 		anim.SetBool("Charge", charge);
 		anim.SetBool("GoingDown", goingDown);
 		anim.SetBool("Dead", dead);
+        anim.SetBool("Throw", potion_throw);
 
 		//Flip character L/R
 		if (isRight == false)
@@ -141,8 +146,12 @@ public class Player : MonoBehaviour
 		if (Input.GetKey(attack2)) { charge = true; }
 		else { charge = false; }
 
-		//Gauche/Droite
-		if (Input.GetKey(left) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
+        //Poison Throw
+        if (Input.GetKey(attack4)) { potion_throw = true; }
+        else { potion_throw = false; }
+
+        //Gauche/Droite
+        if (Input.GetKey(left) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
 		else if (Input.GetKey(right) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
 		else { x = 0; }
 
