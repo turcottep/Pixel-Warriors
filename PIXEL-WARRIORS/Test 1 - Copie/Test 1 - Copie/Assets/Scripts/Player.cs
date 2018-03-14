@@ -29,7 +29,6 @@ public class Player : MonoBehaviour
     public bool isButtonJumpPointerDown;
     public bool isButtonAttackAPointerDown;
     public bool isButtonAttackBPointerDown;
-    public bool isButtonAttackCPointerDown;
     public bool isButtonLeftPointerDown;
     public bool isButtonRightPointerDown;
     public bool isButtonUpPointerDown;
@@ -51,7 +50,7 @@ public class Player : MonoBehaviour
 
 	void Start()
 	{
-		rb2d = gameObject.GetComponent<Rigidbody2D>();
+        rb2d = gameObject.GetComponent<Rigidbody2D>();
 		anim = gameObject.GetComponent<Animator>();
 		player = gameObject.GetComponentInParent<Player>();
 
@@ -125,7 +124,7 @@ public class Player : MonoBehaviour
 		}
 
 		//Double jump
-		if ((Input.GetKeyDown(up) || isButtonJumpPointerDown) && maxJump > 0)
+		if (Input.GetKeyDown(up) && maxJump > 0)
 		{
 			maxSpeed = 2f;
 
@@ -144,7 +143,7 @@ public class Player : MonoBehaviour
 		else { attack_1 = false; }
 
 		//Attack 2
-		if (Input.GetKey(attack2) || isButtonAttackBPointerDown) { charge = true; }
+		if (Input.GetKey(attack2)) { charge = true; }
 		else { charge = false; }
 
 		//Gauche/Droite
@@ -185,7 +184,7 @@ public class Player : MonoBehaviour
 				percentage = 0;
 				player.transform.position = initialPosition;
 				rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-				if (Input.GetKey(up) || Input.GetKey(down) || isButtonUpPointerDown || isButtonDownPointerDown)
+				if (Input.GetKey(up) || Input.GetKey(down) || isButtonDownPointerDown)
 				{
 					rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
 					player.isDead = false;
@@ -236,16 +235,6 @@ public class Player : MonoBehaviour
         isButtonAttackBPointerDown = false;
     }
 
-    public void buttonAttackCPointerDown()
-    {
-        isButtonAttackCPointerDown = true;
-    }
-
-    public void buttonAttackCPointerUp()
-    {
-        isButtonAttackCPointerDown = false;
-    }
-
     public void buttonLeftPointerDown()
     {
         isButtonLeftPointerDown = true;
@@ -288,11 +277,19 @@ public class Player : MonoBehaviour
 
     public void buttonJumpPointerDown()
     {
-        isButtonJumpPointerDown = true;
-    }
+        rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+        player.isDead = false;
+        player.dead = false;
 
-    public void buttonJumpPointerUp()
-    {
-        isButtonJumpPointerDown = false;
+        if (maxJump > 0)
+        {
+            maxSpeed = 2f;
+
+            Vector2 temp = rb2d.velocity;
+            temp.y = 0;
+            rb2d.velocity = new Vector2(temp.x, temp.y);
+            rb2d.AddForce(new Vector2(0, jumpPower));
+            maxJump--;
+        }
     }
 }

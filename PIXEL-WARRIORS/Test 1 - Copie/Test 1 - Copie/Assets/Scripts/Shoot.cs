@@ -26,11 +26,11 @@ public class Shoot : MonoBehaviour {
 	
 	void Update () {
         anim.SetBool("ShootCharge", shootCharge);
-        if (Input.GetKeyDown(player.attack3) && canShoot && !player.dead)
+        if ((Input.GetKeyDown(player.attack3)) && canShoot && !player.dead)
         {          
             shootCharge = true;
         }
-        if (Input.GetKeyUp(player.attack3) && canShoot && !player.dead)
+        if ((Input.GetKeyUp(player.attack3) || player.isButtonAttackBPointerDown) && canShoot && !player.dead)
         {
             shootCharge = false;
             GameObject go = (GameObject) Instantiate(projectile, (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
