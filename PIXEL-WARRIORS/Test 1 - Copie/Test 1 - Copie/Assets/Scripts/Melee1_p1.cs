@@ -15,7 +15,7 @@ public class Melee1_p1 : MonoBehaviour {
     private Rigidbody2D rb2d;
 
     private bool attacking;
-    public float lifeTime = 0.3f;
+    private float lifeTime = 0.2f;
 
     void Start()
     {
@@ -27,7 +27,7 @@ public class Melee1_p1 : MonoBehaviour {
     void Update()
     {
 
-        if (Input.GetKeyDown(player.attack1) && canShoot && !player.dead)
+        if (Input.GetKeyDown(KeyCode.R) && canShoot && !player.dead)
         {
             GameObject go = (GameObject)Instantiate(projectile, (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, 0, 0));
             Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());

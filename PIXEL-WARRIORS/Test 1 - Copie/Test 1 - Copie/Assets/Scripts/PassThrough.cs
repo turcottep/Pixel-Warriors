@@ -19,20 +19,19 @@ public class PassThrough : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Player 1" && Input.GetKey(col.gameObject.GetComponent<Player>().down))
+        if (col.gameObject.tag == "Player 1" && Input.GetKey(KeyCode.S))
         {
             platform.GetComponent<Collider2D>().enabled = false;
             //platform.GetComponent<Collider2D>().isTrigger = true;
             StopCoroutine("Wait");
             StartCoroutine("Wait");
         }
-
       
     }
 
     private void OnCollisionStay2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Player 1" && Input.GetKey(col.gameObject.GetComponent<Player>().down))
+        if (col.gameObject.tag == "Player 1" && Input.GetKey(KeyCode.S))
         {
             platform.GetComponent<Collider2D>().enabled = false;
             //platform.GetComponent<Collider2D>().isTrigger = true;
