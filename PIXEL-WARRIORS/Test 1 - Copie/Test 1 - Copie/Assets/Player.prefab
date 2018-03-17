@@ -171,6 +171,16 @@ MonoBehaviour:
   attack1: 114
   attack2: 102
   attack3: 99
+  aiON: 0
+  distance: 0
+  x: 0
+  isButtonJumpPointerDown: 0
+  isButtonAttackAPointerDown: 0
+  isButtonAttackBPointerDown: 0
+  isButtonLeftPointerDown: 0
+  isButtonRightPointerDown: 0
+  isButtonUpPointerDown: 0
+  isButtonDownPointerDown: 0
   initialPosition: {x: -2, y: 1.6, z: 0}
 --- !u!114 &114338642273641918
 MonoBehaviour:

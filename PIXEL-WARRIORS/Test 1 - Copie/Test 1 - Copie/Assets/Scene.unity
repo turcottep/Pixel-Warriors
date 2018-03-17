@@ -1877,6 +1877,11 @@ Prefab:
       value: 
       objectReference: {fileID: 1417509448462664, guid: 49408a0a3c8ae9d478db777d7ed76a64,
         type: 2}
+    - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
+        type: 2}
+      propertyPath: aiON
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a38fc808e4f09e541a167216fd32e587, type: 2}
   m_IsPrefabParent: 0
@@ -2495,6 +2500,9 @@ MonoBehaviour:
   attack1: 114
   attack2: 102
   attack3: 99
+  aiON: 0
+  distance: 0
+  x: 0
   isButtonJumpPointerDown: 0
   isButtonAttackAPointerDown: 0
   isButtonAttackBPointerDown: 0
@@ -3023,6 +3031,60 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!1 &2077459621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2077459623}
+  - component: {fileID: 2077459622}
+  m_Layer: 4
+  m_Name: GameObject
+  m_TagString: Hole 1
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &2077459622
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2077459621}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.07885134, y: -0.40777463}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.41875243, y: 0.18445075}
+  m_EdgeRadius: 0
+--- !u!4 &2077459623
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2077459621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.81661975, y: 0.4709291, z: 0.07925578}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2086996897
 GameObject:
   m_ObjectHideFlags: 0
