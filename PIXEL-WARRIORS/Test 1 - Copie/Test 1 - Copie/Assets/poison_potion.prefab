@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212051410862878494}
   - component: {fileID: 50945000028949936}
   - component: {fileID: 58134515180685138}
+  - component: {fileID: 114670183088319664}
   m_Layer: 8
   m_Name: poison_potion
   m_TagString: Untagged
@@ -61,7 +62,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &58134515180685138
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -77,6 +78,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.06}
   serializedVersion: 2
   m_Radius: 0.1015678
+--- !u!114 &114670183088319664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1988352376630088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073b26c97b8a0764788062bb80203b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteBreak: {fileID: 21300002, guid: 168cad271bf571b4b85ce3a1049717af, type: 3}
+  puddle1: {fileID: 21300004, guid: 168cad271bf571b4b85ce3a1049717af, type: 3}
+  puddle2: {fileID: 21300006, guid: 168cad271bf571b4b85ce3a1049717af, type: 3}
+  puddle3: {fileID: 21300008, guid: 168cad271bf571b4b85ce3a1049717af, type: 3}
+  puddle: {fileID: 1315480684012266, guid: e726ffef0949e524688da01128ee3802, type: 2}
+  velocity: {x: 0, y: 0}
 --- !u!212 &212051410862878494
 SpriteRenderer:
   m_ObjectHideFlags: 1

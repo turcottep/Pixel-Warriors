@@ -55,25 +55,35 @@ public class Player : MonoBehaviour
 		knockback.Set(-2, 0);
 	}
 
-	void OnCollisionEnter2D(Collision2D col)
+    IEnumerator whitecolor()
+    {
+        yield return new WaitForSeconds(0.15f);
+        GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
 	{
 		//Hit by an ennemy projectile
 		if ((player.tag == "Player 1" && col.gameObject.tag == "Ball2") || (player.tag == "Player 2" && col.gameObject.tag == "Ball1"))
 		{
 			
 			Destroy(col.gameObject);
-			rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
+            GetComponent<SpriteRenderer>().color = Color.red;
+            StartCoroutine("whitecolor");
+            rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
 			percentage += 0.75f;
 			stun = 10 + (.5f * percentage);
 			Debug.Log("pourcentage P1: " + percentage);
 		}
 
 		//Hit by melee
-		if (col.gameObject.tag == "Melee2")
+		if ((player.tag == "Player 1" && col.gameObject.tag == "Melee2") || (player.tag == "Player 2" && col.gameObject.tag == "Melee1"))
 		{
 			player.transform.position = pos;
 			Destroy(col.gameObject);
-			int dir = 0;
+            GetComponent<SpriteRenderer>().color = Color.red;
+            StartCoroutine("whitecolor");
+            int dir = 0;
 			if (isRight) dir = 1;
 			else dir = -1;
 			rb2d.AddForce(knockback*dir*percentage*0.2f, ForceMode2D.Impulse);
@@ -81,7 +91,17 @@ public class Player : MonoBehaviour
 			stun = 10 + (.5f * percentage);
 			Debug.Log("pourcentage P1: " + percentage);
 		}
-	}
+
+        //Poisoned
+        if (col.gameObject.tag == "Poison")
+        {
+            GetComponent<SpriteRenderer>().color = Color.red;
+            StartCoroutine("whitecolor");
+            //Add dmg each x seconds for y seconds (to do)
+            percentage += 0.1f;
+            Debug.Log("pourcentage P1: " + percentage);
+        }
+    }
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
@@ -111,7 +131,7 @@ public class Player : MonoBehaviour
 		anim.SetBool("Charge", charge);
 		anim.SetBool("GoingDown", goingDown);
 		anim.SetBool("Dead", dead);
-        anim.SetBool("Throw", potion_throw);
+        //anim.SetBool("ThrowPotion", potion_throw);
 
 		//Flip character L/R
 		if (isRight == false)
@@ -154,12 +174,6 @@ public class Player : MonoBehaviour
         if (Input.GetKey(left) && rb2d.velocity.x > -maxSpeed) { x = -1; isRight = false; }
 		else if (Input.GetKey(right) && rb2d.velocity.x < maxSpeed) { x = 1; isRight = true; }
 		else { x = 0; }
-
-		//test
-		if (Input.GetKey(down))
-		{
-			Debug.Log("touchevue");
-		}
 	}
 
 

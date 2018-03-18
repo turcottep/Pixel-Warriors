@@ -14,6 +14,7 @@ TagManager:
   - Melee1
   - Melee2
   - Map
+  - Poison
   layers:
   - Default
   - TransparentFX
