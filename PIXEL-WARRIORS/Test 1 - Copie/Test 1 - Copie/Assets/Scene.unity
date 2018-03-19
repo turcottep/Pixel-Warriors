@@ -1880,7 +1880,7 @@ Prefab:
     - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
       propertyPath: aiON
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a38fc808e4f09e541a167216fd32e587, type: 2}
@@ -2503,13 +2503,6 @@ MonoBehaviour:
   aiON: 0
   distance: 0
   x: 0
-  isButtonJumpPointerDown: 0
-  isButtonAttackAPointerDown: 0
-  isButtonAttackBPointerDown: 0
-  isButtonLeftPointerDown: 0
-  isButtonRightPointerDown: 0
-  isButtonUpPointerDown: 0
-  isButtonDownPointerDown: 0
   initialPosition: {x: -2, y: 1.6, z: 0}
 --- !u!50 &1791841990
 Rigidbody2D:
