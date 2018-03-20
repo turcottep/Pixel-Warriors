@@ -64,7 +64,9 @@ public class Player : MonoBehaviour
 		if ((player.tag == "Player 1" && col.gameObject.tag == "Ball2") || (player.tag == "Player 2" && col.gameObject.tag == "Ball1"))
 		{
 			Destroy(col.gameObject);
-			this.ReceiveDamage(10, 0.75f);
+            this.GetComponent<SpriteRenderer>().color = Color.red;
+            StartCoroutine("whitecolor");
+            this.ReceiveDamage(10, 0.75f);
 			//rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
 			//percentage += 0.75f;
 			//stun = 10 + (.5f * percentage);
@@ -76,12 +78,20 @@ public class Player : MonoBehaviour
 		{
 			//player.transform.position = pos;
 			Destroy(col.gameObject);
-			this.ReceiveDamage(10, 0.75f);
+            this.GetComponent<SpriteRenderer>().color = Color.red;
+            StartCoroutine("whitecolor");
+            this.ReceiveDamage(10, 0.75f);
 
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D col)
+    IEnumerator whitecolor()
+    {
+        yield return new WaitForSeconds(0.15f);
+        GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
 	{
 		player.grounded = true;
 		maxJump = 2;
@@ -154,7 +164,7 @@ public class Player : MonoBehaviour
 		pos = transform.position;
 
 		//Out of map
-		if (rb2d.transform.position.y < -1 || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 2.7 || rb2d.transform.position.x < -4.5)
+		if (rb2d.transform.position.y < -2.1f || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 4.5f || rb2d.transform.position.x < -4.5)
 		{
 			player.isDead = true;
 			lives--;
