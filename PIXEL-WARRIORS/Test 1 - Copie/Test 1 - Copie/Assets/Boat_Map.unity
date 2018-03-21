@@ -229,6 +229,8 @@ MonoBehaviour:
   attack3: 99
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
+  textPercentage: {fileID: 0}
+  Button_right: {fileID: 0}
   aiON: 0
   x: 0
   initialPosition: {x: -2.1, y: 0.8, z: 0}
@@ -488,6 +490,7 @@ MonoBehaviour:
   dSauteMin: 0.8
   dAttack1Min: 0.03
   speed: 0.25
+  direction: 0
 --- !u!1 &922704567
 GameObject:
   m_ObjectHideFlags: 0
@@ -1346,7 +1349,7 @@ Prefab:
     - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
       propertyPath: aiON
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114489693071521594, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}

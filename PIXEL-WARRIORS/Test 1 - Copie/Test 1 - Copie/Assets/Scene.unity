@@ -1029,6 +1029,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &814159336 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1114544388162082, guid: a38fc808e4f09e541a167216fd32e587,
+    type: 2}
+  m_PrefabInternal: {fileID: 1311114623}
+--- !u!114 &814159345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 814159336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c6257e2c98dd47b999de65ae8a089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 0
+  dAvanceMin: 0.5
+  dSauteMin: 0.8
+  dAttack1Min: 0.05
+  speed: 0.25
+  direction: 0
 --- !u!1 &821949153
 GameObject:
   m_ObjectHideFlags: 0
@@ -1961,6 +1983,10 @@ Prefab:
       propertyPath: textPercentage
       value: 
       objectReference: {fileID: 329114252}
+    - target: {fileID: 1344900806952772, guid: a38fc808e4f09e541a167216fd32e587, type: 2}
+      propertyPath: m_TagString
+      value: Player 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a38fc808e4f09e541a167216fd32e587, type: 2}
   m_IsPrefabParent: 0
@@ -2572,6 +2598,8 @@ MonoBehaviour:
   charge: 0
   goingDown: 0
   dead: 0
+  shootCharge: 0
+  canShoot: 1
   up: 119
   left: 97
   down: 115
@@ -2582,10 +2610,11 @@ MonoBehaviour:
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
   textPercentage: {fileID: 1854009691}
+  Button_right: {fileID: 0}
   aiON: 0
-  distance: 0
   x: 0
   initialPosition: {x: -2, y: 1.6, z: 0}
+  isRight: 0
 --- !u!50 &1791841990
 Rigidbody2D:
   serializedVersion: 4
