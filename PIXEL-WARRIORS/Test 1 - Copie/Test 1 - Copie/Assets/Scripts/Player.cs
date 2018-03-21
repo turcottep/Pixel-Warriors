@@ -16,10 +16,12 @@ public class Player : MonoBehaviour
 	public bool charge;
 	public bool goingDown;
 	public bool dead;
-	private bool shootCharge;
+	public bool shootCharge;
+    public bool canShoot = true;
 
-	//controls
-	public KeyCode up = KeyCode.W;
+
+    //controls
+    public KeyCode up = KeyCode.W;
 	public KeyCode left = KeyCode.A;
 	public KeyCode down = KeyCode.S;
 	public KeyCode right = KeyCode.D;
@@ -31,13 +33,12 @@ public class Player : MonoBehaviour
 	public bool isButtonRightPointerDown;
 
 	public bool aiON = true;
-	public float distance;
 	public int x = 0;
 
 
 	public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
 
-	private bool isRight;
+	public bool isRight;
 	private bool isDead;
 	private float stun = 0f;
 
@@ -93,9 +94,12 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
 	{
-		player.grounded = true;
-		maxJump = 2;
-		maxSpeed = 2.5f;
+        if (rb2d.velocity.y<=0)
+        {
+            player.grounded = true;
+            maxJump = 2;
+            maxSpeed = 2.5f;
+        }
 	}
 
 	void OnTriggerStay2D(Collider2D col)
@@ -156,9 +160,10 @@ public class Player : MonoBehaviour
 	private void FixedUpdate()
 	{
 
-		if (aiON) AIUpdate();
+		if (aiON) player.GetComponent<AI>().AIUpdate();
+        
 
-		float h = Input.GetAxisRaw("Horizontal");
+        float h = Input.GetAxisRaw("Horizontal");
 		float decay = 0.8f;
 
 		pos = transform.position;
@@ -196,7 +201,7 @@ public class Player : MonoBehaviour
 
 	//MOVES
 
-	private void MoveUp()
+	public void MoveUp()
 	{
 		if (maxJump > 0)
 		{
@@ -209,24 +214,25 @@ public class Player : MonoBehaviour
 		}
 
 	}
-	private void MoveLeft()
+    public void MoveLeft()
 	{
 		x = -1; isRight = false;
 	}
-	private void MoveRight()
+    public void MoveRight()
 	{
 		x = 1; isRight = true;
 	}
-	private void MoveDown()
+    public void MoveDown()
 	{
 
 	}
 
-	private void Attack1()
+    public void Attack1()
 	{
-		attack_1 = true;
-	}
-	private void Attack2(bool state)
+        attack_1     = true;
+        player.GetComponent<Melee1_p1>().launch();
+    }
+    public void Attack2(bool state)
 	{
 		if (state)
 		{
@@ -239,11 +245,11 @@ public class Player : MonoBehaviour
 			player.GetComponent<Shoot>().shoot();
 		}
 	}
-	private void Attack3()
+    public void Attack3()
 	{
 
 	}
-	private void ReceiveDamage(int stunReceived, float damage)
+    public void ReceiveDamage(int stunReceived, float damage)
 	{
 		int dir = 0;
 		if (isRight) dir = 1;
@@ -254,7 +260,7 @@ public class Player : MonoBehaviour
 		Debug.Log("pourcentage P1: " + percentage);
 	}
 
-	private void Reset()
+    public void Reset()
 	{
 		player.dead = true;
 		percentage = 0;
@@ -272,96 +278,6 @@ public class Player : MonoBehaviour
 
 
 	//Turcotte AI
-	private void AIUpdate()
-	{
-
-		if (player.tag == "Player 2")
-		{
-			// Debug.Log("2");
-
-			//Debug.Log("YOUHHOUH");
-			List<Transform> trous = new List<Transform>();
-
-			Transform autre = GameObject.FindGameObjectWithTag("Player 1").transform;
-			distance = autre.position.x - this.transform.position.x;
-			//isRight = distance > 0;
-
-			trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
-			//trous.Add(GameObject.FindGameObjectWithTag("Hole2").transform);
-			List<float> distanceTrousX = new List<float>();
-			List<float> distanceTrousY = new List<float>();
-
-			foreach (Transform t in trous)
-			{
-				distanceTrousX.Add(t.position.x - this.transform.position.x);
-				distanceTrousY.Add(t.position.y - this.transform.position.y);
-
-			}
-
-			//Debug.Log("distance Joueur" + distance);
-			//Debug.Log("x " + x);
-			//Debug.Log("distanceTrou " + distanceTrousX);
-			//Debug.Log("test " + (distanceTrousX * x)); 
-			bool saute = false;
-			foreach (float d in distanceTrousX)
-			{
-				//Debug.Log("distanceTrou " + d);
-				saute = (d * x > 0 && d * x < 0.7);
-				if (saute)
-				{
-					this.MoveUp();
-					break;
-				}
-
-			}
-
-			bool avance = false;
-			int trou = 0;
-			for (int i = 0; i < distanceTrousX.Count; i++)
-			{
-				avance = Mathf.Abs(distanceTrousX[i]) < 0.8;
-				if (avance)
-				{
-					trou = i;
-					break;
-				}
-			}
-			if (avance)
-			{
-				//Over Edge
-				//Debug.Log("y vel = " + rb2d.velocity.y );
-
-				//si il est plus bas que le trou
-				if (rb2d.velocity.y < -4.5)
-				{
-					player.MoveUp();
-				}
-
-				if (x == 0)
-				{
-					Debug.Log("Avance");
-					//if (isRight) { this.MoveLeft(); } //////////////////////////////////À REMETTRE
-					//else { this.MoveRight(); }
-				}
-
-			}
-			else if (Mathf.Abs(distance) > 0.5)
-			{
-				Debug.Log("Avance vers joueur");
-				//if (isRight) { this.MoveLeft(); }
-				// else { this.MoveRight(); }
-
-				//Debug.Log("distance élevée");
-			}
-			else if (Mathf.Abs(distance) > 0.1)
-			{
-				x = 0;
-
-				//Debug.Log("distance faible: " + distance);
-			}
-
-		}
-	}
 
 
 
