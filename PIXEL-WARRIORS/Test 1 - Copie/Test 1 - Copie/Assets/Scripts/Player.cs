@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
 		}
 
 		//Hit by melee
-		if (col.gameObject.tag == "Melee2")
+		if ((player.tag == "Player 1" && col.gameObject.tag == "Melee2") || (player.tag == "Player 2" && col.gameObject.tag == "Melee1"))
 		{
 			//player.transform.position = pos;
 			Destroy(col.gameObject);
