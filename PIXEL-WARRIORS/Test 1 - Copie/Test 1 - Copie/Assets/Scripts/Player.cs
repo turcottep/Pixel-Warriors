@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class Player : MonoBehaviour
 
 	public bool isButtonLeftPointerDown;
 	public bool isButtonRightPointerDown;
+    public Text textPercentage;
+    public Button Button_right;
 
 	public bool aiON = true;
 	public float distance;
@@ -56,6 +59,8 @@ public class Player : MonoBehaviour
 
 		//Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
 		knockback.Set(-2, 0);
+
+        setPercentageText();
 	}
 
 	void OnCollisionEnter2D(Collision2D col)
@@ -251,7 +256,7 @@ public class Player : MonoBehaviour
 		rb2d.AddForce(knockback * dir * percentage, ForceMode2D.Impulse);
 		percentage += damage;
 		stun = stunReceived + (percentage);
-		Debug.Log("pourcentage P1: " + percentage);
+        setPercentageText();
 	}
 
 	private void Reset()
@@ -424,5 +429,10 @@ public class Player : MonoBehaviour
 	{
 		this.MoveUp();
 	}
+
+    public void setPercentageText()
+    {
+        textPercentage.text = "% : " + percentage.ToString();
+    }
 
 }
