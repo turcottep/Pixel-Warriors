@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
     public bool shootCharge;
     public bool canShoot = true;
 
-
     //controls
     public KeyCode up = KeyCode.W;
     public KeyCode left = KeyCode.A;
@@ -33,7 +32,6 @@ public class Player : MonoBehaviour
     public bool isButtonLeftPointerDown;
     public bool isButtonRightPointerDown;
     public Text textPercentage;
-    public Button Button_right;
 
     public bool aiON = true;
     public int x = 0;
@@ -61,7 +59,6 @@ public class Player : MonoBehaviour
         //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
         knockback.Set(-2, 1);
         setPercentageText();
-
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -80,7 +77,7 @@ public class Player : MonoBehaviour
         }
 
         //Hit by melee
-        if (col.gameObject.tag == "Melee2")
+        if ((player.tag == "Player 1" && col.gameObject.tag == "Melee2") || (player.tag == "Player 2" && col.gameObject.tag == "Melee1"))
         {
             //player.transform.position = pos;
             Destroy(col.gameObject);
@@ -203,7 +200,7 @@ public class Player : MonoBehaviour
 
     }
 
-
+    
     //MOVES
 
     public void MoveUp()
@@ -281,14 +278,7 @@ public class Player : MonoBehaviour
         }
     }
 
-
-
-
-    //Turcotte AI
-
-
-
-    //Boutons Will
+    //UI Will
     public void buttonJumpPointerDown()
     {
         rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
@@ -296,8 +286,6 @@ public class Player : MonoBehaviour
         player.dead = false;
 
         this.MoveUp();
-
-
     }
 
     public void buttonAttackAPointerDown()
@@ -317,19 +305,16 @@ public class Player : MonoBehaviour
 
     public void buttonLeftPointerDown()
     {
-        this.MoveLeft();
         isButtonLeftPointerDown = true;
     }
 
     public void buttonLeftPointerUp()
     {
-        this.MoveLeft();
         isButtonLeftPointerDown = false;
     }
 
     public void buttonRightPointerDown()
     {
-        this.MoveRight();
         isButtonRightPointerDown = true;
     }
 
@@ -350,7 +335,7 @@ public class Player : MonoBehaviour
 
     public void setPercentageText()
     {
-        textPercentage.text = "% : " + (20*percentage).ToString();
+        textPercentage.text = "% : " + (20 * percentage).ToString();
     }
 
 }
