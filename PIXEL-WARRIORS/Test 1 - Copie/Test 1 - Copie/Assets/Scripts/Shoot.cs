@@ -7,7 +7,6 @@ public class Shoot : MonoBehaviour
 
 	public GameObject projectile;
 	public Vector2 velocity;
-	bool canShoot = true;
 	public Vector2 offset = new Vector2(0.4f, 0.1f);
 	public float cooldown = 1f;
 
@@ -39,14 +38,14 @@ public class Shoot : MonoBehaviour
 
 	IEnumerator CanShoot()
 	{
-		canShoot = false;
+		player.canShoot = false;
 		yield return new WaitForSeconds(cooldown);
-		canShoot = true;
+        player.canShoot = true;
 	}
 
 	public void shoot()
 	{
-		if (canShoot && !player.dead)
+		if (player.canShoot && !player.dead)
 		{
 			anim.SetBool("ShootCharge", false);
 			GameObject go = (GameObject)Instantiate(projectile, (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));

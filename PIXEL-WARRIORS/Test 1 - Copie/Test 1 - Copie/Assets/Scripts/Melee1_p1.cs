@@ -27,15 +27,7 @@ public class Melee1_p1 : MonoBehaviour {
     void Update()
     {
 
-        if (Input.GetKeyDown(player.attack1) && canShoot && !player.dead)
-        {
-            GameObject go = (GameObject)Instantiate(projectile, (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, 0, 0));
-            Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());
-			//velocity = new Vector2(velocity.x + rb2d.velocity.x, velocity.y + rb2d.velocity.y);
-            go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x * transform.localScale.x, velocity.y);
-            Destroy(go, lifeTime);
-            StartCoroutine("CanShoot");
-        }
+       
 
     }
 
@@ -44,5 +36,18 @@ public class Melee1_p1 : MonoBehaviour {
         canShoot = false;
         yield return new WaitForSeconds(cooldown);
         canShoot = true;
+    }
+
+    public void launch()
+    {
+        if (canShoot && !player.dead)
+        {
+            GameObject go = (GameObject)Instantiate(projectile, (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, 0, 0));
+            Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());
+            //velocity = new Vector2(velocity.x + rb2d.velocity.x, velocity.y + rb2d.velocity.y);
+            go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x * transform.localScale.x, velocity.y);
+            Destroy(go, lifeTime);
+            StartCoroutine("CanShoot");
+        }
     }
 }
