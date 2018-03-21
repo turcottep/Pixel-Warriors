@@ -733,6 +733,7 @@ MonoBehaviour:
   dSauteMin: 0.8
   dAttack1Min: 0.03
   speed: 0.25
+  direction: 0
 --- !u!1 &922704567
 GameObject:
   m_ObjectHideFlags: 0
