@@ -52,7 +52,6 @@ public class Shoot : MonoBehaviour
             Destroy(go, lifeTime);
             StartCoroutine("CanShoot");
         }
-
     }
 
     public void animate()

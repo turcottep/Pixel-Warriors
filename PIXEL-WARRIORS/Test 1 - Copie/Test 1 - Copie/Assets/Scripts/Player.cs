@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
 
     public bool isButtonLeftPointerDown;
     public bool isButtonRightPointerDown;
+    public bool isButtonDownPointerDown;
     public Text textPercentage;
 
     public bool aiON = true;
@@ -220,10 +221,12 @@ public class Player : MonoBehaviour
     {
         x = -1; isRight = false;
     }
+
     public void MoveRight()
     {
         x = 1; isRight = true;
     }
+
     public void MoveDown()
     {
 
@@ -268,6 +271,7 @@ public class Player : MonoBehaviour
     {
         player.dead = true;
         percentage = 0;
+        setPercentageText();
         player.transform.position = initialPosition;
         rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
         if (Input.GetKey(up) || Input.GetKey(down))
@@ -339,5 +343,3 @@ public class Player : MonoBehaviour
     }
 
 }
-
-

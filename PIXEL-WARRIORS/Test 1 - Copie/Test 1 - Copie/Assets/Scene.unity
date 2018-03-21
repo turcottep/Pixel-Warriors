@@ -2609,6 +2609,7 @@ MonoBehaviour:
   attack3: 99
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
+  isButtonDownPointerDown: 0
   textPercentage: {fileID: 1854009691}
   aiON: 0
   x: 0
@@ -2977,6 +2978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25263f62c4e26143844ff9cfdcd8c36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonDown: {fileID: 654359086}
 --- !u!1 &1911914044
 GameObject:
   m_ObjectHideFlags: 0
