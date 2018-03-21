@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI : MonoBehaviour {
+public class AI : MonoBehaviour
+{
 
     private Player player;
     private Rigidbody2D rb2d;
@@ -12,9 +13,11 @@ public class AI : MonoBehaviour {
     public float dSauteMin = 0.8f;
     public float dAttack1Min = 0.05f;
     public float speed = 0.25f;
-
+    public int direction = 0;
+    private bool avance;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         player = gameObject.GetComponentInParent<Player>();
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         player.speed = player.speed * speed;
@@ -22,8 +25,9 @@ public class AI : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-	}
+    void Update()
+    {
+    }
 
     public void AIUpdate()
     {
@@ -37,7 +41,7 @@ public class AI : MonoBehaviour {
 
             Transform autre = GameObject.FindGameObjectWithTag("Player 1").transform;
             distance = autre.position.x - player.transform.position.x;
-            player.isRight = distance > 0;
+            if (!avance) player.isRight = distance > 0;
 
             trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
             //trous.Add(GameObject.FindGameObjectWithTag("Hole2").transform);
@@ -55,8 +59,10 @@ public class AI : MonoBehaviour {
             bool saute = false;
             foreach (float d in distanceTrousX)
             {
-                //Debug.Log("distanceTrou " + d);
-                saute = (d * player.x > 0 && d * player.x < dSauteMin);
+                Debug.Log("distanceTrou " + d * player.x);
+                if (player.isRight) direction = 1;
+                else direction = -1;
+                saute = (d * direction > 0 && d * direction < dSauteMin);
                 if (saute)
                 {
                     Debug.Log("saute");
@@ -66,7 +72,7 @@ public class AI : MonoBehaviour {
 
             }
 
-            bool avance = false;
+            avance = false;
             int trou = 0;
             for (int i = 0; i < distanceTrousX.Count; i++)
             {
@@ -80,9 +86,8 @@ public class AI : MonoBehaviour {
             if (avance)
             {
                 //Over Edge
-                //Debug.Log("y vel = " + rb2d.velocity.y );
 
-                //si il est plus bas que le trou
+                //si il est en train de redescendre
                 if (rb2d.velocity.y < -4.5)
                 {
                     player.MoveUp();
@@ -91,7 +96,7 @@ public class AI : MonoBehaviour {
                 if (player.x == 0)
                 {
                     Debug.Log("Avance");
-                    if (player.isRight) { player.MoveRight(); } //avance trop vite
+                    if (player.isRight) { player.MoveRight(); }
                     else { player.MoveLeft(); }
                 }
 
@@ -100,17 +105,15 @@ public class AI : MonoBehaviour {
             {
 
                 player.Attack2(!player.shootCharge);
-                Debug.Log("Avance vers joueur");
+                //Debug.Log("Avance vers joueur");
                 if (player.isRight) { player.MoveRight(); }
                 else { player.MoveLeft(); }
 
-                //Debug.Log("distance élevée");
             }
             else if (Mathf.Abs(distance) > 0)
             {
                 player.x = 0;
                 player.Attack1();
-                //Debug.Log("distance faible: " + distance);
             }
 
         }
