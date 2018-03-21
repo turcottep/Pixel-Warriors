@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-	public bool charge;
     public float maxSpeed = 2.5f;
     public float speed = 15f;
     public float jumpPower = 175f;
@@ -58,17 +57,17 @@ public class Player : MonoBehaviour
         player = gameObject.GetComponentInParent<Player>();
 
         //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
-        knockback.Set(-2, 1);
+        knockback.Set(-2f, 0.5f);
         setPercentageText();
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         //Hit by an ennemy projectile
-        if ((player.tag == "Player 1" && col.gameObject.tag == "Ball2") || (player.tag == "Player 2" && col.gameObject.tag == "Ball1"))
+        if ((player.tag == "Player 1" && col.gameObject.tag == "Ball2" && !isDead) || (player.tag == "Player 2" && col.gameObject.tag == "Ball1" && !isDead))
         {
             Destroy(col.gameObject);
-            this.GetComponent<SpriteRenderer>().color = Color.red;
+            this.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(0, 51.6f, 88.2f);
             StartCoroutine("whitecolor");
             this.ReceiveDamage(10, 0.75f);
             //rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
@@ -78,11 +77,11 @@ public class Player : MonoBehaviour
         }
 
         //Hit by melee
-        if ((player.tag == "Player 1" && col.gameObject.tag == "Melee2") || (player.tag == "Player 2" && col.gameObject.tag == "Melee1"))
+        if ((player.tag == "Player 1" && col.gameObject.tag == "Melee2" && !isDead) || (player.tag == "Player 2" && col.gameObject.tag == "Melee1" && !isDead))
         {
             //player.transform.position = pos;
             Destroy(col.gameObject);
-            this.GetComponent<SpriteRenderer>().color = Color.red;
+            this.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(0, 51.6f, 88.2f);
             StartCoroutine("whitecolor");
             this.ReceiveDamage(10, 0.75f);
 
