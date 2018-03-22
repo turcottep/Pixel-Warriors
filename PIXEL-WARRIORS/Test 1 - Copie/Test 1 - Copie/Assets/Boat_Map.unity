@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 18464117}
   - component: {fileID: 18464116}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: WaveRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,8 +180,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 18464115}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.344, y: -2, z: 0}
-  m_LocalScale: {x: -0.850401, y: 0.850401, z: 0.850401}
+  m_LocalPosition: {x: 2.11, y: -1.97, z: 0}
+  m_LocalScale: {x: 0.850401, y: 0.850401, z: 0.850401}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
@@ -310,6 +310,7 @@ MonoBehaviour:
   velocity: {x: 5, y: 0}
   offset: {x: 0.061873, y: 0}
   cooldown: 0.3
+  damage: 0.25
   lifeTime: 0.02
 --- !u!114 &287523990
 MonoBehaviour:
@@ -327,6 +328,7 @@ MonoBehaviour:
   velocity: {x: 3, y: 0}
   offset: {x: 0.2, y: 0}
   cooldown: 1.5
+  damage: 0.75
 --- !u!61 &287523991
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -382,9 +384,9 @@ MonoBehaviour:
   left: 97
   down: 115
   right: 100
-  attack1: 114
-  attack2: 102
-  attack3: 99
+  attack1: 99
+  attack2: 118
+  attack3: 98
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
   textPercentage: {fileID: 0}
@@ -768,9 +770,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 0
+  distanceY: 0
+  dResauteMin: 0.3
   dAvanceMin: 0.7
   dSauteMin: 0.8
   dAttack1Min: 0.03
+  dShootYMin: 0.2
   speed: 0.25
   direction: 0
 --- !u!1 &863968342
@@ -1188,7 +1193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1199492088}
   - component: {fileID: 1199492087}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: WaveLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1590,7 +1595,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.9784231
+  orthographic size: 2.2722886
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1912,7 +1917,7 @@ Prefab:
     - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
       propertyPath: attack3
-      value: 108
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
@@ -1946,12 +1951,12 @@ Prefab:
     - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
       propertyPath: attack1
-      value: 106
+      value: 105
       objectReference: {fileID: 0}
     - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
       propertyPath: attack2
-      value: 107
+      value: 111
       objectReference: {fileID: 0}
     - target: {fileID: 95331509862195652, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
@@ -1995,7 +2000,7 @@ Prefab:
     - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
       propertyPath: aiON
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114489693071521594, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}

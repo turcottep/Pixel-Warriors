@@ -9,8 +9,9 @@ public class Shoot : MonoBehaviour
 	public Vector2 velocity;
 	public Vector2 offset = new Vector2(0.4f, 0.1f);
 	public float cooldown = 1f;
+    public float damage = 0.75f;
 
-	private Animator anim;
+    private Animator anim;
 	private Player player;
 	private Rigidbody2D rb2d;
 

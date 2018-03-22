@@ -9,6 +9,7 @@ public class Melee1_p1 : MonoBehaviour {
     bool canShoot = true;
     public Vector2 offset = new Vector2(0.061873f, 0f);
     public float cooldown = 0.3f;
+    public float damage = 0.25f;
 
     private Animator anim;
     private Player player;

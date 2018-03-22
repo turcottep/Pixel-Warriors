@@ -64,26 +64,19 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         //Hit by an ennemy projectile
-        if ((player.tag == "Player 1" && col.gameObject.tag == "Ball2" && !isDead) || (player.tag == "Player 2" && col.gameObject.tag == "Ball1" && !isDead))
+        if (!isDead && (player.tag == "Player 1" && (col.gameObject.tag == "Ball2"||col.gameObject.tag == "Melee2")) || (player.tag == "Player 2" && col.gameObject.tag == "Ball1"|| col.gameObject.tag == "Melee1"))
         {
+            int dir = 0;
+            if (col.rigidbody.velocity.x > 0) dir = -1;
+            else dir = 1;
             Destroy(col.gameObject);
             this.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(0, 51.6f, 88.2f);
             StartCoroutine("whitecolor");
-            this.ReceiveDamage(10, 0.75f);
-            //rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
-            //percentage += 0.75f;
-            //stun = 10 + (.5f * percentage);
-            //Debug.Log("pourcentage P1: " + percentage);
-        }
+            float damage = 0;
+            if (col.gameObject.tag == "Melee1" || col.gameObject.tag == "Melee2") damage = 0.25f;
+            else if (col.gameObject.tag == "Ball1" || col.gameObject.tag == "Ball2") damage = 0.75f;
 
-        //Hit by melee
-        if ((player.tag == "Player 1" && col.gameObject.tag == "Melee2" && !isDead) || (player.tag == "Player 2" && col.gameObject.tag == "Melee1" && !isDead))
-        {
-            //player.transform.position = pos;
-            Destroy(col.gameObject);
-            this.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(0, 51.6f, 88.2f);
-            StartCoroutine("whitecolor");
-            this.ReceiveDamage(10, 0.75f);
+            this.ReceiveDamage(10, damage, dir);
 
         }
     }
@@ -162,7 +155,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (aiON) player.GetComponent<AI>().AIUpdate();
+        if (aiON && player.tag == "Player 2") player.GetComponent<AI>().AIUpdate();
 
 
         float h = Input.GetAxisRaw("Horizontal");
@@ -234,9 +227,10 @@ public class Player : MonoBehaviour
         attack_1 = true;
         player.GetComponent<Melee1_p1>().launch();
     }
+
     public void Attack2(bool state)
     {
-        if (state)
+        if (state && canShoot)
         {
             shootCharge = true;
             player.GetComponent<Shoot>().animate();
@@ -253,11 +247,8 @@ public class Player : MonoBehaviour
 
     }
 
-    public void ReceiveDamage(int stunReceived, float damage)
+    public void ReceiveDamage(int stunReceived, float damage, int dir)
     {
-        int dir = 0;
-        if (isRight) dir = 1;
-        else dir = -1;
         rb2d.AddForce(knockback * dir * percentage, ForceMode2D.Impulse);
         percentage += damage;
         stun = stunReceived + (percentage);
@@ -335,7 +326,7 @@ public class Player : MonoBehaviour
 
     public void setPercentageText()
     {
-        textPercentage.text = "% : " + (20 * percentage).ToString();
+        //textPercentage.text = "% : " + (20 * percentage).ToString();
     }
 
 }
