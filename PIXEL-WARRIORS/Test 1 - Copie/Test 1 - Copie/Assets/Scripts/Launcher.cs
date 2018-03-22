@@ -11,6 +11,22 @@ namespace Com.INDIEN.PixelWarriors
     {
         #region Public Variables
 
+        /// <summary>
+        /// The PUN loglevel. 
+        /// </summary>
+        public PhotonLogLevel Loglevel = PhotonLogLevel.Informational;
+
+        /// <summary>
+        /// The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created.
+        /// </summary>   
+        [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
+        public byte MaxPlayersPerRoom = 2;
+
+        [Tooltip("The Ui Panel to let the user enter name, connect and play")]
+        public GameObject controlPanel;
+        [Tooltip("The UI Label to inform the user that the connection is in progress")]
+        public GameObject progressLabel;
+
 
         #endregion
 
@@ -45,6 +61,11 @@ namespace Com.INDIEN.PixelWarriors
             // #Critical
             // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
             PhotonNetwork.automaticallySyncScene = true;
+
+            // #NotImportant
+            // Force LogLevel
+            PhotonNetwork.logLevel = Loglevel;
+
         }
 
 
@@ -53,7 +74,8 @@ namespace Com.INDIEN.PixelWarriors
         /// </summary>
         void Start()
         {
-            Connect();
+            progressLabel.SetActive(false);
+            controlPanel.SetActive(true);
         }
 
 
@@ -70,7 +92,8 @@ namespace Com.INDIEN.PixelWarriors
         /// </summary>
         public void Connect()
         {
-
+            progressLabel.SetActive(true);
+            controlPanel.SetActive(false);
 
             // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
             if (PhotonNetwork.connected)
@@ -99,6 +122,8 @@ namespace Com.INDIEN.PixelWarriors
 
         public override void OnDisconnectedFromPhoton()
         {
+            progressLabel.SetActive(false);
+            controlPanel.SetActive(true);
             Debug.LogWarning("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");
         }
 
@@ -106,7 +131,7 @@ namespace Com.INDIEN.PixelWarriors
         {
             Debug.Log("DemoAnimator/Launcher:OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 2}, null);");
             // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-            PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 2 }, null);
+            PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom }, null);
         }
 
         public override void OnJoinedRoom()
