@@ -165,7 +165,7 @@ public class AI : MonoBehaviour
         }
         if (Mathf.Abs(distance) < dAttack1Min)
         {
-            //attack if close enough
+            //attacks if close enough
             player.Attack1();
         }
 
