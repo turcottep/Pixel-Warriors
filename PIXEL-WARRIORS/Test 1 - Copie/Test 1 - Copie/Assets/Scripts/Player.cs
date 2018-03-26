@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
     {
         //Hit by an ennemy projectile
         if (!isDead && (player.tag == "Player 1" && (col.gameObject.tag == "Ball2"||col.gameObject.tag == "Melee2")) || (player.tag == "Player 2" && col.gameObject.tag == "Ball1"|| col.gameObject.tag == "Melee1"))
-        {
+		{
             int dir = 0;
             if (col.rigidbody.velocity.x > 0) dir = -1;
             else dir = 1;
@@ -73,13 +73,24 @@ public class Player : MonoBehaviour
             this.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(0, 51.6f, 88.2f);
             StartCoroutine("whitecolor");
             float damage = 0;
-            if (col.gameObject.tag == "Melee1" || col.gameObject.tag == "Melee2") damage = 0.25f;
-            else if (col.gameObject.tag == "Ball1" || col.gameObject.tag == "Ball2") damage = 0.75f;
-
+			if (col.gameObject.tag == "Melee1" || col.gameObject.tag == "Melee2") damage = 0.25f;
+			else if (col.gameObject.tag == "Ball1" || col.gameObject.tag == "Ball2") damage = 0.75f;
+		
             this.ReceiveDamage(10, damage, dir);
-
         }
-    }
+
+		//NEW
+		if (col.gameObject.tag == "Lava")
+		{
+			this.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(0, 51.6f, 88.2f);
+			StartCoroutine("whitecolor");
+			this.percentage += 0.2f;
+			setPercentageText();
+			this.rb2d.velocity = new Vector2(0,6);
+			this.maxJump = 2;
+		}
+
+	}
 
     IEnumerator whitecolor()
     {

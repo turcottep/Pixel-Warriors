@@ -14,6 +14,7 @@ TagManager:
   - Melee1
   - Melee2
   - Hole 1
+  - Lava
   layers:
   - Default
   - TransparentFX
