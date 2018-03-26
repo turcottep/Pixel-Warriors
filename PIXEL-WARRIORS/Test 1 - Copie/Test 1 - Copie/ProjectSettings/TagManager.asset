@@ -16,6 +16,7 @@ TagManager:
   - Hole 1
   - Edge Left
   - Edge Right
+  - Lava
   layers:
   - Default
   - TransparentFX

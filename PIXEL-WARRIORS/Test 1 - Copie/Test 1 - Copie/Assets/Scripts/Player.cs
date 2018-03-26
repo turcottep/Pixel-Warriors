@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         //Hit by an ennemy projectile
-        if (!isDead && (player.tag == "Player 1" && (col.gameObject.tag == "Ball2"||col.gameObject.tag == "Melee2")) || (player.tag == "Player 2" && col.gameObject.tag == "Ball1"|| col.gameObject.tag == "Melee1"))
+        if (!isDead && (player.tag == "Player 1" && (col.gameObject.tag == "Ball2" || col.gameObject.tag == "Melee2")) || (player.tag == "Player 2" && col.gameObject.tag == "Ball1" || col.gameObject.tag == "Melee1"))
         {
             int dir = 0;
             if (col.rigidbody.velocity.x > 0) dir = -1;
@@ -77,7 +77,17 @@ public class Player : MonoBehaviour
             else if (col.gameObject.tag == "Ball1" || col.gameObject.tag == "Ball2") damage = 0.75f;
 
             this.ReceiveDamage(10, damage, dir);
+        }
 
+        //Fell in lava
+        if (col.gameObject.tag == "Lava")
+        {
+            this.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(0, 51.6f, 88.2f);
+            StartCoroutine("whitecolor");
+            this.percentage += 0.2f;
+            setPercentageText();
+            this.maxJump = 2;
+            this.rb2d.velocity = new Vector2(0, 6);
         }
     }
 
