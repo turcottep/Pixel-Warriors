@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Lava_Map.unity
+- path: Assets/Boat_Map.unity
   isLoaded: 1
   isActive: 1

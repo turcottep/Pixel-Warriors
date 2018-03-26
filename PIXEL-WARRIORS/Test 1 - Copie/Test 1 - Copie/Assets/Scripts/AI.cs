@@ -16,6 +16,9 @@ public class AI : MonoBehaviour
     public float dSauteMin = 0.8f;
     public float dAttack1Min = 0.05f;
     public float dShootYMin = 0.2f;
+    public float dEdgeMin = 0;
+    public float dEdgeL;
+    public float dEdgeR;
     public float speed = 0.25f;
     public int direction = 0;
     private bool avance;
@@ -27,7 +30,7 @@ public class AI : MonoBehaviour
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         if (player.aiON)
         {
-                
+
             player.speed = player.speed * speed;
         }
 
@@ -58,6 +61,9 @@ public class AI : MonoBehaviour
         List<float> distanceTrousX = new List<float>();
         List<float> distanceTrousY = new List<float>();
 
+        dEdgeR = GameObject.FindGameObjectWithTag("Edge Right").transform.position.x - player.transform.position.x;
+        dEdgeL = player.transform.position.x - GameObject.FindGameObjectWithTag("Edge Left").transform.position.x;
+
         foreach (Transform t in trous)
         {
             distanceTrousX.Add(t.position.x - this.transform.position.x);
@@ -65,21 +71,22 @@ public class AI : MonoBehaviour
 
         }
 
-        bool saute = false;
-        foreach (float d in distanceTrousX)
-        {
-            //Debug.Log("distanceTrou " + d * player.x);
-            if (player.isRight) direction = 1;
-            else direction = -1;
-            saute = (d * direction > 0 && d * direction < dSauteMin);
-            if (saute)
-            {
-                //Debug.Log("saute");
-                //player.MoveUp();
-                break;
-            }
+        //bool saute = false;
+        //foreach (float d in distanceTrousX)
+        //{
+        //    //Debug.Log("distanceTrou " + d * player.x);
+        //    if (player.isRight) direction = 1;
+        //    else direction = -1;
+        //    saute = (d * direction > 0 && d * direction < dSauteMin);
+        //    if (saute)
+        //    {
+        //        //Debug.Log("saute");
+        //        //player.MoveUp();
+        //        break;
+        //    }
 
-        }
+        //}
+
 
         avance = false;
         int trou = 0;
@@ -92,12 +99,12 @@ public class AI : MonoBehaviour
                 break;
             }
         }
-        if (avance)
+        if (avance || dEdgeL < 0 || dEdgeR < 0)
         {
-            //Over Edge
+            //Over hole
 
             //si il est en train de redescendre
-            if (distanceTrousY[0]< dResauteMin)
+            if (distanceTrousY[0] < dResauteMin)
             {
                 Debug.Log("d<0.2");
                 player.MoveUp();
@@ -110,6 +117,22 @@ public class AI : MonoBehaviour
                 else { player.MoveLeft(); }
             }
 
+            //Over edge
+            if (dEdgeL < 0 || dEdgeR < 0)
+            {
+                if (player.maxJump == 2 || rb2d.velocity.y < 0)
+                {
+                    player.MoveUp();
+                }
+                if (dEdgeL < 0)
+                {
+                    player.MoveRight();
+                }
+                if (dEdgeR < 0)
+                {
+                    player.MoveLeft();
+                }
+            }
         }
         else if (Mathf.Abs(distance) > dAttack1Min)
         {
@@ -124,8 +147,15 @@ public class AI : MonoBehaviour
 
             }
             //Debug.Log("Avance vers joueur");
-            if (player.isRight) { player.MoveRight(); }
-            else { player.MoveLeft(); }
+
+            if (player.isRight && dEdgeR > dEdgeMin)
+            {
+                player.MoveRight();
+            }
+            else if (dEdgeL > dEdgeMin)
+            {
+                player.MoveLeft();
+            }
 
         }
         else if (Mathf.Abs(distance) > 0.1)
