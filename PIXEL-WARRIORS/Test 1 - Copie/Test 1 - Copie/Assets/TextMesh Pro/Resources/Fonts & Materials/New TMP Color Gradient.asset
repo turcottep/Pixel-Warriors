@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2108210716, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
+  m_Name: New TMP Color Gradient
+  m_EditorClassIdentifier: 
+  topLeft: {r: 0.4039216, g: 0.57254905, b: 0.9450981, a: 1}
+  topRight: {r: 0.40392157, g: 0.57254905, b: 0.94509804, a: 1}
+  bottomLeft: {r: 0.16435987, g: 0.296437, b: 0.58823526, a: 1}
+  bottomRight: {r: 0.16470589, g: 0.29803923, b: 0.5882353, a: 1}

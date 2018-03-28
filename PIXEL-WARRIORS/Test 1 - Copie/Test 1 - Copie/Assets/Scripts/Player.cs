@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿//CLEF USB
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class Player : MonoBehaviour
     public float maxJump = 2f;
     public float percentage = 0f;
     public int lives = 3;
+    public GameObject life1;
 
     public bool grounded;
     public bool attack_1;
@@ -31,7 +34,8 @@ public class Player : MonoBehaviour
 
     public bool isButtonLeftPointerDown;
     public bool isButtonRightPointerDown;
-    public Text textPercentage;
+    public bool isButtonDownPointerDown;
+    public TextMeshProUGUI textPercentage;
 
     public bool aiON = true;
     public int x = 0;
@@ -57,37 +61,37 @@ public class Player : MonoBehaviour
         player = gameObject.GetComponentInParent<Player>();
 
         //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
-        knockback.Set(-2f, 0.5f);
+        knockback.Set(-2, 1);
+        
         setPercentageText();
+
+        life1.SetActive(true);
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         //Hit by an ennemy projectile
-        if (!isDead && (player.tag == "Player 1" && (col.gameObject.tag == "Ball2" || col.gameObject.tag == "Melee2")) || (player.tag == "Player 2" && col.gameObject.tag == "Ball1" || col.gameObject.tag == "Melee1"))
+        if ((player.tag == "Player 1" && col.gameObject.tag == "Ball2") || (player.tag == "Player 2" && col.gameObject.tag == "Ball1"))
         {
-            int dir = 0;
-            if (col.rigidbody.velocity.x > 0) dir = -1;
-            else dir = 1;
             Destroy(col.gameObject);
-            this.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(0, 51.6f, 88.2f);
+            this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("whitecolor");
-            float damage = 0;
-            if (col.gameObject.tag == "Melee1" || col.gameObject.tag == "Melee2") damage = 0.25f;
-            else if (col.gameObject.tag == "Ball1" || col.gameObject.tag == "Ball2") damage = 0.75f;
-
-            this.ReceiveDamage(10, damage, dir);
+            this.ReceiveDamage(10, 0.75f);
+            //rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
+            //percentage += 0.75f;
+            //stun = 10 + (.5f * percentage);
+            //Debug.Log("pourcentage P1: " + percentage);
         }
 
-        //Fell in lava
-        if (col.gameObject.tag == "Lava")
+        //Hit by melee
+        if ((player.tag == "Player 1" && col.gameObject.tag == "Melee2") || (player.tag == "Player 2" && col.gameObject.tag == "Melee1"))
         {
-            this.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(0, 51.6f, 88.2f);
+            //player.transform.position = pos;
+            Destroy(col.gameObject);
+            this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("whitecolor");
-            this.percentage += 0.2f;
-            setPercentageText();
-            this.maxJump = 2;
-            this.rb2d.velocity = new Vector2(0, 6);
+            this.ReceiveDamage(10, 0.75f);
+
         }
     }
 
@@ -165,7 +169,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (aiON && player.tag == "Player 2") player.GetComponent<AI>().AIUpdate();
+        if (aiON) player.GetComponent<AI>().AIUpdate();
 
 
         float h = Input.GetAxisRaw("Horizontal");
@@ -203,7 +207,7 @@ public class Player : MonoBehaviour
 
     }
 
-
+    
     //MOVES
 
     public void MoveUp()
@@ -223,10 +227,12 @@ public class Player : MonoBehaviour
     {
         x = -1; isRight = false;
     }
+
     public void MoveRight()
     {
         x = 1; isRight = true;
     }
+
     public void MoveDown()
     {
 
@@ -237,10 +243,9 @@ public class Player : MonoBehaviour
         attack_1 = true;
         player.GetComponent<Melee1_p1>().launch();
     }
-
     public void Attack2(bool state)
     {
-        if (state && canShoot)
+        if (state)
         {
             shootCharge = true;
             player.GetComponent<Shoot>().animate();
@@ -257,8 +262,11 @@ public class Player : MonoBehaviour
 
     }
 
-    public void ReceiveDamage(int stunReceived, float damage, int dir)
+    public void ReceiveDamage(int stunReceived, float damage)
     {
+        int dir = 0;
+        if (isRight) dir = 1;
+        else dir = -1;
         rb2d.AddForce(knockback * dir * percentage, ForceMode2D.Impulse);
         percentage += damage;
         stun = stunReceived + (percentage);
@@ -269,6 +277,7 @@ public class Player : MonoBehaviour
     {
         player.dead = true;
         percentage = 0;
+        setPercentageText();
         player.transform.position = initialPosition;
         rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
         if (Input.GetKey(up) || Input.GetKey(down))
@@ -336,9 +345,7 @@ public class Player : MonoBehaviour
 
     public void setPercentageText()
     {
-        //textPercentage.text = "% : " + (20 * percentage).ToString();
+        textPercentage.text = (20 * percentage).ToString() + "%";
     }
 
 }
-
-
