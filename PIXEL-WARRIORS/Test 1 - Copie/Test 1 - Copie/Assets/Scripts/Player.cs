@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
         
         setPercentageText();
 
-        life1.SetActive(true);
+        //life1.SetActive(true);
     }
 
     void OnCollisionEnter2D(Collision2D col)
