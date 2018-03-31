@@ -1317,7 +1317,7 @@ Prefab:
     - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
       propertyPath: aiON
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114489693071521594, guid: a38fc808e4f09e541a167216fd32e587,
         type: 2}
