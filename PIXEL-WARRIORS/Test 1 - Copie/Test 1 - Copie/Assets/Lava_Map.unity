@@ -1358,6 +1358,21 @@ Prefab:
       propertyPath: textPercentage
       value: 
       objectReference: {fileID: 1781468415}
+    - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
+        type: 2}
+      propertyPath: life1
+      value: 
+      objectReference: {fileID: 1612023662}
+    - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
+        type: 2}
+      propertyPath: life2
+      value: 
+      objectReference: {fileID: 1328199274}
+    - target: {fileID: 114222011826290784, guid: a38fc808e4f09e541a167216fd32e587,
+        type: 2}
+      propertyPath: life3
+      value: 
+      objectReference: {fileID: 2071308427}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a38fc808e4f09e541a167216fd32e587, type: 2}
   m_IsPrefabParent: 0
@@ -2456,7 +2471,6 @@ MonoBehaviour:
   maxJump: 2
   percentage: 0
   lives: 3
-  life1: {fileID: 2019742467}
   grounded: 0
   attack_1: 0
   charge: 0
@@ -2475,6 +2489,11 @@ MonoBehaviour:
   isButtonRightPointerDown: 0
   isButtonDownPointerDown: 0
   textPercentage: {fileID: 1258160531}
+  timer: {fileID: 1532003272}
+  timeLeft: 60
+  life1: {fileID: 2019742467}
+  life2: {fileID: 772085688}
+  life3: {fileID: 881225380}
   aiON: 0
   x: 0
   initialPosition: {x: -2.7, y: 1.3, z: 0}

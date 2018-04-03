@@ -1,6 +1,4 @@
-﻿//CLEF USB
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -13,7 +11,7 @@ public class Player : MonoBehaviour
     public float maxJump = 2f;
     public float percentage = 0f;
     public int lives = 3;
-    public GameObject life1;
+    
 
     public bool grounded;
     public bool attack_1;
@@ -32,14 +30,19 @@ public class Player : MonoBehaviour
     public KeyCode attack2 = KeyCode.F;
     public KeyCode attack3 = KeyCode.C;
 
+    //ui
     public bool isButtonLeftPointerDown;
     public bool isButtonRightPointerDown;
     public bool isButtonDownPointerDown;
     public TextMeshProUGUI textPercentage;
+    public TextMeshProUGUI timer;
+    public float timeLeft = 60;
+    public GameObject life1;
+    public GameObject life2;
+    public GameObject life3;
 
     public bool aiON = true;
     public int x = 0;
-
 
     public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
 
@@ -64,8 +67,7 @@ public class Player : MonoBehaviour
         knockback.Set(-2, 1);
         
         setPercentageText();
-
-        //life1.SetActive(true);
+        updateLifeDisplay();
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -163,6 +165,10 @@ public class Player : MonoBehaviour
         if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
         else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
         else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+
+        //Timer
+        timeLeft -= Time.deltaTime;
+        timer.text = timeLeft.ToString("f0");
     }
 
 
@@ -182,6 +188,7 @@ public class Player : MonoBehaviour
         {
             player.isDead = true;
             lives--;
+            updateLifeDisplay();
         }
         if (player.isDead == true)
         {
@@ -348,4 +355,31 @@ public class Player : MonoBehaviour
         textPercentage.text = (20 * percentage).ToString() + "%";
     }
 
+    public void updateLifeDisplay()
+    {
+        if (lives == 3)
+        {
+            life1.SetActive(true);
+            life2.SetActive(true);
+            life3.SetActive(true);
+        }
+        else if (lives == 2)
+        {
+            life1.SetActive(true);
+            life2.SetActive(true);
+            life3.SetActive(false);
+        }
+        else if (lives == 1)
+        {
+            life1.SetActive(true);
+            life2.SetActive(false);
+            life3.SetActive(false);
+        }
+        else if (lives == 0)
+        {
+            life1.SetActive(false);
+            life2.SetActive(false);
+            life3.SetActive(false);
+        }
+    }
 }
