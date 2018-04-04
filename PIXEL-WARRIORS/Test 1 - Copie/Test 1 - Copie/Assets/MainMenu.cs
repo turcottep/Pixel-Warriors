@@ -7,6 +7,6 @@ public class MainMenu : MonoBehaviour {
 
 	public void playButton()
     {
-        EditorSceneManager.LoadScene("Scene");
+        EditorSceneManager.LoadScene("Lava_Map");
     }
 }
