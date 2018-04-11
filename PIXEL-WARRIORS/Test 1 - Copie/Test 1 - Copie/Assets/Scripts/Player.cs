@@ -12,23 +12,29 @@ public class Player : MonoBehaviour
     public float percentage = 0f;
     public int lives = 3;
     
-
+    //Animations
     public bool grounded;
-    public bool attack_1;
+    public bool basic_1;
+    public bool basic_2;
+    public bool basic_3;
+    public bool special_1;
+    public bool special_2;
+    public bool special_3;
     public bool charge;
     public bool goingDown;
     public bool dead;
-    public bool shootCharge;
-    public bool canShoot = true;
+    public bool stunned;
 
     //controls
     public KeyCode up = KeyCode.W;
+    private bool pressUp = false;
+    public KeyCode jump = KeyCode.Space;
     public KeyCode left = KeyCode.A;
     public KeyCode down = KeyCode.S;
+    private bool pressDown = false;
     public KeyCode right = KeyCode.D;
-    public KeyCode attack1 = KeyCode.R;
-    public KeyCode attack2 = KeyCode.F;
-    public KeyCode attack3 = KeyCode.C;
+    public KeyCode A = KeyCode.R;
+    public KeyCode B = KeyCode.F;
 
     //ui
     public bool isButtonLeftPointerDown;
@@ -72,28 +78,28 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        //Hit by an ennemy projectile
-        if ((player.tag == "Player 1" && col.gameObject.tag == "Ball2") || (player.tag == "Player 2" && col.gameObject.tag == "Ball1"))
-        {
-            Destroy(col.gameObject);
-            this.GetComponent<SpriteRenderer>().color = Color.red;
-            StartCoroutine("whitecolor");
-            this.ReceiveDamage(10, 0.75f);
-            //rb2d.AddForce(col.rigidbody.velocity * percentage, ForceMode2D.Impulse);
-            //percentage += 0.75f;
-            //stun = 10 + (.5f * percentage);
-            //Debug.Log("pourcentage P1: " + percentage);
-        }
-
-        //Hit by melee
-        if ((player.tag == "Player 1" && col.gameObject.tag == "Melee2") || (player.tag == "Player 2" && col.gameObject.tag == "Melee1"))
+       
+        //Hit by attacks
+        if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
         {
             //player.transform.position = pos;
             Destroy(col.gameObject);
+            float d = col.gameObject.GetComponent<Attacks>().GetDamage();
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("whitecolor");
-            this.ReceiveDamage(10, 0.75f);
+            this.ReceiveDamage(10, d);
 
+        }
+
+        //Lava
+        if (col.gameObject.tag == "Lava")
+        {
+            this.rb2d.velocity = new Vector2(0,6);
+            this.maxJump = 2;
+            this.percentage += 0.5f;
+            setPercentageText();
+            this.GetComponent<SpriteRenderer>().color = Color.red;
+            StartCoroutine("whitecolor");
         }
     }
 
@@ -129,10 +135,16 @@ public class Player : MonoBehaviour
     {
         anim.SetBool("Grounded", grounded);
         anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
-        anim.SetBool("Attack", attack_1);
+        anim.SetBool("Basic1", basic_1);
+        anim.SetBool("Basic2", basic_2);
+        anim.SetBool("Basic3", basic_3);
+        anim.SetBool("Special1", special_1);
+        anim.SetBool("Special2", special_2);
+        anim.SetBool("Special3", special_3);
         anim.SetBool("Charge", charge);
         anim.SetBool("GoingDown", goingDown);
         anim.SetBool("Dead", dead);
+        anim.SetBool("Stunned", stunned);
 
         //Flip character L/R
         if (isRight == false)
@@ -145,21 +157,73 @@ public class Player : MonoBehaviour
         }
 
         //Double jump
-        if (Input.GetKeyDown(up))
+        if (Input.GetKeyDown(jump))
         {
             MoveUp();
         }
 
-        //Attack 1
-        if (Input.GetKeyDown(attack1))
+        
+        //A
+        if (Input.GetKeyDown(A) && Input.GetKeyDown(up)) // A + ↑
         {
-            Attack1();
+            Basic2();
         }
-        else { attack_1 = false; }
+        else if (Input.GetKeyDown(A) && Input.GetKeyDown(down)) // A + ↓
+        {
+            basic_2 = false;
+            Basic3();
+        }
+        else if (Input.GetKeyDown(A)) // A + ← →
+        {
+            basic_3 = false;
+            Basic1();
+        }
+        else
+        {
+            basic_1 = false;
+            basic_2 = false;
+            basic_3 = false;
+        }
 
-        //Attack 2
-        if (Input.GetKeyDown(attack2)) { Attack2(true); }
-        else if (Input.GetKeyUp(attack2)) { Attack2(false); }
+        //B
+        //Fonctionne pas pour les combo
+        if (Input.GetKeyDown(B) && pressUp) // B + ↑
+        {
+            Special2();
+        }
+        else if (Input.GetKeyDown(B) && pressDown) // B + ↓
+        {
+            special_2 = false;
+            Special3();
+        }
+        else if (Input.GetKeyDown(B)) // B + ← →
+        {
+            special_3 = false;
+            Special1(true);
+        }
+        else if (Input.GetKeyUp(B)) // B + ← →
+        {
+            Special1(false);
+            special_1 = false;
+        }
+
+        if (Input.GetKeyDown(down)) // B + ↓
+        {
+            pressDown = true;
+        }
+        else if (Input.GetKeyUp(down)) // B + ↓
+        {
+            pressDown = false;
+        }
+
+        if (Input.GetKeyDown(up)) // B + ↓
+        {
+            pressUp = true;
+        }
+        else if (Input.GetKeyUp(up)) // B + ↓
+        {
+            pressUp = false;
+        }
 
         //Gauche/Droite
         if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
@@ -245,30 +309,47 @@ public class Player : MonoBehaviour
 
     }
 
-    public void Attack1()
+    public void Basic1()
     {
-        attack_1 = true;
-        player.GetComponent<Melee1_p1>().launch();
+        basic_1 = true;
+        player.GetComponent<Attacks>().LaunchBasic1();
     }
-    public void Attack2(bool state)
+    public void Basic2()
+    {
+        basic_2 = true;
+        player.GetComponent<Attacks>().LaunchBasic2();
+    }
+    public void Basic3()
+    {
+        basic_3 = true;
+        player.GetComponent<Attacks>().LaunchBasic3();
+    }
+
+    public void Special1(bool state)
     {
         if (state)
         {
-            shootCharge = true;
-            player.GetComponent<Shoot>().animate();
+            charge = true;
+            player.GetComponent<Attacks>().animate();
         }
-        else if (shootCharge)
+        else if (charge)
         {
-            shootCharge = false;
-            player.GetComponent<Shoot>().shoot();
+            charge = false;
+            player.GetComponent<Attacks>().LaunchSpecial1();
         }
     }
-
-    public void Attack3()
+    public void Special2()
     {
-
+        special_2 = true;
+        player.GetComponent<Attacks>().LaunchSpecial2();
+    }
+    public void Special3()
+    {
+        special_3 = true;
+        player.GetComponent<Attacks>().LaunchSpecial3();
     }
 
+    //Ajouter l'effet stun pour l'animation
     public void ReceiveDamage(int stunReceived, float damage)
     {
         int dir = 0;
@@ -277,6 +358,7 @@ public class Player : MonoBehaviour
         rb2d.AddForce(knockback * dir * percentage, ForceMode2D.Impulse);
         percentage += damage;
         stun = stunReceived + (percentage);
+        //stunned = true;
         setPercentageText();
     }
 
@@ -287,7 +369,7 @@ public class Player : MonoBehaviour
         setPercentageText();
         player.transform.position = initialPosition;
         rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-        if (Input.GetKey(up) || Input.GetKey(down))
+        if (Input.GetKey(jump) || Input.GetKey(down))
         {
             rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
             player.isDead = false;
@@ -307,17 +389,17 @@ public class Player : MonoBehaviour
 
     public void buttonAttackAPointerDown()
     {
-        this.Attack1();
+        this.Basic1();
     }
 
     public void buttonAttackBPointerDown()
     {
-        this.Attack2(true);
+        //this.Special1(true);
     }
 
     public void buttonAttackBPointerUp()
     {
-        Attack2(false);
+        //Special1(false);
     }
 
     public void buttonLeftPointerDown()

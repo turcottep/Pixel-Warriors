@@ -17,6 +17,9 @@ TagManager:
   - Edge Left
   - Edge Right
   - Lava
+  - DemonBall
+  - AttPlayer1
+  - AttPlayer2
   layers:
   - Default
   - TransparentFX
