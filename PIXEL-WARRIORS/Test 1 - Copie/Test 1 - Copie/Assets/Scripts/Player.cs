@@ -35,7 +35,15 @@ public class Player : MonoBehaviour
     public bool isButtonRightPointerDown;
     public bool isButtonDownPointerDown;
     public TextMeshProUGUI textPercentage;
-    public TextMeshProUGUI timer;
+    public TextMeshProUGUI initElo;
+    public GameObject panelWin;
+    public GameObject panelLost;
+    private int elo= 1200;
+    private int eloEnnemi = 1400;
+    public TextMeshProUGUI deltaElo;
+    public TextMeshProUGUI sumElo;
+    public TextMeshProUGUI cash;
+    public GameObject canvas;
     public float timeLeft = 60;
     public GameObject life1;
     public GameObject life2;
@@ -168,14 +176,14 @@ public class Player : MonoBehaviour
 
         //Timer
         timeLeft -= Time.deltaTime;
-        timer.text = timeLeft.ToString("f0");
+        //timer.text = timeLeft.ToString("f0");
     }
 
 
     private void FixedUpdate()
     {
 
-        if (aiON) player.GetComponent<AI>().AIUpdate();
+        //if (aiON) player.GetComponent<AI>().AIUpdate();
 
 
         float h = Input.GetAxisRaw("Horizontal");
@@ -295,91 +303,115 @@ public class Player : MonoBehaviour
         }
     }
 
-    //UI Will
-    public void buttonJumpPointerDown()
-    {
-        rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
-        player.isDead = false;
-        player.dead = false;
+    ////UI Will
+    //public void buttonJumpPointerDown()
+    //{
+    //    rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+    //    player.isDead = false;
+    //    player.dead = false;
 
-        this.MoveUp();
-    }
+    //    this.MoveUp();
+    //}
 
-    public void buttonAttackAPointerDown()
-    {
-        this.Attack1();
-    }
+    //public void buttonAttackAPointerDown()
+    //{
+    //    this.Attack1();
+    //}
 
-    public void buttonAttackBPointerDown()
-    {
-        this.Attack2(true);
-    }
+    //public void buttonAttackBPointerDown()
+    //{
+    //    this.Attack2(true);
+    //}
 
-    public void buttonAttackBPointerUp()
-    {
-        Attack2(false);
-    }
+    //public void buttonAttackBPointerUp()
+    //{
+    //    Attack2(false);
+    //}
 
-    public void buttonLeftPointerDown()
-    {
-        isButtonLeftPointerDown = true;
-    }
+    //public void buttonLeftPointerDown()
+    //{
+    //    isButtonLeftPointerDown = true;
+    //}
 
-    public void buttonLeftPointerUp()
-    {
-        isButtonLeftPointerDown = false;
-    }
+    //public void buttonLeftPointerUp()
+    //{
+    //    isButtonLeftPointerDown = false;
+    //}
 
-    public void buttonRightPointerDown()
-    {
-        isButtonRightPointerDown = true;
-    }
+    //public void buttonRightPointerDown()
+    //{
+    //    isButtonRightPointerDown = true;
+    //}
 
-    public void buttonRightPointerUp()
-    {
-        isButtonRightPointerDown = false;
-    }
+    //public void buttonRightPointerUp()
+    //{
+    //    isButtonRightPointerDown = false;
+    //}
 
-    public void buttonDownPointerDown()
-    {
-        this.MoveDown();
-    }
+    //public void buttonDownPointerDown()
+    //{
+    //    this.MoveDown();
+    //}
 
-    public void buttonUpPointerDown()
-    {
-        this.MoveUp();
-    }
+    //public void buttonUpPointerDown()
+    //{
+    //    this.MoveUp();
+    //}
 
     public void setPercentageText()
     {
-        textPercentage.text = (20 * percentage).ToString() + "%";
+        //textPercentage.text = (20 * percentage).ToString() + "%";
     }
 
     public void updateLifeDisplay()
     {
         if (lives == 3)
         {
-            life1.SetActive(true);
-            life2.SetActive(true);
-            life3.SetActive(true);
+            //life1.SetActive(true);
+            //life2.SetActive(true);
+            //life3.SetActive(true);
         }
         else if (lives == 2)
         {
-            life1.SetActive(true);
-            life2.SetActive(true);
-            life3.SetActive(false);
+            //life1.SetActive(true);
+            //life2.SetActive(true);
+            //life3.SetActive(false);
         }
         else if (lives == 1)
         {
-            life1.SetActive(true);
-            life2.SetActive(false);
-            life3.SetActive(false);
+            //life1.SetActive(true);
+            //life2.SetActive(false);
+            //life3.SetActive(false);
         }
         else if (lives == 0)
         {
-            life1.SetActive(false);
-            life2.SetActive(false);
-            life3.SetActive(false);
+            
+            //life1.SetActive(false);
+            //life2.SetActive(false);
+            //life3.SetActive(false);
+
+            EndGame(0);
         }
     }
+
+    public void EndGame(int result)
+    {
+        canvas.SetActive(true);
+        if (result == 1)
+        {
+            panelWin.SetActive(true);
+        }
+        else
+        {
+            panelLost.SetActive(true);
+        }
+        initElo.SetText(elo.ToString());
+        float temp = Mathf.Floor(20 * (result - 1 / (1 + Mathf.Pow(10, (-1 * (elo - eloEnnemi) / 40)))));
+
+        deltaElo.SetText(temp.ToString());
+        sumElo.SetText((elo + temp).ToString());
+        cash.SetText((200 + 10 * temp).ToString());
+    }
+
+
 }
