@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public float maxJump = 2f;
     public float percentage = 0f;
     public int lives = 3;
-    
+
     //Animations
     public bool grounded;
     public bool basic_1;
@@ -71,14 +71,14 @@ public class Player : MonoBehaviour
 
         //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
         knockback.Set(-2, 1);
-        
+
         setPercentageText();
         updateLifeDisplay();
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-       
+
         //Hit by attacks
         if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
         {
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         //Lava
         if (col.gameObject.tag == "Lava")
         {
-            this.rb2d.velocity = new Vector2(0,6);
+            this.rb2d.velocity = new Vector2(0, 6);
             this.maxJump = 2;
             this.percentage += 0.5f;
             setPercentageText();
@@ -162,13 +162,13 @@ public class Player : MonoBehaviour
             MoveUp();
         }
 
-        
+
         //A
-        if (Input.GetKeyDown(A) && Input.GetKeyDown(up)) // A + ↑
+        if (Input.GetKeyDown(A) && pressUp) // A + ↑
         {
             Basic2();
         }
-        else if (Input.GetKeyDown(A) && Input.GetKeyDown(down)) // A + ↓
+        else if (Input.GetKeyDown(A) && pressDown) // A + ↓
         {
             basic_2 = false;
             Basic3();
@@ -278,7 +278,7 @@ public class Player : MonoBehaviour
 
     }
 
-    
+
     //MOVES
 
     public void MoveUp()

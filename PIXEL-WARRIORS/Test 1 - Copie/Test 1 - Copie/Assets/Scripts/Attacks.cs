@@ -172,29 +172,35 @@ public class Attacks : MonoBehaviour
         {
             float posBallUpBottom;
             float posBallMiddle;
-            Vector2 ballSpeed;
+            Vector2 ballSpeedUp;
+            Vector2 ballSpeedMiddle;
+            Vector2 ballSpeedBottom;
 
             if (player.isRight)
             {
                 direction = 0f;
                 posBallUpBottom = 0.24100546f;
                 posBallMiddle = 0.33900546f;
-                ballSpeed = new Vector2(3.5f, 0);
+                ballSpeedUp = new Vector2(3.5f, 0.3f);
+                ballSpeedMiddle = new Vector2(3.5f, 0);
+                ballSpeedBottom = new Vector2(3.5f, -0.3f);
             }
             else
             {
                 direction = 180f;
                 posBallUpBottom = -0.24100546f;
                 posBallMiddle = -0.33900546f;
-                ballSpeed = new Vector2(-3.5f, 0);
+                ballSpeedUp = new Vector2(-3.5f, 0.3f);
+                ballSpeedMiddle = new Vector2(-3.5f, 0);
+                ballSpeedBottom = new Vector2(-3.5f, -0.3f);
             }
             damage = 1.25f;
             GameObject ballUp = Instantiate(Resources.Load("Alien_TriBall"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posBallUpBottom, player.GetComponent<Rigidbody2D>().position.y + 0.15663729f), Quaternion.Euler(0, direction, 0)) as GameObject;
             GameObject ballMiddle = Instantiate(Resources.Load("Alien_TriBall"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posBallMiddle, player.GetComponent<Rigidbody2D>().position.y + 0.00763729f), Quaternion.Euler(0, direction, 0)) as GameObject;
             GameObject ballBottom = Instantiate(Resources.Load("Alien_TriBall"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posBallUpBottom, player.GetComponent<Rigidbody2D>().position.y - 0.12336271f), Quaternion.Euler(0, direction, 0)) as GameObject;
-            ballUp.GetComponent<Rigidbody2D>().velocity = ballSpeed;
-            ballMiddle.GetComponent<Rigidbody2D>().velocity = ballSpeed;
-            ballBottom.GetComponent<Rigidbody2D>().velocity = ballSpeed;
+            ballUp.GetComponent<Rigidbody2D>().velocity = ballSpeedUp;
+            ballMiddle.GetComponent<Rigidbody2D>().velocity = ballSpeedMiddle;
+            ballBottom.GetComponent<Rigidbody2D>().velocity = ballSpeedBottom;
 
 
             Destroy(ballUp, 3);
@@ -226,7 +232,7 @@ public class Attacks : MonoBehaviour
             StartCoroutine("BombBlast", bomb);
             StartCoroutine("CanShootSpecial2");
         }
-        
+
     }
     IEnumerator DemonBones()
     {
@@ -277,13 +283,34 @@ public class Attacks : MonoBehaviour
         }
 
         //Doit se faire destroy si hit par attaque
-        if(player.name == "Alien" && canShootSp3 && !player.dead)
+        if (player.name == "Alien" && canShootSp3 && !player.dead && !player.grounded)
         {
             GameObject UFO = Instantiate(Resources.Load("Alien_UFO"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + 0.019f, player.GetComponent<Rigidbody2D>().position.y - 0.307f), Quaternion.identity) as GameObject;
             Destroy(UFO, 2);
             StartCoroutine("CanShootSpecial3");
         }
 
+        if (player.name == "Ninja" && canShootSp3 && !player.dead)
+        {
+            Vector2 pos = new Vector2(player.GetComponent<Rigidbody2D>().position.x, player.GetComponent<Rigidbody2D>().position.y);
+
+            GameObject log = Instantiate(Resources.Load("Ninja_Log"), new Vector2(player.GetComponent<Rigidbody2D>().position.x, player.GetComponent<Rigidbody2D>().position.y), Quaternion.identity) as GameObject;
+            player.transform.position = pos;
+            rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+            StartCoroutine("CanShootSpecial3");
+            StartCoroutine("LogEffect");
+            player.GetComponent<Collider2D>().enabled = false;
+            player.GetComponent<Renderer>().enabled = false;
+            Destroy(log, 1f);
+        }
+    }
+    IEnumerator LogEffect()
+    {
+        yield return new WaitForSeconds(1f);
+        player.GetComponent<Collider2D>().enabled = true;
+        player.GetComponent<Renderer>().enabled = true;
+        rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+        player.maxJump = 2;
     }
 
     public void animate()

@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 125023312}
   - component: {fileID: 125023311}
   - component: {fileID: 125023310}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MastRight2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,10 +323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f52b6abe5e905040a5477903a20c5fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1603513343824618, guid: 0eea376577bb26146878cd084cbdc49d, type: 2}
-  velocity: {x: 3, y: 0}
-  offset: {x: 0.2, y: 0}
-  cooldown: 1.5
 --- !u!61 &287523991
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -372,23 +368,32 @@ MonoBehaviour:
   percentage: 0
   lives: 3
   grounded: 0
-  attack_1: 0
+  basic_1: 0
+  basic_2: 0
+  basic_3: 0
+  special_1: 0
+  special_2: 0
+  special_3: 0
   charge: 0
   goingDown: 0
   dead: 0
-  shootCharge: 0
-  canShoot: 1
+  stunned: 0
   up: 119
+  jump: 32
   left: 97
   down: 115
   right: 100
-  attack1: 99
-  attack2: 118
-  attack3: 98
+  A: 114
+  B: 102
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
   isButtonDownPointerDown: 0
   textPercentage: {fileID: 0}
+  timer: {fileID: 0}
+  timeLeft: 60
+  life1: {fileID: 0}
+  life2: {fileID: 0}
+  life3: {fileID: 0}
   aiON: 0
   x: 0
   initialPosition: {x: -2.1, y: 0.8, z: 0}
@@ -508,7 +513,7 @@ GameObject:
   - component: {fileID: 306406848}
   - component: {fileID: 306406847}
   - component: {fileID: 306406846}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Front2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +598,7 @@ GameObject:
   - component: {fileID: 328375986}
   - component: {fileID: 328375985}
   - component: {fileID: 328375988}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MastLeft2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +683,7 @@ GameObject:
   - component: {fileID: 504063119}
   - component: {fileID: 504063118}
   - component: {fileID: 504063117}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Front2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +790,7 @@ GameObject:
   - component: {fileID: 863968346}
   - component: {fileID: 863968345}
   - component: {fileID: 863968344}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Front1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -871,7 +876,7 @@ GameObject:
   - component: {fileID: 955714046}
   - component: {fileID: 955714045}
   - component: {fileID: 955714044}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MastLeft1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -957,7 +962,7 @@ GameObject:
   - component: {fileID: 969419319}
   - component: {fileID: 969419318}
   - component: {fileID: 969419317}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Front1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1041,7 +1046,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1109572308}
   - component: {fileID: 1109572307}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Boat_left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1293,7 +1298,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1273521272}
   - component: {fileID: 1273521271}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Boat_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1716,7 +1721,7 @@ GameObject:
   - component: {fileID: 1582667208}
   - component: {fileID: 1582667207}
   - component: {fileID: 1582667206}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MastRight1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1800,7 +1805,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1703054758}
   - component: {fileID: 1703054759}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HitBoxLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2099,7 +2104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2078429230}
   - component: {fileID: 2078429231}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HitBoxRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
