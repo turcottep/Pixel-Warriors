@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -42,7 +43,8 @@ public class Player : MonoBehaviour
     public bool isButtonDownPointerDown;
     public TextMeshProUGUI textPercentage;
     public TextMeshProUGUI timer;
-    public float timeLeft = 60;
+    private double timeLeftSec;
+    private double timeLeftMin;
     public GameObject life1;
     public GameObject life2;
     public GameObject life3;
@@ -71,6 +73,8 @@ public class Player : MonoBehaviour
 
         //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
         knockback.Set(-2, 1);
+
+        timeLeftSec = 180;
 
         setPercentageText();
         updateLifeDisplay();
@@ -231,8 +235,17 @@ public class Player : MonoBehaviour
         else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
 
         //Timer
-        timeLeft -= Time.deltaTime;
-        timer.text = timeLeft.ToString("f0");
+        timeLeftSec -= Time.deltaTime;
+        timeLeftMin = Math.Floor(timeLeftSec / 60);
+        
+        if ((timeLeftSec - (60 * timeLeftMin)) < 9.5)
+        {
+            timer.text = timeLeftMin.ToString() + ":0" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
+        }
+        else
+        {
+            timer.text = timeLeftMin.ToString() + ":" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
+        }
     }
 
 
