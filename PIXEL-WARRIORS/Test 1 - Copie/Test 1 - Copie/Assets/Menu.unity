@@ -340,7 +340,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1466906537}
   toggleTransition: 1
   graphic: {fileID: 1288364363}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 1848116315}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -489,7 +489,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 221430152}
   toggleTransition: 1
   graphic: {fileID: 678546506}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 1848116315}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1193,6 +1193,7 @@ RectTransform:
   - {fileID: 890450894}
   - {fileID: 543097029}
   - {fileID: 2138851905}
+  - {fileID: 1484879792}
   m_Father: {fileID: 668431654}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2096,8 +2097,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38d15ee2cc68bcb4e8138f3de628935a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleMap1: {fileID: 0}
-  toggleMap2: {fileID: 0}
+  toggleMap1: {fileID: 1674763448}
+  toggleMap2: {fileID: 1348687209}
 --- !u!1 &918082205
 GameObject:
   m_ObjectHideFlags: 0
@@ -2409,7 +2410,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Pixel Warriors
+  m_text: Pixel  Warriors
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 163292f6f226d954593d45b079f8aae0, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: 163292f6f226d954593d45b079f8aae0, type: 2}
@@ -2473,12 +2474,12 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -203.28908, y: -24.01049, z: -264.20975, w: 8.003562}
+  m_margin: {x: -203.28908, y: -24.01049, z: -315.39072, w: 8.003562}
   m_textInfo:
     textComponent: {fileID: 1201226080}
-    characterCount: 14
+    characterCount: 15
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 2
     wordCount: 2
     linkCount: 0
     lineCount: 1
@@ -2875,6 +2876,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1348687208}
   - component: {fileID: 1348687209}
+  - component: {fileID: 1348687210}
   m_Layer: 5
   m_Name: Map2_toggle
   m_TagString: Untagged
@@ -2942,10 +2944,34 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1348687210}
+        m_MethodName: unSelect1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!114 &1348687210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1348687207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d15ee2cc68bcb4e8138f3de628935a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleMap1: {fileID: 1674763448}
+  toggleMap2: {fileID: 1348687209}
 --- !u!1 &1454513127
 GameObject:
   m_ObjectHideFlags: 0
@@ -3302,6 +3328,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1472672272}
+--- !u!1 &1484879791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1484879792}
+  - component: {fileID: 1484879794}
+  - component: {fileID: 1484879793}
+  m_Layer: 5
+  m_Name: Logo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1484879792
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1484879791}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.22046661, y: 0.22046642, z: 0.22046642}
+  m_Children: []
+  m_Father: {fileID: 559782192}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 39.85852, y: 119.00598}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1484879793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1484879791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 3cd49f59759edff41ba436ff27edb83f, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1484879794
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1484879791}
 --- !u!1 &1487412186
 GameObject:
   m_ObjectHideFlags: 0
@@ -3798,6 +3892,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1674763447}
   - component: {fileID: 1674763448}
+  - component: {fileID: 1674763449}
   m_Layer: 5
   m_Name: Map1_toggle
   m_TagString: Untagged
@@ -3865,10 +3960,34 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1674763449}
+        m_MethodName: unSelect2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
+--- !u!114 &1674763449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1674763446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d15ee2cc68bcb4e8138f3de628935a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleMap1: {fileID: 1674763448}
+  toggleMap2: {fileID: 1348687209}
 --- !u!1 &1693353799
 GameObject:
   m_ObjectHideFlags: 0
@@ -3942,7 +4061,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 600783531}
   toggleTransition: 1
   graphic: {fileID: 221505193}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 1848116315}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4217,6 +4336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1848116313}
   - component: {fileID: 1848116314}
+  - component: {fileID: 1848116315}
   m_Layer: 5
   m_Name: P1_toggle
   m_TagString: Untagged
@@ -4281,13 +4401,25 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2121035887}
   toggleTransition: 1
   graphic: {fileID: 606866485}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 1848116315}
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!114 &1848116315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1848116312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1184210157, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 1
 --- !u!1 &1862912071
 GameObject:
   m_ObjectHideFlags: 0
