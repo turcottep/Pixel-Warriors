@@ -272,9 +272,12 @@ public class Player : MonoBehaviour
         {
             player.isDead = true;
             manager.GetComponent<Manager>().PlayerDeath(playerNum);
+        }
+        if (player.isDead)
+        {
             this.Reset();
         }
-       
+
         //Going down
         if (rb2d.velocity.y < 0) { player.goingDown = true; }
         else { player.goingDown = false; }

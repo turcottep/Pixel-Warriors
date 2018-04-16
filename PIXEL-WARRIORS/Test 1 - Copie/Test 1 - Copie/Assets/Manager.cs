@@ -204,10 +204,10 @@ public class Manager : MonoBehaviour
         //cash.SetText((200 + 10 * temp).ToString());
     }
 
-	//UI Will
-
-		//P1
-	public void buttonJumpPointerDownP1()
+    //UI Will
+    #region UI P1
+    //P1
+    public void buttonJumpPointerDownP1()
 	{
 		player1.GetComponent<Player>().rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
 		player1.GetComponent<Player>().isDead = false;
