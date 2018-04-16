@@ -38,7 +38,7 @@ public class Manager : MonoBehaviour
 
         if (playerNumber == 1) character1 = "Ninja";
         if (playerNumber == 2) character1 = "Alien";
-        if (playerNumber == 3) character1 = "MadScientist";
+        if (playerNumber == 3) character1 = "Scientist";
         if (playerNumber == 4) character1 = "Demon";
         */
 
