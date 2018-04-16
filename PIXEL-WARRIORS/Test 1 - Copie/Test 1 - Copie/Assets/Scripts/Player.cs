@@ -6,6 +6,8 @@ using System;
 
 public class Player : MonoBehaviour
 {
+	public int playerType;
+
     public float maxSpeed = 2.5f;
     public float speed = 15f;
     public float jumpPower = 175f;
@@ -31,32 +33,32 @@ public class Player : MonoBehaviour
 
     //controls
     public KeyCode up = KeyCode.W;
-    private bool pressUp = false;
+    public bool pressUp = false;
     public KeyCode jump = KeyCode.Space;
     public KeyCode left = KeyCode.A;
     public KeyCode down = KeyCode.S;
-    private bool pressDown = false;
+    public bool pressDown = false;
     public KeyCode right = KeyCode.D;
     public KeyCode A = KeyCode.R;
     public KeyCode B = KeyCode.F;
 
-    //ui
-    public bool isButtonLeftPointerDown;
-    public bool isButtonRightPointerDown;
-    public bool isButtonDownPointerDown;
+	//ui
+	public bool isButtonLeftPointerDown;
+	public bool isButtonRightPointerDown;
+	public bool isButtonDownPointerDown;
 
-    public bool aiON = true;
+	public bool aiON = true;
     public int x = 0;
 
     public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
 
     public bool isRight;
-    private bool isDead;
+	public bool isDead;
     private float stun = 0f;
 
-    private Rigidbody2D rb2d;
-    private Animator anim;
-    private Player player;
+    public Rigidbody2D rb2d;
+	private Animator anim;
+	private Player player;
 
     private Vector2 pos;
     private Vector2 knockback;
@@ -371,67 +373,12 @@ public class Player : MonoBehaviour
         rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
         if (Input.GetKey(jump) || Input.GetKey(down))
         {
+			Debug.Log("youuuuuuuuhouuuh");
             rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
             player.isDead = false;
             player.dead = false;
         }
     }
-
-    //UI Will
-    public void buttonJumpPointerDown()
-    {
-        rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
-        player.isDead = false;
-        player.dead = false;
-
-        this.MoveUp();
-    }
-
-    public void buttonAttackAPointerDown()
-    {
-        this.Basic1();
-    }
-
-    public void buttonAttackBPointerDown()
-    {
-        //this.Special1(true);
-    }
-
-    public void buttonAttackBPointerUp()
-    {
-        //Special1(false);
-    }
-
-    public void buttonLeftPointerDown()
-    {
-        isButtonLeftPointerDown = true;
-    }
-
-    public void buttonLeftPointerUp()
-    {
-        isButtonLeftPointerDown = false;
-    }
-
-    public void buttonRightPointerDown()
-    {
-        isButtonRightPointerDown = true;
-    }
-
-    public void buttonRightPointerUp()
-    {
-        isButtonRightPointerDown = false;
-    }
-
-    public void buttonDownPointerDown()
-    {
-        this.MoveDown();
-    }
-
-    public void buttonUpPointerDown()
-    {
-        this.MoveUp();
-    }
-
 
     
 }
