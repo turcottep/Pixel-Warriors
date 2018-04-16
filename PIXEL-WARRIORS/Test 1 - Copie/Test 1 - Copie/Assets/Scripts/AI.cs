@@ -44,7 +44,7 @@ public class AI : MonoBehaviour
             if (!avance) player.isRight = distance > 0;
 
             trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
-            //trous.Add(GameObject.FindGameObjectWithTag("Hole2").transform);
+            trous.Add(GameObject.FindGameObjectWithTag("Hole 2").transform);
             List<float> distanceTrousX = new List<float>();
             List<float> distanceTrousY = new List<float>();
 

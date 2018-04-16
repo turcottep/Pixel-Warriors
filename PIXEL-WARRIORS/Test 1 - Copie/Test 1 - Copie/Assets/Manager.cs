@@ -29,14 +29,22 @@ public class Manager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        string Character1;
-        string Character2;
+        string character1 = "Ninja";
+        string character2 = "Ninja";
 
+        /*
+        GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
+        int playerNumber = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
 
+        if (playerNumber == 1) character1 = "Ninja";
+        if (playerNumber == 2) character1 = "Alien";
+        if (playerNumber == 3) character1 = "MadScientist";
+        if (playerNumber == 4) character1 = "Demon";
+        */
 
         timeLeftSec = 180;
 
-        player1 = Instantiate(Resources.Load("Character1"), new Vector2(2.7f, 0.7f), Quaternion.identity) as GameObject;
+        player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.7f), Quaternion.identity) as GameObject;
         player1.tag = "Player 1";
         player1.layer = 8;
         player1.GetComponent<Player>().A = KeyCode.R;
@@ -45,16 +53,22 @@ public class Manager : MonoBehaviour
         player1.GetComponent<Player>().left = KeyCode.A;
         player1.GetComponent<Player>().down = KeyCode.S;
         player1.GetComponent<Player>().right = KeyCode.D;
+        player1.GetComponent<Player>().jump = KeyCode.Space;
 
-        player2 = Instantiate(Resources.Load("Character2"), new Vector2(-2.7f, 0.7f), Quaternion.identity) as GameObject;
-        player1.tag = "Player 2";
-        player1.layer = 9;
-        player1.GetComponent<Player>().A = KeyCode.Comma;
-        player1.GetComponent<Player>().B = KeyCode.Period;
-        player1.GetComponent<Player>().up = KeyCode.UpArrow;
-        player1.GetComponent<Player>().left = KeyCode.LeftArrow;
-        player1.GetComponent<Player>().down = KeyCode.DownArrow;
-        player1.GetComponent<Player>().right = KeyCode.RightArrow;
+
+        player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.7f), Quaternion.identity) as GameObject;
+        player2.tag = "Player 2";
+        player2.layer = 9;
+        player2.GetComponent<Player>().A = KeyCode.Comma;
+        player2.GetComponent<Player>().B = KeyCode.Period;
+        player2.GetComponent<Player>().up = KeyCode.UpArrow;
+        player2.GetComponent<Player>().left = KeyCode.LeftArrow;
+        player2.GetComponent<Player>().down = KeyCode.DownArrow;
+        player2.GetComponent<Player>().right = KeyCode.RightArrow;
+        player2.GetComponent<Player>().jump = KeyCode.M;
+
+        player2.GetComponent<Player>().aiON = true;
+
     }
 
     // Update is called once per frame

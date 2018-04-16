@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 61658726204076650}
   - component: {fileID: 114908476170408814}
   - component: {fileID: 114786148205056698}
+  - component: {fileID: 114228386452706932}
   m_Layer: 8
   m_Name: Ninja
   m_TagString: Player 1
@@ -155,6 +156,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114228386452706932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1733465360978672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653c6257e2c98dd47b999de65ae8a089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 0
+  dAvanceMin: 0.5
+  dSauteMin: 0.8
+  dAttack1Min: 0.05
+  speed: 0.25
+  direction: 0
 --- !u!114 &114372700144911590
 MonoBehaviour:
   m_ObjectHideFlags: 1

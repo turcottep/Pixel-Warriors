@@ -22,6 +22,8 @@ TagManager:
   - AttPlayer2
   - Manager
   - Shield
+  - MainMenuManager
+  - Hole 2
   layers:
   - Default
   - TransparentFX
