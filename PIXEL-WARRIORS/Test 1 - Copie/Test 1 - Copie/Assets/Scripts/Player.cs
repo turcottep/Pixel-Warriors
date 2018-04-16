@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     public float jumpPower = 175f;
     public float maxJump = 2f;
     public float percentage = 0f;
-    public int lives = 3;
 
     //Animations
     public bool grounded;
@@ -25,6 +24,10 @@ public class Player : MonoBehaviour
     public bool goingDown;
     public bool dead;
     public bool stunned;
+
+
+    //Attacks
+    public bool isChargingSp1 = false;
 
     //controls
     public KeyCode up = KeyCode.W;
@@ -41,13 +44,6 @@ public class Player : MonoBehaviour
     public bool isButtonLeftPointerDown;
     public bool isButtonRightPointerDown;
     public bool isButtonDownPointerDown;
-    public TextMeshProUGUI textPercentage;
-    public TextMeshProUGUI timer;
-    private double timeLeftSec;
-    private double timeLeftMin;
-    public GameObject life1;
-    public GameObject life2;
-    public GameObject life3;
 
     public bool aiON = true;
     public int x = 0;
@@ -65,19 +61,34 @@ public class Player : MonoBehaviour
     private Vector2 pos;
     private Vector2 knockback;
 
+    private int playerNum;
+
+    private GameObject manager;
+
     void Start()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
         player = gameObject.GetComponentInParent<Player>();
+        manager = GameObject.FindGameObjectWithTag("Manager");
+
+        if (player.tag == "Player 1")
+        {
+            playerNum = 1;
+        }
+        else if (player.tag == "Player 2")
+        {
+            playerNum = 2;
+        }
+        else
+        {
+            Debug.Log("ERREUR TAG JOUEURS");
+        }
+
 
         //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
         knockback.Set(-2, 1);
-
-        timeLeftSec = 180;
-
-        setPercentageText();
-        updateLifeDisplay();
+        manager.GetComponent<Manager>().UpdatePercentages();
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -86,9 +97,10 @@ public class Player : MonoBehaviour
         //Hit by attacks
         if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
         {
+            isChargingSp1 = false;
             //player.transform.position = pos;
             Destroy(col.gameObject);
-            float d = col.gameObject.GetComponent<Attacks>().GetDamage();
+            float d = col.gameObject.GetComponent<Damage>().getDamage();
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("whitecolor");
             this.ReceiveDamage(10, d);
@@ -98,10 +110,11 @@ public class Player : MonoBehaviour
         //Lava
         if (col.gameObject.tag == "Lava")
         {
+            isChargingSp1 = false;
             this.rb2d.velocity = new Vector2(0, 6);
             this.maxJump = 2;
             this.percentage += 0.5f;
-            setPercentageText();
+            manager.GetComponent<Manager>().UpdatePercentages();
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("whitecolor");
         }
@@ -166,6 +179,7 @@ public class Player : MonoBehaviour
             MoveUp();
         }
 
+        //////////////////////////////////ATTACKS
 
         //A
         if (Input.GetKeyDown(A) && pressUp) // A + ↑
@@ -190,7 +204,6 @@ public class Player : MonoBehaviour
         }
 
         //B
-        //Fonctionne pas pour les combo
         if (Input.GetKeyDown(B) && pressUp) // B + ↑
         {
             Special2();
@@ -209,6 +222,10 @@ public class Player : MonoBehaviour
         {
             Special1(false);
             special_1 = false;
+        }
+        else
+        {
+            charge = false;
         }
 
         if (Input.GetKeyDown(down)) // B + ↓
@@ -233,19 +250,7 @@ public class Player : MonoBehaviour
         if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
         else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
         else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
-
-        //Timer
-        timeLeftSec -= Time.deltaTime;
-        timeLeftMin = Math.Floor(timeLeftSec / 60);
-        
-        if ((timeLeftSec - (60 * timeLeftMin)) < 9.5)
-        {
-            timer.text = timeLeftMin.ToString() + ":0" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
-        }
-        else
-        {
-            timer.text = timeLeftMin.ToString() + ":" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
-        }
+       
     }
 
 
@@ -264,21 +269,10 @@ public class Player : MonoBehaviour
         if (rb2d.transform.position.y < -2.1f || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 4.5f || rb2d.transform.position.x < -4.5)
         {
             player.isDead = true;
-            lives--;
-            updateLifeDisplay();
+            manager.GetComponent<Manager>().PlayerDeath(playerNum);
+            this.Reset();
         }
-        if (player.isDead == true)
-        {
-            if (lives == 0)
-            {
-                Destroy(player);
-            }
-            else
-            {
-                this.Reset();
-            }
-        }
-
+       
         //Going down
         if (rb2d.velocity.y < 0) { player.goingDown = true; }
         else { player.goingDown = false; }
@@ -325,41 +319,34 @@ public class Player : MonoBehaviour
     public void Basic1()
     {
         basic_1 = true;
-        player.GetComponent<Attacks>().LaunchBasic1();
+        player.GetComponent<Attacks>().LaunchBasic1(playerNum);
     }
     public void Basic2()
     {
         basic_2 = true;
-        player.GetComponent<Attacks>().LaunchBasic2();
+        player.GetComponent<Attacks>().LaunchBasic2(playerNum);
     }
     public void Basic3()
     {
         basic_3 = true;
-        player.GetComponent<Attacks>().LaunchBasic3();
+        player.GetComponent<Attacks>().LaunchBasic3(playerNum);
     }
 
     public void Special1(bool state)
     {
-        if (state)
-        {
-            charge = true;
-            player.GetComponent<Attacks>().animate();
-        }
-        else if (charge)
-        {
-            charge = false;
-            player.GetComponent<Attacks>().LaunchSpecial1();
-        }
+
+        player.GetComponent<Attacks>().LaunchSpecial1(playerNum, state);
+
     }
     public void Special2()
     {
         special_2 = true;
-        player.GetComponent<Attacks>().LaunchSpecial2();
+        player.GetComponent<Attacks>().LaunchSpecial2(playerNum);
     }
     public void Special3()
     {
         special_3 = true;
-        player.GetComponent<Attacks>().LaunchSpecial3();
+        player.GetComponent<Attacks>().LaunchSpecial3(playerNum);
     }
 
     //Ajouter l'effet stun pour l'animation
@@ -372,14 +359,14 @@ public class Player : MonoBehaviour
         percentage += damage;
         stun = stunReceived + (percentage);
         //stunned = true;
-        setPercentageText();
+        manager.GetComponent<Manager>().UpdatePercentages();
     }
 
     public void Reset()
     {
         player.dead = true;
         percentage = 0;
-        setPercentageText();
+        manager.GetComponent<Manager>().UpdatePercentages();
         player.transform.position = initialPosition;
         rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
         if (Input.GetKey(jump) || Input.GetKey(down))
@@ -445,36 +432,6 @@ public class Player : MonoBehaviour
         this.MoveUp();
     }
 
-    public void setPercentageText()
-    {
-        textPercentage.text = (20 * percentage).ToString() + "%";
-    }
 
-    public void updateLifeDisplay()
-    {
-        if (lives == 3)
-        {
-            life1.SetActive(true);
-            life2.SetActive(true);
-            life3.SetActive(true);
-        }
-        else if (lives == 2)
-        {
-            life1.SetActive(true);
-            life2.SetActive(true);
-            life3.SetActive(false);
-        }
-        else if (lives == 1)
-        {
-            life1.SetActive(true);
-            life2.SetActive(false);
-            life3.SetActive(false);
-        }
-        else if (lives == 0)
-        {
-            life1.SetActive(false);
-            life2.SetActive(false);
-            life3.SetActive(false);
-        }
-    }
+    
 }

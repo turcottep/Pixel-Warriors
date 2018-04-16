@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4225377090376802}
   - component: {fileID: 61965709165474852}
   - component: {fileID: 50904828355721906}
+  - component: {fileID: 114362232186079676}
   m_Layer: 0
   m_Name: Kick_p2
   m_TagString: Melee2
@@ -86,3 +87,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114362232186079676
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1417509448462664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51083a4a5d0145347a024f40ac783eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.25

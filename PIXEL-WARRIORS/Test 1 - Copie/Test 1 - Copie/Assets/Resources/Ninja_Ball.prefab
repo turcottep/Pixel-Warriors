@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212616491355671320}
   - component: {fileID: 50235027095265244}
   - component: {fileID: 60525797427037930}
+  - component: {fileID: 114027678691055930}
   m_Layer: 0
   m_Name: Ninja_Ball
   m_TagString: Untagged
@@ -106,6 +107,18 @@ PolygonCollider2D:
       - {x: 0.24707682, y: -0.20679107}
       - {x: 0.18547256, y: -0.06820215}
       - {x: 0.18594724, y: 0.09189021}
+--- !u!114 &114027678691055930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1088369706142868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51083a4a5d0145347a024f40ac783eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.75
 --- !u!212 &212616491355671320
 SpriteRenderer:
   m_ObjectHideFlags: 1

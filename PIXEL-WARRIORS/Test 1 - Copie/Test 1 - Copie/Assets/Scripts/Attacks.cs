@@ -84,13 +84,23 @@ public class Attacks : MonoBehaviour
         canShootSp3 = true;
     }
 
-    public void LaunchBasic1() //A
+    public void LaunchBasic1(int playerNum) //A
     {
         //Basic1
         if (canShoot_basic && !player.dead)
         {
             damage = 0.25f;
             GameObject go = (GameObject)Instantiate(basic1, (Vector2)transform.position + offset_basic1 * transform.localScale.x, Quaternion.Euler(0, 0, 0));
+            if (playerNum == 1)
+            {
+                go.tag = "AttPlayer1";
+                go.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                go.tag = "AttPlayer2";
+                go.layer = 12;
+            }
             Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());
             go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity_basic1.x * transform.localScale.x, velocity_basic1.y);
             Destroy(go, lifeTime);
@@ -99,13 +109,23 @@ public class Attacks : MonoBehaviour
         }
     }
 
-    public void LaunchBasic2() //A + ↑
+    public void LaunchBasic2(int playerNum) //A + ↑
     {
         //Basic2
         if (canShoot_basic && !player.dead)
         {
             damage = 0.5f;
             GameObject go = (GameObject)Instantiate(basic2, (Vector2)transform.position + offset_basic2 * transform.localScale.x, Quaternion.Euler(0, 0, 0));
+            if (playerNum == 1)
+            {
+                go.tag = "AttPlayer1";
+                go.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                go.tag = "AttPlayer2";
+                go.layer = 12;
+            }
             Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());
             go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity_basic2.x * transform.localScale.x, velocity_basic2.y);
             Destroy(go, lifeTime);
@@ -113,13 +133,23 @@ public class Attacks : MonoBehaviour
         }
     }
 
-    public void LaunchBasic3() //A + ↓
+    public void LaunchBasic3(int playerNum) //A + ↓
     {
         //Basic3
         if (canShoot_basic && !player.dead)
         {
             damage = 0.5f;
             GameObject go = (GameObject)Instantiate(basic3, (Vector2)transform.position + offset_basic3 * transform.localScale.x, Quaternion.Euler(0, 0, 0));
+            if (playerNum == 1)
+            {
+                go.tag = "AttPlayer1";
+                go.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                go.tag = "AttPlayer2";
+                go.layer = 12;
+            }
             Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());
             go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity_basic3.x * transform.localScale.x, velocity_basic3.y);
             Destroy(go, lifeTime);
@@ -127,37 +157,71 @@ public class Attacks : MonoBehaviour
         }
     }
 
-    public void LaunchSpecial1() //B
+    public void LaunchSpecial1(int playerNum, bool state) //B
     {
 
         //Problème d'animation (reste bloqué)
         if (canShootSp1 && !player.dead)
         {
-            anim.SetBool("Charge", false);
-            if (player.isRight)
+            if (state)
             {
-                direction = 0f;
+                player.isChargingSp1 = true;
+                anim.SetBool("Charge", true);
             }
-            else { direction = 180f; }
-            damage = 0.75f;
-            GameObject go = (GameObject)Instantiate(special1, (Vector2)transform.position + offset_special1 * transform.localScale.x, Quaternion.Euler(0, direction, 0));
-            go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity_special1.x * transform.localScale.x, velocity_special1.y);
-            GetComponent<Animator>().SetTrigger("Special1");
-            Destroy(go, lifeTime_special1);
-            StartCoroutine("CanShootSpecial1");
+            else if (player.isChargingSp1)
+            {
+                player.isChargingSp1 = false;
+                anim.SetBool("Charge", false);
+                if (player.isRight)
+                {
+                    direction = 0f;
+                }
+                else { direction = 180f; }
+                damage = 0.75f;
+                GameObject go = (GameObject)Instantiate(special1, (Vector2)transform.position + offset_special1 * transform.localScale.x, Quaternion.Euler(0, direction, 0));
+                if (playerNum == 1)
+                {
+                    go.tag = "AttPlayer1";
+                    go.layer = 11;
+                }
+                else if (playerNum == 2)
+                {
+                    go.tag = "AttPlayer2";
+                    go.layer = 12;
+                }
+                go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity_special1.x * transform.localScale.x, velocity_special1.y);
+                GetComponent<Animator>().SetTrigger("Special1");
+                Destroy(go, lifeTime_special1);
+                StartCoroutine("CanShootSpecial1");
+            }
         }
+
     }
 
-    public void LaunchSpecial2() //B + ↑
+    public void LaunchSpecial2(int playerNum) //B + ↑
     {
 
-        //Ne doit pas collide avec les hitbox de sa propre attaque... Pour l'instant, mis un plateform effector qui ignore Player1
+        //Ne doit pas collide avec les hitbox de sa propre attaque... Pour l'instant, mis un plateform effector qui ignore Player1 TURCOTTE: Réglé par layers
         if (player.name == "Demon" && canShootSp2 && !player.dead && player.grounded)
         {
             damage = 1.25f;
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             GameObject smallBoneLeft = Instantiate(Resources.Load("Demon_Small_Bone"), new Vector2(player.GetComponent<Rigidbody2D>().position.x - 0.58499652f, player.GetComponent<Rigidbody2D>().position.y - 0.07370224f), Quaternion.identity) as GameObject;
             GameObject smallBoneRight = Instantiate(Resources.Load("Demon_Small_Bone"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + 0.58499652f, player.GetComponent<Rigidbody2D>().position.y - 0.07370224f), Quaternion.identity) as GameObject;
+            if (playerNum == 1)
+            {
+                smallBoneLeft.tag = "AttPlayer1";
+                smallBoneLeft.layer = 11;
+                smallBoneRight.tag = "AttPlayer1";
+                smallBoneRight.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                smallBoneLeft.tag = "AttPlayer2";
+                smallBoneLeft.layer = 12;
+                smallBoneRight.tag = "AttPlayer2";
+                smallBoneRight.layer = 12;
+            }
             smallBoneRight.transform.localScale = new Vector3(-1.187455f, 1.187455f, 1.187455f);
 
             StartCoroutine("DemonBones");
@@ -198,6 +262,24 @@ public class Attacks : MonoBehaviour
             GameObject ballUp = Instantiate(Resources.Load("Alien_TriBall"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posBallUpBottom, player.GetComponent<Rigidbody2D>().position.y + 0.15663729f), Quaternion.Euler(0, direction, 0)) as GameObject;
             GameObject ballMiddle = Instantiate(Resources.Load("Alien_TriBall"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posBallMiddle, player.GetComponent<Rigidbody2D>().position.y + 0.00763729f), Quaternion.Euler(0, direction, 0)) as GameObject;
             GameObject ballBottom = Instantiate(Resources.Load("Alien_TriBall"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posBallUpBottom, player.GetComponent<Rigidbody2D>().position.y - 0.12336271f), Quaternion.Euler(0, direction, 0)) as GameObject;
+            if (playerNum == 1)
+            {
+                ballUp.tag = "AttPlayer1";
+                ballUp.layer = 11;
+                ballMiddle.tag = "AttPlayer1";
+                ballMiddle.layer = 11;
+                ballUp.tag = "AttPlayer1";
+                ballUp.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                ballUp.tag = "AttPlayer2";
+                ballUp.layer = 12;
+                ballMiddle.tag = "AttPlayer2";
+                ballMiddle.layer = 12;
+                ballBottom.tag = "AttPlayer2";
+                ballBottom.layer = 12;
+            }
             ballUp.GetComponent<Rigidbody2D>().velocity = ballSpeedUp;
             ballMiddle.GetComponent<Rigidbody2D>().velocity = ballSpeedMiddle;
             ballBottom.GetComponent<Rigidbody2D>().velocity = ballSpeedBottom;
@@ -228,6 +310,16 @@ public class Attacks : MonoBehaviour
                 velocity = new Vector2(2f, 2);
             }
             GameObject bomb = (GameObject)Instantiate(Resources.Load("Ninja_Bomb"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
+            if (playerNum == 1)
+            {
+                bomb.tag = "AttPlayer1";
+                bomb.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                bomb.tag = "AttPlayer2";
+                bomb.layer = 12;
+            }
             bomb.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x * transform.localScale.x, velocity.y);
             StartCoroutine("BombBlast", bomb);
             StartCoroutine("CanShootSpecial2");
@@ -258,7 +350,7 @@ public class Attacks : MonoBehaviour
         Destroy(blast);
     }
 
-    public void LaunchSpecial3() //B + ↓
+    public void LaunchSpecial3(int playerNum) //B + ↓
     {
         //Doit se destroy ainsi que l'attaque de l'ennemei
         if (player.name == "Demon" && canShootSp3 && !player.dead)
@@ -278,6 +370,16 @@ public class Attacks : MonoBehaviour
             }
 
             GameObject boneShield = Instantiate(Resources.Load("Demon_Shield"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posShield, player.GetComponent<Rigidbody2D>().position.y + 0.02229776f), Quaternion.Euler(0, direction, 0)) as GameObject;
+            if (playerNum == 1)
+            {
+                boneShield.tag = "AttPlayer1";
+                boneShield.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                boneShield.tag = "AttPlayer2";
+                boneShield.layer = 12;
+            }
             Destroy(boneShield, lifeTime_special3);
             StartCoroutine("CanShootSpecial3");
         }
@@ -286,6 +388,16 @@ public class Attacks : MonoBehaviour
         if (player.name == "Alien" && canShootSp3 && !player.dead && !player.grounded)
         {
             GameObject UFO = Instantiate(Resources.Load("Alien_UFO"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + 0.019f, player.GetComponent<Rigidbody2D>().position.y - 0.307f), Quaternion.identity) as GameObject;
+            if (playerNum == 1)
+            {
+                UFO.tag = "AttPlayer1";
+                UFO.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                UFO.tag = "AttPlayer2";
+                UFO.layer = 12;
+            }
             Destroy(UFO, 2);
             StartCoroutine("CanShootSpecial3");
         }
@@ -311,16 +423,6 @@ public class Attacks : MonoBehaviour
         player.GetComponent<Renderer>().enabled = true;
         rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         player.maxJump = 2;
-    }
-
-    public void animate()
-    {
-        anim.SetBool("Charge", true);
-    }
-
-    public float GetDamage()
-    {
-        return damage;
     }
 
 }

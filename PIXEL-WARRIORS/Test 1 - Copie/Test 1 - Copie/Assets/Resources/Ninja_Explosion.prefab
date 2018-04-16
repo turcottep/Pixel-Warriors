@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4106235483490112}
   - component: {fileID: 212645338493175670}
   - component: {fileID: 60469111324360184}
+  - component: {fileID: 114774480199006064}
   m_Layer: 0
   m_Name: Ninja_Explosion
   m_TagString: Untagged
@@ -109,6 +110,18 @@ PolygonCollider2D:
       - {x: -0.325, y: -0.74}
       - {x: -0.21499999, y: -0.59}
       - {x: -0.16499999, y: -0.64}
+--- !u!114 &114774480199006064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437748960868924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51083a4a5d0145347a024f40ac783eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.75
 --- !u!212 &212645338493175670
 SpriteRenderer:
   m_ObjectHideFlags: 1

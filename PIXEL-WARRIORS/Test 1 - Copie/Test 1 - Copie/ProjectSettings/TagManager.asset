@@ -20,6 +20,8 @@ TagManager:
   - DemonBall
   - AttPlayer1
   - AttPlayer2
+  - Manager
+  - Shield
   layers:
   - Default
   - TransparentFX
@@ -32,8 +34,8 @@ TagManager:
   - Player1
   - Player2
   - Ground
-  - 
-  - 
+  - AttPlayer1
+  - AttPlayer2
   - 
   - 
   - 

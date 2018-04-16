@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace Com.MyCompany.MyGame
 {
+
     public class GameManager : Photon.PunBehaviour
     {
 
@@ -64,7 +65,6 @@ namespace Com.MyCompany.MyGame
             PhotonNetwork.LeaveRoom();
         }
 
-
         #endregion
 
 
@@ -79,8 +79,10 @@ namespace Com.MyCompany.MyGame
             {
                 Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
             }
-            Debug.Log("PhotonNetwork : Loading Level : " + "1");
-            PhotonNetwork.LoadLevel("MAP " + "1");
+            GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+            int mapNumber = manager.GetComponent<MainMenu>().getMapNumber();
+            Debug.Log("PhotonNetwork : Loading Level : " + mapNumber);
+            PhotonNetwork.LoadLevel("MAP " + mapNumber.ToString());
         }
 
 

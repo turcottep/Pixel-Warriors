@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212815360181817376}
   - component: {fileID: 58067127371479560}
   - component: {fileID: 50601038994002630}
+  - component: {fileID: 114429060872301830}
   m_Layer: 0
   m_Name: Demon_Ball
   m_TagString: AttPlayer1
@@ -77,6 +78,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.19
+--- !u!114 &114429060872301830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1034832347036744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51083a4a5d0145347a024f40ac783eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.75
 --- !u!212 &212815360181817376
 SpriteRenderer:
   m_ObjectHideFlags: 1

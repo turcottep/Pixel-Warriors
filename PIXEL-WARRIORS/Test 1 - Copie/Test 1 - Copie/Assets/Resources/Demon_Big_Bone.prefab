@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212106328912378908}
   - component: {fileID: 60355253359436210}
   - component: {fileID: 251839068645184010}
+  - component: {fileID: 114212357122644502}
   m_Layer: 0
   m_Name: Demon_Big_Bone
   m_TagString: AttPlayer1
@@ -77,6 +78,18 @@ PolygonCollider2D:
       - {x: 0.12341221, y: -0.16378829}
       - {x: 0.10451252, y: -0.11621168}
       - {x: 0.12607245, y: 0.02066853}
+--- !u!114 &114212357122644502
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1449804665618534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51083a4a5d0145347a024f40ac783eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.5
 --- !u!212 &212106328912378908
 SpriteRenderer:
   m_ObjectHideFlags: 1

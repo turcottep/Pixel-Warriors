@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4081285280317340}
   - component: {fileID: 50267009636233554}
   - component: {fileID: 61424143526091880}
+  - component: {fileID: 114341465733081132}
   m_Layer: 8
   m_Name: PunchDown
   m_TagString: AttPlayer1
@@ -86,3 +87,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3051503, y: 0.10416198}
   m_EdgeRadius: 0
+--- !u!114 &114341465733081132
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1495936259496756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51083a4a5d0145347a024f40ac783eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.25

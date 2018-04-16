@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4400396046004542}
   - component: {fileID: 212605493281391404}
   - component: {fileID: 61909130870077218}
+  - component: {fileID: 114611960945245654}
   m_Layer: 0
   m_Name: Alien_UFO
   m_TagString: Untagged
@@ -66,6 +67,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.66, y: 0.16189104}
   m_EdgeRadius: 0
+--- !u!114 &114611960945245654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1649989690647602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51083a4a5d0145347a024f40ac783eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!212 &212605493281391404
 SpriteRenderer:
   m_ObjectHideFlags: 1
