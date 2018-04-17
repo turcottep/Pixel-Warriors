@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212214357447626036}
   - component: {fileID: 50851172603495332}
   - component: {fileID: 60258826776080318}
+  - component: {fileID: 114142078528378102}
   m_Layer: 0
   m_Name: Scientist_Potion_Poison
   m_TagString: Untagged
@@ -105,6 +106,18 @@ PolygonCollider2D:
       - {x: 0.028757572, y: 0.104625106}
       - {x: 0.04340303, y: 0.12487435}
       - {x: 0.01810491, y: 0.159145}
+--- !u!114 &114142078528378102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1656264129168404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8efc80baf8d2f4ea4735065250684f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puddle: {fileID: 1419050450565324, guid: c18adf3500f9f07458b0699acec463ad, type: 2}
 --- !u!212 &212214357447626036
 SpriteRenderer:
   m_ObjectHideFlags: 1

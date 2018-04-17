@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 37628797}
   m_Layer: 10
   m_Name: PlatformRight
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,8 +273,8 @@ GameObject:
   - component: {fileID: 119978614}
   - component: {fileID: 119978613}
   m_Layer: 10
-  m_Name: Ground1
-  m_TagString: Untagged
+  m_Name: PlatformRightGround1
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -962,8 +962,8 @@ GameObject:
   - component: {fileID: 451685438}
   - component: {fileID: 451685437}
   m_Layer: 10
-  m_Name: Ground2
-  m_TagString: Untagged
+  m_Name: PlatformRightGround2
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2188,8 +2188,8 @@ GameObject:
   - component: {fileID: 1296231452}
   - component: {fileID: 1296231453}
   m_Layer: 10
-  m_Name: Ground1
-  m_TagString: Untagged
+  m_Name: PlatformLeftGround1
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3103,8 +3103,8 @@ GameObject:
   - component: {fileID: 1685633275}
   - component: {fileID: 1685633274}
   m_Layer: 10
-  m_Name: Ground2
-  m_TagString: Untagged
+  m_Name: PlatformLeftGround2
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3310,8 +3310,8 @@ GameObject:
   - component: {fileID: 1884917959}
   - component: {fileID: 1884917961}
   m_Layer: 10
-  m_Name: Ground
-  m_TagString: Untagged
+  m_Name: PlatformMiddleGround
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3447,7 +3447,7 @@ GameObject:
   - component: {fileID: 2102653990}
   m_Layer: 10
   m_Name: PlatformLeft
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3584,7 +3584,7 @@ GameObject:
   - component: {fileID: 2133656540}
   m_Layer: 10
   m_Name: PlatformMiddle
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3719,8 +3719,8 @@ MonoBehaviour:
   offset_special2: {x: 0, y: 0}
   offset_special3: {x: 0, y: 0}
   cooldown_special1: 1
-  cooldown_special2: 2
-  cooldown_special3: 3
+  cooldown_special2: 4
+  cooldown_special3: 6
   cooldown: 0.3
   lifeTime: 0.3
 --- !u!114 &2143797699

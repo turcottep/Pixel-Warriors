@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 125023310}
   m_Layer: 10
   m_Name: MastRight2
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -434,7 +434,6 @@ MonoBehaviour:
   jumpPower: 175
   maxJump: 2
   percentage: 0
-  lives: 3
   grounded: 0
   basic_1: 0
   basic_2: 0
@@ -446,6 +445,7 @@ MonoBehaviour:
   goingDown: 0
   dead: 0
   stunned: 0
+  isChargingSp1: 0
   up: 119
   jump: 32
   left: 97
@@ -456,11 +456,6 @@ MonoBehaviour:
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
   isButtonDownPointerDown: 0
-  textPercentage: {fileID: 1075645418}
-  timer: {fileID: 1579144324}
-  life1: {fileID: 298671779}
-  life2: {fileID: 938545456}
-  life3: {fileID: 860016175}
   aiON: 0
   x: 0
   initialPosition: {x: -2.1, y: 0.8, z: 0}
@@ -569,11 +564,6 @@ RectTransform:
   m_AnchoredPosition: {x: -1.317, y: -1.23}
   m_SizeDelta: {x: 0.24, y: 0.42}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &298671779 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1404706751208576, guid: 6e493fc1a8159d74fb7b1cf217bc9043,
-    type: 2}
-  m_PrefabInternal: {fileID: 1377613716}
 --- !u!1 &306406844
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,7 +577,7 @@ GameObject:
   - component: {fileID: 306406846}
   m_Layer: 10
   m_Name: Front2
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -672,7 +662,7 @@ GameObject:
   - component: {fileID: 328375988}
   m_Layer: 10
   m_Name: MastLeft2
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -767,7 +757,7 @@ GameObject:
   - component: {fileID: 504063117}
   m_Layer: 10
   m_Name: Front2
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -861,11 +851,6 @@ MonoBehaviour:
   dAttack1Min: 0.03
   speed: 0.25
   direction: 0
---- !u!1 &860016175 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1874809355266126, guid: 6e493fc1a8159d74fb7b1cf217bc9043,
-    type: 2}
-  m_PrefabInternal: {fileID: 1377613716}
 --- !u!1 &863968342
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +864,7 @@ GameObject:
   - component: {fileID: 863968344}
   m_Layer: 10
   m_Name: Front1
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -952,11 +937,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0522691, y: 0.02492698}
   m_EdgeRadius: 0
---- !u!1 &938545456 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1644864443761128, guid: 6e493fc1a8159d74fb7b1cf217bc9043,
-    type: 2}
-  m_PrefabInternal: {fileID: 1377613716}
 --- !u!1 &955714042
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +950,7 @@ GameObject:
   - component: {fileID: 955714044}
   m_Layer: 10
   m_Name: MastLeft1
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1056,7 +1036,7 @@ GameObject:
   - component: {fileID: 969419317}
   m_Layer: 10
   m_Name: Front1
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1129,12 +1109,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0522691, y: 0.02492698}
   m_EdgeRadius: 0
---- !u!114 &1075645418 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114301228441418140, guid: 6e493fc1a8159d74fb7b1cf217bc9043,
-    type: 2}
-  m_PrefabInternal: {fileID: 1377613716}
-  m_Script: {fileID: 1453722849, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
 --- !u!1 &1109572306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,7 +1120,7 @@ GameObject:
   - component: {fileID: 1109572307}
   m_Layer: 10
   m_Name: Boat_left
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1398,7 +1372,7 @@ GameObject:
   - component: {fileID: 1273521271}
   m_Layer: 10
   m_Name: Boat_Right
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2066,7 +2040,7 @@ GameObject:
   - component: {fileID: 1582667206}
   m_Layer: 10
   m_Name: MastRight1
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2150,7 +2124,7 @@ GameObject:
   - component: {fileID: 1703054759}
   m_Layer: 10
   m_Name: HitBoxLeft
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2483,7 +2457,7 @@ GameObject:
   - component: {fileID: 2078429231}
   m_Layer: 10
   m_Name: HitBoxRight
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

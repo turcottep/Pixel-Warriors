@@ -27,8 +27,8 @@ public class Attacks : MonoBehaviour
 	public Vector2 offset_special3 = new Vector2(0f, 0f);
 
 	public float cooldown_special1 = 1f;
-	public float cooldown_special2 = 2f;
-	public float cooldown_special3 = 3f;
+	public float cooldown_special2 = 4f;
+	public float cooldown_special3 = 6f;
 
 	private float direction = 0f;
 	private float rotation = 0f;
@@ -299,18 +299,16 @@ public class Attacks : MonoBehaviour
 		{
 			damage = 1.25f;
 			Vector2 offset;
-			Vector2 velocity;
-			if (player.isRight)
+			Vector2 velocity = new Vector2(1.8f, 2.3f);
+            if (player.isRight)
 			{
 				direction = 0f;
 				offset = new Vector2(0.2f, 0.1f);
-				velocity = new Vector2(1.8f, 2.3f);
 			}
 			else
 			{
 				direction = 180f;
 				offset = new Vector2(0.2f, -0.1f);
-				velocity = new Vector2(2f, 2);
 			}
 			GameObject bomb = (GameObject)Instantiate(Resources.Load("Ninja_Bomb"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
 			if (playerNum == 1)
@@ -328,6 +326,39 @@ public class Attacks : MonoBehaviour
 			StartCoroutine("CanShootSpecial2");
 		}
 
+        if (player.name == "Scientist(Clone)" && canShootSp2 && !player.dead)
+        {
+            damage = 1.25f;
+            Vector2 offset;
+            Vector2 velocity = new Vector2(1.8f, 2.3f);
+            if (player.isRight)
+            {
+                direction = 0f;
+                offset = new Vector2(0.2f, 0.1f);
+            }
+            else
+            {
+                direction = 180f;
+                offset = new Vector2(0.2f, -0.1f);
+            }
+            GameObject potionPoison = (GameObject)Instantiate(Resources.Load("Scientist_Potion_Poison"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
+            if (playerNum == 1)
+            {
+                potionPoison.GetComponent<PotionPoison>().PlayerNum();
+                //potionPoison.tag = "AttPlayer1";
+                //potionPoison.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                potionPoison.GetComponent<PotionPoison>().PlayerNum();
+                //potionPoison.tag = "AttPlayer2";
+                //potionPoison.layer = 12;
+            }
+            potionPoison.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x * transform.localScale.x, velocity.y);
+
+            StartCoroutine("CanShootSpecial2");
+        }
+
 	}
 	IEnumerator DemonBones()
 	{
@@ -339,7 +370,7 @@ public class Attacks : MonoBehaviour
 		Destroy(bigBoneLeft, lifeTime_special2);
 		Destroy(bigBoneRight, lifeTime_special2);
 	}
-	IEnumerator BombBlast(GameObject bomb)
+    IEnumerator BombBlast(GameObject bomb)
 	{
 		yield return new WaitForSeconds(1.2f);
 		Vector2 pos = new Vector2(bomb.transform.position.x, bomb.transform.position.y);
