@@ -344,15 +344,11 @@ public class Attacks : MonoBehaviour
             GameObject potionPoison = (GameObject)Instantiate(Resources.Load("Scientist_Potion_Poison"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
             if (playerNum == 1)
             {
-                potionPoison.GetComponent<PotionPoison>().PlayerNum();
-                //potionPoison.tag = "AttPlayer1";
-                //potionPoison.layer = 11;
+                potionPoison.GetComponent<PotionPoison>().playerNum = 1;
             }
             else if (playerNum == 2)
             {
-                potionPoison.GetComponent<PotionPoison>().PlayerNum();
-                //potionPoison.tag = "AttPlayer2";
-                //potionPoison.layer = 12;
+                potionPoison.GetComponent<PotionPoison>().playerNum = 2;
             }
             potionPoison.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x * transform.localScale.x, velocity.y);
 
@@ -410,12 +406,12 @@ public class Attacks : MonoBehaviour
 			GameObject boneShield = Instantiate(Resources.Load("Demon_Shield"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posShield, player.GetComponent<Rigidbody2D>().position.y + 0.02229776f), Quaternion.Euler(0, direction, 0)) as GameObject;
 			if (playerNum == 1)
 			{
-				boneShield.tag = "AttPlayer1";
+				boneShield.tag = "ShieldPlayer1";
 				boneShield.layer = 11;
 			}
 			else if (playerNum == 2)
 			{
-				boneShield.tag = "AttPlayer2";
+				boneShield.tag = "ShieldPlayer2";
 				boneShield.layer = 12;
 			}
 			Destroy(boneShield, lifeTime_special3);
@@ -428,12 +424,12 @@ public class Attacks : MonoBehaviour
 			GameObject UFO = Instantiate(Resources.Load("Alien_UFO"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + 0.019f, player.GetComponent<Rigidbody2D>().position.y - 0.307f), Quaternion.identity) as GameObject;
 			if (playerNum == 1)
 			{
-				UFO.tag = "AttPlayer1";
+				UFO.tag = "ShieldPlayer1";
 				UFO.layer = 11;
 			}
 			else if (playerNum == 2)
 			{
-				UFO.tag = "AttPlayer2";
+				UFO.tag = "ShieldPlayer2";
 				UFO.layer = 12;
 			}
 			Destroy(UFO, 2);
@@ -453,7 +449,35 @@ public class Attacks : MonoBehaviour
 			player.GetComponent<Renderer>().enabled = false;
 			Destroy(log, 1f);
 		}
-	}
+
+        if (player.name == "Scientist(Clone)" && canShootSp3 && !player.dead)
+        {
+            Vector2 offset;
+            Vector2 velocity = new Vector2(1.8f, 2.3f);
+            if (player.isRight)
+            {
+                direction = 0f;
+                offset = new Vector2(0.2f, 0.1f);
+            }
+            else
+            {
+                direction = 180f;
+                offset = new Vector2(0.2f, -0.1f);
+            }
+            GameObject potionSlimeWall = (GameObject)Instantiate(Resources.Load("Scientist_Potion_SlimeWall"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
+            if (playerNum == 1)
+            {
+                potionSlimeWall.GetComponent<PotionPoison>().playerNum = 1;
+            }
+            else if (playerNum == 2)
+            {
+                potionSlimeWall.GetComponent<PotionPoison>().playerNum = 2;
+            }
+            potionSlimeWall.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x * transform.localScale.x, velocity.y);
+
+            StartCoroutine("CanShootSpecial3");
+        }
+    }
 	IEnumerator LogEffect()
 	{
 		yield return new WaitForSeconds(1f);

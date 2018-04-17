@@ -8,42 +8,121 @@ public class PotionPoison : MonoBehaviour {
     private Vector2 pos;
     public GameObject puddle;
 
+    public int playerNum;
     private float heightBreak;
     private float heightPuddle;
-    private bool hit;
+    private float heightSlimeWall = 0;
+    private string platformName;
+    private bool hit = false;
     
 
     void Start () {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    //Doit get le playerNum à partir du script attacks
-    public int PlayerNum()
-    {
-        return 1;
-    }
-
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.name == "PlatformMiddleGround")
+        if (gameObject.name == "Scientist_Potion_Poison(Clone)")
         {
-            heightBreak = -0.1f; heightPuddle = 0.026f; hit = true;
-        } else if (col.gameObject.name == "PlatformLeftGround1" || col.gameObject.name == "PlatformLeftGround2" || col.gameObject.name == "PlatformRightGround1" || col.gameObject.name == "PlatformRightGround2")
-        {
-            heightBreak = 0.625f; heightPuddle = 0.736f; hit = true;
-        } else if (col.gameObject.name == "Front1" || col.gameObject.name == "Front2")
-        {
-            heightBreak = -0.8f; heightPuddle = -0.685f; hit = true;
-        } else if (col.gameObject.name == "HitBoxLeft" || col.gameObject.name == "HitBoxRight")
-        {
-            heightBreak = -1.35f; heightPuddle = -1.245f; hit = true;
-        } else if (col.gameObject.name == "MastLeft1" || col.gameObject.name == "MastLeft2" || col.gameObject.name == "MastRight1" || col.gameObject.name == "MastRight2")
-        {
-            heightBreak = 0.1117f; heightPuddle = 0.2201f; hit = true;
-        }
-        else { hit = false; }
+            if (col.gameObject.name == "PlatformMiddleGround")
+            {
+                heightBreak = -0.1f; heightPuddle = 0.026f; hit = true;
+            }
+            else if (col.gameObject.name == "PlatformLeftGround1" || col.gameObject.name == "PlatformLeftGround2" || col.gameObject.name == "PlatformRightGround1" || col.gameObject.name == "PlatformRightGround2")
+            {
+                heightBreak = 0.625f; heightPuddle = 0.736f; hit = true;
+            }
+            else if (col.gameObject.name == "Front1" || col.gameObject.name == "Front2")
+            {
+                heightBreak = -0.8f; heightPuddle = -0.685f; hit = true;
+            }
+            else if (col.gameObject.name == "DeckLeft" || col.gameObject.name == "DeckRight")
+            {
+                heightBreak = -1.35f; heightPuddle = -1.245f; hit = true;
+            }
+            else if (col.gameObject.name == "MastLeft1" || col.gameObject.name == "MastLeft2" || col.gameObject.name == "MastRight1" || col.gameObject.name == "MastRight2")
+            {
+                heightBreak = 0.1117f; heightPuddle = 0.2201f; hit = true;
+            }
+            else if (col.gameObject.name == "LavaLeft" || col.gameObject.name == "LavaRight")
+            {
+                Destroy(gameObject);
+            }
+            else { hit = false; }
 
-        PotionEffect(heightBreak, heightPuddle, hit);
+            PotionEffect(heightBreak, heightPuddle, hit);
+        }
+
+        if (gameObject.name == "Scientist_Potion_SlimeWall(Clone)")
+        {
+            platformName = col.gameObject.name;
+
+            switch (platformName)
+            {
+                case "PlatformMiddleGround":
+                    heightSlimeWall = 0.14f;
+                    break;
+                case "PlatformLeftGround1":
+                case "PlatformLeftGround2":
+                case "PlatformRightGround1":
+                case "PlatformRightGround2":
+                    heightSlimeWall = 0.89f;
+                    break;
+                case "Front1":
+                case "Front2":
+                    heightSlimeWall = -0.53f;
+                    break;
+                case "DeckLeft":
+                case "DeckRight":
+                    heightSlimeWall = -1.09f;
+                    break;
+                case "MastLeft1":
+                case "MastLeft2":
+                case "MastRight1":
+                case "MastRight2":
+                    heightSlimeWall = 0.37f;
+                    break;
+                case "LavaLeft":
+                case "LavaRight":
+                    Destroy(gameObject);
+                    break;
+            }
+
+            if (heightSlimeWall != 0)
+            {
+                hit = true;
+            }
+
+            SlimeWall(heightSlimeWall, hit);
+        }
+    }
+    
+    //Spawn beaucoup de de gameobject
+    private void SlimeWall(float heightSlimeWall, bool hit)
+    {
+        GameObject potion = gameObject;
+        if (hit == true)
+        {
+            hit = false;
+            rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+            pos = rb2d.transform.position;
+            GameObject slimeWall = Instantiate(Resources.Load("Scientist_SlimeWall"), new Vector2(pos.x, heightSlimeWall), Quaternion.identity) as GameObject;
+            if (playerNum == 1)
+            {
+                slimeWall.tag = "ShieldPlayer1";
+                slimeWall.layer = 11;
+            }
+            else if (playerNum == 2)
+            {
+                slimeWall.tag = "ShieldPlayer2";
+                slimeWall.layer = 12;
+            }
+            Destroy(slimeWall, 2f);
+        }
+        else
+        {
+            Destroy(potion, 2f);
+        }
     }
 
     private void PotionEffect(float heightBreak, float heightPuddle, bool hit)
@@ -54,12 +133,12 @@ public class PotionPoison : MonoBehaviour {
             pos = rb2d.transform.position;
             GameObject potion = gameObject;
             GameObject potionBreak = Instantiate(Resources.Load("Scientist_PotionBreak"), new Vector2(pos.x, heightBreak), Quaternion.identity) as GameObject;
-            if (PlayerNum() == 1)
+            if (playerNum == 1)
             {
                 potionBreak.tag = "AttPlayer1";
                 potionBreak.layer = 11;
             }
-            else if (PlayerNum() == 2)
+            else if (playerNum == 2)
             {
                 potionBreak.tag = "AttPlayer2";
                 potionBreak.layer = 12;
@@ -69,7 +148,7 @@ public class PotionPoison : MonoBehaviour {
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 2f);
         }
         
     }
@@ -82,12 +161,12 @@ public class PotionPoison : MonoBehaviour {
         pos = potion.GetComponent<Rigidbody2D>().transform.position;
         Destroy(gameObject);
         GameObject puddle = Instantiate(Resources.Load("Scientist_Poison"), new Vector2(pos.x, heightPuddle), Quaternion.identity) as GameObject;
-        if (PlayerNum() == 1)
+        if (playerNum == 1)
         {
             puddle.tag = "AttPlayer1";
             puddle.layer = 11;
         }
-        else if (PlayerNum() == 2)
+        else if (playerNum == 2)
         {
             puddle.tag = "AttPlayer2";
             puddle.layer = 12;

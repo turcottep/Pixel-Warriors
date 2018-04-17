@@ -31,8 +31,8 @@ public class AI : MonoBehaviour
 
     public void AIUpdate()
     {
-
-        if (player.tag == "Player 2")
+        //Bug lorsque Scientist Special3
+        /*if (player.tag == "Player 2")
         {
             // Debug.Log("2");
 
@@ -116,7 +116,7 @@ public class AI : MonoBehaviour
                 player.Basic1();
             }
 
-        }
+        }*/
     }
 
 }

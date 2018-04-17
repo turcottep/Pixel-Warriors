@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212182393992822536}
   - component: {fileID: 60734020902321182}
   - component: {fileID: 50251927315300246}
+  - component: {fileID: 114468961291930608}
   m_Layer: 0
   m_Name: Scientist_Potion_SlimeWall
   m_TagString: Untagged
@@ -107,6 +108,19 @@ PolygonCollider2D:
       - {x: 0.08097446, y: -0.14426081}
       - {x: 0.10306388, y: -0.112601414}
       - {x: 0.106050074, y: -0.032906592}
+--- !u!114 &114468961291930608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1745933054443192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8efc80baf8d2f4ea4735065250684f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puddle: {fileID: 0}
+  playerNum: 0
 --- !u!212 &212182393992822536
 SpriteRenderer:
   m_ObjectHideFlags: 1

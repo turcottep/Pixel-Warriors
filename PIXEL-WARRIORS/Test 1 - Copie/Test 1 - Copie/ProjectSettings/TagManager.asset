@@ -25,6 +25,8 @@ TagManager:
   - MainMenuManager
   - Hole 2
   - Map
+  - ShieldPlayer1
+  - ShieldPlayer2
   layers:
   - Default
   - TransparentFX
