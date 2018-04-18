@@ -989,7 +989,7 @@ Transform:
   m_LocalScale: {x: -0.22067575, y: -0.30348536, z: -0.10366705}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1791841984
 GameObject:
@@ -1132,12 +1132,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b1743f8c00d03b42babd28347c8f3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerType: 0
   maxSpeed: 2.5
   speed: 8
   jumpPower: 175
   maxJump: 2
   percentage: 0
-  lives: 3
   grounded: 0
   basic_1: 0
   basic_2: 0
@@ -1149,25 +1149,25 @@ MonoBehaviour:
   goingDown: 0
   dead: 0
   stunned: 0
+  isChargingSp1: 0
   up: 119
+  pressUp: 0
   jump: 32
   left: 97
   down: 115
+  pressDown: 0
   right: 100
   A: 114
   B: 102
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
   isButtonDownPointerDown: 0
-  textPercentage: {fileID: 0}
-  timer: {fileID: 0}
-  life1: {fileID: 0}
-  life2: {fileID: 0}
-  life3: {fileID: 0}
   aiON: 0
   x: 0
   initialPosition: {x: -2, y: 1.6, z: 0}
   isRight: 0
+  isDead: 0
+  rb2d: {fileID: 0}
 --- !u!50 &1791841990
 Rigidbody2D:
   serializedVersion: 4
@@ -1214,7 +1214,7 @@ RectTransform:
   m_Children:
   - {fileID: 2086996898}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

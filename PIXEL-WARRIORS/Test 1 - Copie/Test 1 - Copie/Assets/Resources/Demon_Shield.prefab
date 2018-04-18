@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 60290308834203544}
   - component: {fileID: 251594116256021874}
   - component: {fileID: 114624663238929608}
+  - component: {fileID: 114773820205165130}
   m_Layer: 0
   m_Name: Demon_Shield
   m_TagString: Shield
@@ -51,7 +52,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 1799406162712550}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 11b98f430bc8c9e44afc3f557d09adeb, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
@@ -92,6 +93,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+--- !u!114 &114773820205165130
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1799406162712550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d3e5cb57269d64780b3694b1aaac5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212253402356787998
 SpriteRenderer:
   m_ObjectHideFlags: 1

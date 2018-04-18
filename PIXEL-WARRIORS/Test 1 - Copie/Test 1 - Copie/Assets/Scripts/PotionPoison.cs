@@ -14,7 +14,7 @@ public class PotionPoison : MonoBehaviour {
     private float heightSlimeWall = 0;
     private string platformName;
     private bool hit = false;
-    
+    private bool isCreated = false;
 
     void Start () {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
@@ -34,15 +34,15 @@ public class PotionPoison : MonoBehaviour {
             }
             else if (col.gameObject.name == "Front1" || col.gameObject.name == "Front2")
             {
-                heightBreak = -0.8f; heightPuddle = -0.685f; hit = true;
+                heightBreak = 0.181f; heightPuddle = 0.29f; hit = true;
             }
             else if (col.gameObject.name == "DeckLeft" || col.gameObject.name == "DeckRight")
             {
-                heightBreak = -1.35f; heightPuddle = -1.245f; hit = true;
+                heightBreak = -0.316f; heightPuddle = -0.208f; hit = true;
             }
             else if (col.gameObject.name == "MastLeft1" || col.gameObject.name == "MastLeft2" || col.gameObject.name == "MastRight1" || col.gameObject.name == "MastRight2")
             {
-                heightBreak = 0.1117f; heightPuddle = 0.2201f; hit = true;
+                heightBreak = 0.99f; heightPuddle = 1.09f; hit = true;
             }
             else if (col.gameObject.name == "LavaLeft" || col.gameObject.name == "LavaRight")
             {
@@ -70,17 +70,17 @@ public class PotionPoison : MonoBehaviour {
                     break;
                 case "Front1":
                 case "Front2":
-                    heightSlimeWall = -0.53f;
+                    heightSlimeWall = 0.45f;
                     break;
                 case "DeckLeft":
                 case "DeckRight":
-                    heightSlimeWall = -1.09f;
+                    heightSlimeWall = -0.05f;
                     break;
                 case "MastLeft1":
                 case "MastLeft2":
                 case "MastRight1":
                 case "MastRight2":
-                    heightSlimeWall = 0.37f;
+                    heightSlimeWall = 1.25f;
                     break;
                 case "LavaLeft":
                 case "LavaRight":
@@ -103,21 +103,27 @@ public class PotionPoison : MonoBehaviour {
         GameObject potion = gameObject;
         if (hit == true)
         {
-            hit = false;
-            rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-            pos = rb2d.transform.position;
-            GameObject slimeWall = Instantiate(Resources.Load("Scientist_SlimeWall"), new Vector2(pos.x, heightSlimeWall), Quaternion.identity) as GameObject;
-            if (playerNum == 1)
+            if (!isCreated)
             {
-                slimeWall.tag = "ShieldPlayer1";
-                slimeWall.layer = 11;
+                Destroy(potion);
+                hit = false;
+                rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+                pos = rb2d.transform.position;
+                GameObject slimeWall = Instantiate(Resources.Load("Scientist_SlimeWall"), new Vector2(pos.x, heightSlimeWall), Quaternion.identity) as GameObject;
+                isCreated = true;
+                if (playerNum == 1)
+                {
+                    slimeWall.tag = "ShieldPlayer1";
+                    slimeWall.layer = 13;
+                }
+                else if (playerNum == 2)
+                {
+                    slimeWall.tag = "ShieldPlayer2";
+                    slimeWall.layer = 14;
+                }
+                //Destroy(slimeWall, 4f);
+                StartCoroutine("Created");
             }
-            else if (playerNum == 2)
-            {
-                slimeWall.tag = "ShieldPlayer2";
-                slimeWall.layer = 12;
-            }
-            Destroy(slimeWall, 2f);
         }
         else
         {
@@ -129,6 +135,7 @@ public class PotionPoison : MonoBehaviour {
     {
         if (hit == true)
         {
+            hit = false;
             rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
             pos = rb2d.transform.position;
             GameObject potion = gameObject;
@@ -151,6 +158,12 @@ public class PotionPoison : MonoBehaviour {
             Destroy(gameObject, 2f);
         }
         
+    }
+
+    IEnumerator Created()
+    {
+        yield return new WaitForSeconds(0);
+        isCreated = false;
     }
 
     IEnumerator Poison(GameObject potion)

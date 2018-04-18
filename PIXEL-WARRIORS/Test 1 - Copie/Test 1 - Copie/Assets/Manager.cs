@@ -34,7 +34,7 @@ public class Manager : MonoBehaviour
     void Start()
     {
         string character1 = "Ninja";
-        string character2 = "Ninja";
+        string character2 = "Demon";
 
         int playerNumber = 2;
         /*
@@ -62,10 +62,19 @@ public class Manager : MonoBehaviour
         player1.GetComponent<Player>().down = KeyCode.S;
         player1.GetComponent<Player>().right = KeyCode.D;
         player1.GetComponent<Player>().initialPosition = new Vector3(-2.7f, 0.7f, 0);
+        //player1.GetComponent<GameObject>().GetComponent<EdgeCollider2D>().tag = "Player 1";
+        //player1.GetComponentInChildren<Player>().tag = "Player 1";
+
+        /*foreach (Transform t in transform)
+        {
+            t.gameObject.tag = "Player 1";
+        }
+        gameObject.tag = "Player 1";*/
 
 
         player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.7f), Quaternion.identity) as GameObject;
         player2.tag = "Player 2";
+       
         player2.layer = 9;
         player2.GetComponent<Player>().jump = KeyCode.M;
         player2.GetComponent<Player>().A = KeyCode.Comma;
@@ -75,6 +84,7 @@ public class Manager : MonoBehaviour
         player2.GetComponent<Player>().down = KeyCode.DownArrow;
         player2.GetComponent<Player>().right = KeyCode.RightArrow;
         player2.GetComponent<Player>().initialPosition = new Vector3(2.7f, 0.7f, 0);
+        //player2.GetComponentInChildren<GameObject>().tag = "Player 2";
 
         player2.GetComponent<Player>().aiON = true;
 

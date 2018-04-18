@@ -44,13 +44,11 @@ public class PassThrough : MonoBehaviour {
     {
         yield return new WaitForSeconds(.5f);
         platform.GetComponent<Collider2D>().enabled = true;
-        //platform.GetComponent<Collider2D>().isTrigger = false;
     }
 
     public void pass()
     {
         platform.GetComponent<Collider2D>().enabled = false;
-        //platform.GetComponent<Collider2D>().isTrigger = true;
         StopCoroutine("Wait");
         StartCoroutine("Wait");
     }

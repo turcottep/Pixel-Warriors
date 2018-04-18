@@ -326,7 +326,7 @@ public class Attacks : MonoBehaviour
 			StartCoroutine("CanShootSpecial2");
 		}
 
-        if (player.name == "Scientist(Clone)" && canShootSp2 && !player.dead)
+        if (player.name == "Scientist" && canShootSp2 && !player.dead)
         {
             damage = 1.25f;
             Vector2 offset;
@@ -404,17 +404,17 @@ public class Attacks : MonoBehaviour
 			}
 
 			GameObject boneShield = Instantiate(Resources.Load("Demon_Shield"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posShield, player.GetComponent<Rigidbody2D>().position.y + 0.02229776f), Quaternion.Euler(0, direction, 0)) as GameObject;
-			if (playerNum == 1)
-			{
-				boneShield.tag = "ShieldPlayer1";
-				boneShield.layer = 11;
-			}
-			else if (playerNum == 2)
-			{
-				boneShield.tag = "ShieldPlayer2";
-				boneShield.layer = 12;
-			}
-			Destroy(boneShield, lifeTime_special3);
+            if (playerNum == 1)
+            {
+                boneShield.tag = "ShieldPlayer1";
+                boneShield.layer = 13;
+            }
+            else if (playerNum == 2)
+            {
+                boneShield.tag = "ShieldPlayer2";
+                boneShield.layer = 14;
+            }
+            Destroy(boneShield, lifeTime_special3);
 			StartCoroutine("CanShootSpecial3");
 		}
 
@@ -425,12 +425,12 @@ public class Attacks : MonoBehaviour
 			if (playerNum == 1)
 			{
 				UFO.tag = "ShieldPlayer1";
-				UFO.layer = 11;
+				UFO.layer = 13;
 			}
 			else if (playerNum == 2)
 			{
 				UFO.tag = "ShieldPlayer2";
-				UFO.layer = 12;
+				UFO.layer = 14;
 			}
 			Destroy(UFO, 2);
 			StartCoroutine("CanShootSpecial3");
@@ -450,7 +450,7 @@ public class Attacks : MonoBehaviour
 			Destroy(log, 1f);
 		}
 
-        if (player.name == "Scientist(Clone)" && canShootSp3 && !player.dead)
+        if (player.name == "Scientist" && canShootSp3 && !player.dead)
         {
             Vector2 offset;
             Vector2 velocity = new Vector2(1.8f, 2.3f);
