@@ -40,8 +40,8 @@ MonoBehaviour:
     y: 0
     width: 204
     height: 947
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -420,14 +420,14 @@ MonoBehaviour:
     height: 646
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 1
-  lastFramingTime: 9332.659536471043
+  lastFramingTime: 566.7836003718032
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.10996505, y: 0.116873294, z: -9.852293}
+    m_Target: {x: 0.2200954, y: -0.23605597, z: 0.16195026}
     speed: 2
-    m_Value: {x: -0.10996505, y: 0.116873294, z: -9.852293}
+    m_Value: {x: 0.2200954, y: -0.23605597, z: 0.16195026}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -455,9 +455,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 4.4107194
+    m_Target: 5.7750406
     speed: 2
-    m_Value: 4.4107194
+    m_Value: 5.7750406
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -726,20 +726,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Resources
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 82
   m_LastFolders:
-  - Assets/Resources
+  - Assets
   m_LastFoldersGridSize: 82
-  m_LastProjectPath: C:\Users\Phil\Documents\GitHub\Pixel-Warriors\PIXEL-WARRIORS\Test
+  m_LastProjectPath: C:\Users\Philippe\Documents\GitHub\Pixel-Warriors\PIXEL-WARRIORS\Test
     1 - Copie\Test 1 - Copie
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 04340000
-    m_LastClickedID: 13316
-    m_ExpandedIDs: 000000002a2a00002a2b000062300000b6310000c0310000ffffff7f
+    m_SelectedIDs: 943a0000
+    m_LastClickedID: 14996
+    m_ExpandedIDs: 00000000943a0000643b0000ba3f0000a8400000b240000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -767,7 +767,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000002a2a00002a2b000062300000b6310000c0310000
+    m_ExpandedIDs: 00000000943a0000643b0000ba3f0000a8400000b2400000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -819,7 +819,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 1077}
+    m_ScrollPosition: {x: 0, y: 427.5}
     m_GridSize: 82
   m_DirectoriesAreaWidth: 110
 --- !u!114 &20
@@ -851,9 +851,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 1883feff
-    m_LastClickedID: -97512
-    m_ExpandedIDs: 1883feff3283feff86c6feffba07ffff3622ffff2632ffffc670ffff84fbffff0000000036380000104f0000264f0000
+    m_SelectedIDs: 8a6a0000
+    m_LastClickedID: 27274
+    m_ExpandedIDs: 306ffcff4e6ffcff8c1afeffc21afeff7ecfffff86cfffff88cfffff96cfffff9ecfffffa8cfffffa8d7fffffadaffff68deffffb4e0fffff8e8ffff5af3ffff00000000544e0000b04e0000c64e0000386a0000506a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -872,7 +872,7 @@ MonoBehaviour:
       m_ClientGUIView: {fileID: 2}
     m_SearchString: 
   m_ExpandedScenes:
-  - MAP1
+  - MAP2
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting

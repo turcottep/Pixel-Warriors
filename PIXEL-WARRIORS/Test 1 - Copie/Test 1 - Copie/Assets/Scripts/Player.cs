@@ -6,6 +6,8 @@ using System;
 
 public class Player : MonoBehaviour
 {
+    public int playerType;
+
     public float maxSpeed = 2.5f;
     public float speed = 15f;
     public float jumpPower = 175f;
@@ -31,11 +33,11 @@ public class Player : MonoBehaviour
 
     //controls
     public KeyCode up = KeyCode.W;
-    private bool pressUp = false;
+    public bool pressUp = false;
     public KeyCode jump = KeyCode.Space;
     public KeyCode left = KeyCode.A;
     public KeyCode down = KeyCode.S;
-    private bool pressDown = false;
+    public bool pressDown = false;
     public KeyCode right = KeyCode.D;
     public KeyCode A = KeyCode.R;
     public KeyCode B = KeyCode.F;
@@ -51,10 +53,10 @@ public class Player : MonoBehaviour
     public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
 
     public bool isRight;
-    private bool isDead;
+    public bool isDead;
     private float stun = 0f;
 
-    private Rigidbody2D rb2d;
+    public Rigidbody2D rb2d;
     private Animator anim;
     private Player player;
 
@@ -173,11 +175,15 @@ public class Player : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
         }
 
-        //Double jump
         if (Input.GetKeyDown(jump))
         {
             MoveUp();
         }
+        if (Input.GetKeyDown(down))
+        {
+            MoveDown();
+        }
+
 
         //////////////////////////////////ATTACKS
 
@@ -250,7 +256,7 @@ public class Player : MonoBehaviour
         if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
         else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
         else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
-       
+
     }
 
 
@@ -270,9 +276,13 @@ public class Player : MonoBehaviour
         {
             player.isDead = true;
             manager.GetComponent<Manager>().PlayerDeath(playerNum);
+        }
+        if (player.isDead)
+        {
             this.Reset();
         }
-       
+
+
         //Going down
         if (rb2d.velocity.y < 0) { player.goingDown = true; }
         else { player.goingDown = false; }
@@ -290,6 +300,7 @@ public class Player : MonoBehaviour
 
     public void MoveUp()
     {
+        if (this.isDead) this.Revive();
         if (maxJump > 0)
         {
             maxSpeed = 2f; //ENLEVER?
@@ -313,7 +324,7 @@ public class Player : MonoBehaviour
 
     public void MoveDown()
     {
-
+        if (this.isDead) this.Revive();
     }
 
     public void Basic1()
@@ -368,70 +379,21 @@ public class Player : MonoBehaviour
         percentage = 0;
         manager.GetComponent<Manager>().UpdatePercentages();
         player.transform.position = initialPosition;
+        rb2d.velocity = new Vector2(0, 0);
         rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
         if (Input.GetKey(jump) || Input.GetKey(down))
         {
+            Debug.Log("revit");
             rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
             player.isDead = false;
             player.dead = false;
         }
     }
 
-    //UI Will
-    public void buttonJumpPointerDown()
+    public void Revive()
     {
-        rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
-        player.isDead = false;
-        player.dead = false;
 
-        this.MoveUp();
-    }
-
-    public void buttonAttackAPointerDown()
-    {
-        this.Basic1();
-    }
-
-    public void buttonAttackBPointerDown()
-    {
-        //this.Special1(true);
-    }
-
-    public void buttonAttackBPointerUp()
-    {
-        //Special1(false);
-    }
-
-    public void buttonLeftPointerDown()
-    {
-        isButtonLeftPointerDown = true;
-    }
-
-    public void buttonLeftPointerUp()
-    {
-        isButtonLeftPointerDown = false;
-    }
-
-    public void buttonRightPointerDown()
-    {
-        isButtonRightPointerDown = true;
-    }
-
-    public void buttonRightPointerUp()
-    {
-        isButtonRightPointerDown = false;
-    }
-
-    public void buttonDownPointerDown()
-    {
-        this.MoveDown();
-    }
-
-    public void buttonUpPointerDown()
-    {
-        this.MoveUp();
     }
 
 
-    
 }
