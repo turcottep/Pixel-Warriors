@@ -698,7 +698,7 @@ SpriteRenderer:
   m_Size: {x: 15.6, y: 3.04}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!4 &1239190341
 Transform:
@@ -1101,7 +1101,7 @@ SpriteRenderer:
   m_Size: {x: 0.24, y: 0.42}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!114 &1791841988
 MonoBehaviour:
@@ -1282,7 +1282,7 @@ SpriteRenderer:
   m_Size: {x: 15.6, y: 3.04}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!4 &1891038888
 Transform:
