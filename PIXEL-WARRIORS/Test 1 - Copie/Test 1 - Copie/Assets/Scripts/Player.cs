@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     public bool isButtonLeftPointerDown;
     public bool isButtonRightPointerDown;
     public bool isButtonDownPointerDown;
+    public bool isButtonAttackBPointerDown;
 
     public bool aiON = true;
     public int x = 0;
@@ -210,16 +211,16 @@ public class Player : MonoBehaviour
         }
 
         //B
-        if (Input.GetKeyDown(B) && pressUp) // B + ↑
+        if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
         {
             Special2();
         }
-        else if (Input.GetKeyDown(B) && pressDown) // B + ↓
+        else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressDown) // B + ↓
         {
             special_2 = false;
             Special3();
         }
-        else if (Input.GetKeyDown(B)) // B + ← →
+        else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
         {
             special_3 = false;
             Special1(true);

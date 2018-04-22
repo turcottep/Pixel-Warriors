@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-
     public TextMeshProUGUI timer;
     private float timeLeftSec;
     private float timeLeftMin;
+    public TextMeshProUGUI countdown;
 
     public TextMeshProUGUI textPercentageP1;
     public GameObject life1P1;
@@ -30,7 +30,6 @@ public class Manager : MonoBehaviour
     GameObject player1;
     GameObject player2;
 
-    // Use this for initialization
     void Start()
     {
         string character1 = "Ninja";
@@ -48,7 +47,8 @@ public class Manager : MonoBehaviour
         if (playerNumber == 4) character1 = "Demon";
 
 
-        timeLeftSec = 180;
+        timeLeftSec = 150 + 4.5f;
+        timer.gameObject.SetActive(false);
 
         player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.7f), Quaternion.identity) as GameObject;
         player1.GetComponent<Player>().playerType = playerNumber;
@@ -87,7 +87,6 @@ public class Manager : MonoBehaviour
         //player2.GetComponentInChildren<GameObject>().tag = "Player 2";
 
         player2.GetComponent<Player>().aiON = true;
-
     }
 
     // Update is called once per frame
@@ -122,12 +121,23 @@ public class Manager : MonoBehaviour
         timeLeftSec -= Time.deltaTime;
         timeLeftMin = Mathf.Floor(timeLeftSec / 60);
 
-        if ((timeLeftSec - (60 * timeLeftMin)) < 9.5)
+        if (timeLeftSec > 151)
+        {
+            if ((timeLeftSec - 151).ToString("f0") == "0") countdown.text = "GO!";
+            else countdown.text = (timeLeftSec - 151).ToString("f0");
+        }
+        else if (timeLeftSec < 151 && timeLeftSec > 150)
+        {
+            countdown.text = "GO!";
+        }
+        else if ((timeLeftSec - (60 * timeLeftMin)) < 9.5)
         {
             timer.text = timeLeftMin.ToString() + ":0" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
         }
         else
         {
+            countdown.gameObject.SetActive(false);
+            timer.gameObject.SetActive(true);
             timer.text = timeLeftMin.ToString() + ":" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
         }
     }
@@ -187,8 +197,8 @@ public class Manager : MonoBehaviour
 
     public void UpdatePercentages()
     {
-        textPercentageP1.SetText((20 * player1.GetComponent<Player>().percentage).ToString());
-        textPercentageP2.SetText((20 * player2.GetComponent<Player>().percentage).ToString());
+        textPercentageP1.SetText((20 * player1.GetComponent<Player>().percentage).ToString() + "%");
+        textPercentageP2.SetText((20 * player2.GetComponent<Player>().percentage).ToString() + "%");
     }
 
 
@@ -233,12 +243,12 @@ public class Manager : MonoBehaviour
 
     public void buttonAttackBPointerDownP1()
     {
-        //this.Special1(true);
+        player1.GetComponent<Player>().isButtonAttackBPointerDown = true;
     }
 
     public void buttonAttackBPointerUpP1()
     {
-        //Special1(false);
+        player1.GetComponent<Player>().isButtonAttackBPointerDown = false;
     }
 
     public void buttonLeftPointerDownP1()
@@ -264,23 +274,22 @@ public class Manager : MonoBehaviour
     public void buttonDownPointerDownP1()
     {
         player1.GetComponent<Player>().MoveDown();
-        player1.GetComponent<Player>().pressDown = true; ;
+        player1.GetComponent<Player>().pressDown = true;
     }
 
     public void buttonDownPointerUpP1()
     {
-        player1.GetComponent<Player>().pressDown = false; ;
-
+        player1.GetComponent<Player>().pressDown = false;
     }
 
     public void buttonUpPointerDownP1()
     {
-        player1.GetComponent<Player>().pressUp = true; ;
+        player1.GetComponent<Player>().pressUp = true;
     }
+
     public void buttonUpPointerUpP1()
     {
-        player1.GetComponent<Player>().pressUp = false; ;
+        player1.GetComponent<Player>().pressUp = false;
     }
     #endregion
-
 }
