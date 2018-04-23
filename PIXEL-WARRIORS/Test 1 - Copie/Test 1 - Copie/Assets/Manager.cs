@@ -35,6 +35,9 @@ public class Manager : MonoBehaviour
 
     void Start()
     {
+        timeLeftSec = 150 + 4.5f;
+        timer.gameObject.SetActive(false);
+
         string character1 = "Ninja";
         string character2 = "Demon";
 
@@ -51,10 +54,6 @@ public class Manager : MonoBehaviour
         if (playerNumber == 2) character1 = "Alien";
         if (playerNumber == 3) character1 = "Scientist";
         if (playerNumber == 4) character1 = "Demon";
-
-
-        timeLeftSec = 150 + 4.5f;
-        timer.gameObject.SetActive(false);
 
         player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.7f), Quaternion.identity) as GameObject;
         player1.GetComponent<Player>().playerType = playerNumber;
@@ -181,14 +180,10 @@ public class Manager : MonoBehaviour
         timeLeftSec -= Time.deltaTime;
         timeLeftMin = Mathf.Floor(timeLeftSec / 60);
 
-        if (timeLeftSec > 151)
+        if (timeLeftSec > 150.5)
         {
             if ((timeLeftSec - 151).ToString("f0") == "0") countdown.text = "GO!";
             else countdown.text = (timeLeftSec - 151).ToString("f0");
-        }
-        else if (timeLeftSec < 151 && timeLeftSec > 150)
-        {
-            countdown.text = "GO!";
         }
         else if ((timeLeftSec - (60 * timeLeftMin)) < 9.5)
         {
@@ -199,6 +194,11 @@ public class Manager : MonoBehaviour
             countdown.gameObject.SetActive(false);
             timer.gameObject.SetActive(true);
             timer.text = timeLeftMin.ToString() + ":" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
+        }
+
+        if (timeLeftSec == 0)
+        {
+            GameOver(0);
         }
     }
 
