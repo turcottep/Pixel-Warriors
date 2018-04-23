@@ -28,9 +28,6 @@ public class Player : MonoBehaviour
     public bool stunned;
 
 
-    //Attacks
-    public bool isChargingSp1 = false;
-
     //controls
     public KeyCode up = KeyCode.W;
     public bool pressUp = false;
@@ -100,20 +97,31 @@ public class Player : MonoBehaviour
         //Hit by attacks
         if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
         {
-            isChargingSp1 = false;
             //player.transform.position = pos;
-            Destroy(col.gameObject);
+            if (col.gameObject.name == "Ninja_Bomb(Clone)")
+            {
+                player.GetComponent<Attacks>().Explode(col.gameObject);
+            }
+            else if (!(col.gameObject.name == "Demon_Small_Bone(Clone)") && !(col.gameObject.name == "Demon_Big_Bone(Clone)")) Destroy(col.gameObject);
+
             float d = col.gameObject.GetComponent<Damage>().getDamage();
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("whitecolor");
             this.ReceiveDamage(10, d);
+            basic_1 = false;
+            basic_2 = false;
+            basic_3 = false;
+            special_1 = false;
+            special_2 = false;
+            special_3 = false;
+            charge = false;
 
         }
 
         //Lava
         if (col.gameObject.tag == "Lava")
         {
-            isChargingSp1 = false;
+            charge = false;
             this.rb2d.velocity = new Vector2(0, 6);
             this.maxJump = 2;
             this.percentage += 0.5f;
@@ -230,10 +238,7 @@ public class Player : MonoBehaviour
             Special1(false);
             special_1 = false;
         }
-        else
-        {
-            charge = false;
-        }
+        
 
         if (Input.GetKeyDown(down)) // B + ↓
         {

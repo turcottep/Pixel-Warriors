@@ -15,4 +15,5 @@ public class Damage : MonoBehaviour {
     {
         damage = d;
     }
+
 }

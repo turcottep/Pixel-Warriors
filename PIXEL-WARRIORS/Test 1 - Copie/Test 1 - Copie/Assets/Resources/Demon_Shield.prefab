@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4428118570571886}
   - component: {fileID: 212514386481806174}
   - component: {fileID: 60567054193877646}
-  - component: {fileID: 114441082634133668}
   - component: {fileID: 114993718112392612}
+  - component: {fileID: 114696561956740926}
   m_Layer: 0
   m_Name: Demon_Shield
   m_TagString: Shield
@@ -72,7 +72,7 @@ PolygonCollider2D:
       - {x: 0.13181192, y: -0.024509307}
       - {x: 0.078704774, y: 0.12095151}
       - {x: -0.02138643, y: 0.19874102}
---- !u!114 &114441082634133668
+--- !u!114 &114696561956740926
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
