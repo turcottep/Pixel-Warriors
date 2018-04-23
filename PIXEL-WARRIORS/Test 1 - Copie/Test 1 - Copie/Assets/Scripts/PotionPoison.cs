@@ -121,7 +121,7 @@ public class PotionPoison : MonoBehaviour {
                     slimeWall.tag = "ShieldPlayer2";
                     slimeWall.layer = 14;
                 }
-                //Destroy(slimeWall, 4f);
+                Destroy(slimeWall, 3);
                 StartCoroutine("Created");
             }
         }

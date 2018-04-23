@@ -30,12 +30,18 @@ public class Manager : MonoBehaviour
     GameObject player1;
     GameObject player2;
 
+    GameObject player3;
+    GameObject player4;
+
     void Start()
     {
         string character1 = "Ninja";
         string character2 = "Demon";
 
-        int playerNumber = 2;
+        string character3 = "Ninja";
+        string character4 = "Alien";
+
+        int playerNumber = 3;
         /*
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
         int playerNumber = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
@@ -43,7 +49,7 @@ public class Manager : MonoBehaviour
 
         if (playerNumber == 1) character1 = "Ninja";
         if (playerNumber == 2) character1 = "Alien";
-        if (playerNumber == 3) character1 = "MadScientist";
+        if (playerNumber == 3) character1 = "Scientist";
         if (playerNumber == 4) character1 = "Demon";
 
 
@@ -51,6 +57,60 @@ public class Manager : MonoBehaviour
         timer.gameObject.SetActive(false);
 
         player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.7f), Quaternion.identity) as GameObject;
+        player1.GetComponent<Player>().playerType = playerNumber;
+        player1.tag = "Player 1";
+        player1.layer = 8;
+        player1.GetComponent<Player>().jump = KeyCode.R;
+        player1.GetComponent<Player>().A = KeyCode.T;
+        player1.GetComponent<Player>().B = KeyCode.Y;
+        player1.GetComponent<Player>().up = KeyCode.W;
+        player1.GetComponent<Player>().left = KeyCode.A;
+        player1.GetComponent<Player>().down = KeyCode.S;
+        player1.GetComponent<Player>().right = KeyCode.D;
+        player1.GetComponent<Player>().initialPosition = new Vector3(-2.7f, 0.7f, 0);
+
+        player2 = Instantiate(Resources.Load(character2), new Vector2(-1.116f, 0.7f), Quaternion.identity) as GameObject;
+        player2.GetComponent<Player>().playerType = playerNumber;
+        player2.tag = "Player 1";
+        player2.layer = 8;
+        player2.GetComponent<Player>().jump = KeyCode.R;
+        player2.GetComponent<Player>().A = KeyCode.T;
+        player2.GetComponent<Player>().B = KeyCode.Y;
+        player2.GetComponent<Player>().up = KeyCode.W;
+        player2.GetComponent<Player>().left = KeyCode.A;
+        player2.GetComponent<Player>().down = KeyCode.S;
+        player2.GetComponent<Player>().right = KeyCode.D;
+        player2.GetComponent<Player>().initialPosition = new Vector3(-1.116f, 0.7f, 0);
+
+        player3 = Instantiate(Resources.Load(character3), new Vector2(0.655f, 0.7f), Quaternion.identity) as GameObject;
+        player3.GetComponent<Player>().playerType = playerNumber;
+        player3.tag = "Player 1";
+        player3.layer = 8;
+        player3.GetComponent<Player>().jump = KeyCode.R;
+        player3.GetComponent<Player>().A = KeyCode.T;
+        player3.GetComponent<Player>().B = KeyCode.Y;
+        player3.GetComponent<Player>().up = KeyCode.W;
+        player3.GetComponent<Player>().left = KeyCode.A;
+        player3.GetComponent<Player>().down = KeyCode.S;
+        player3.GetComponent<Player>().right = KeyCode.D;
+        player3.GetComponent<Player>().initialPosition = new Vector3(0.655f, 0.7f, 0);
+
+        player4 = Instantiate(Resources.Load(character4), new Vector2(2.66f, 0.7f), Quaternion.identity) as GameObject;
+        player4.GetComponent<Player>().playerType = playerNumber;
+        player4.tag = "Player 1";
+        player4.layer = 8;
+        player4.GetComponent<Player>().jump = KeyCode.R;
+        player4.GetComponent<Player>().A = KeyCode.T;
+        player4.GetComponent<Player>().B = KeyCode.Y;
+        player4.GetComponent<Player>().up = KeyCode.W;
+        player4.GetComponent<Player>().left = KeyCode.A;
+        player4.GetComponent<Player>().down = KeyCode.S;
+        player4.GetComponent<Player>().right = KeyCode.D;
+        player4.GetComponent<Player>().initialPosition = new Vector3(2.66f, 0.7f, 0);
+
+
+
+        /*player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.7f), Quaternion.identity) as GameObject;
         player1.GetComponent<Player>().playerType = playerNumber;
         player1.tag = "Player 1";
         player1.layer = 8;
@@ -72,7 +132,7 @@ public class Manager : MonoBehaviour
         gameObject.tag = "Player 1";*/
 
 
-        player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.7f), Quaternion.identity) as GameObject;
+        /*player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.7f), Quaternion.identity) as GameObject;
         player2.tag = "Player 2";
        
         player2.layer = 9;
@@ -86,7 +146,7 @@ public class Manager : MonoBehaviour
         player2.GetComponent<Player>().initialPosition = new Vector3(2.7f, 0.7f, 0);
         //player2.GetComponentInChildren<GameObject>().tag = "Player 2";
 
-        player2.GetComponent<Player>().aiON = true;
+        player2.GetComponent<Player>().aiON = true;*/
     }
 
     // Update is called once per frame

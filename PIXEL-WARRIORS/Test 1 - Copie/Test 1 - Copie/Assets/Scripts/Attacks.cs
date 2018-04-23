@@ -9,48 +9,38 @@ public class Attacks : MonoBehaviour
 	public GameObject basic2;
 	public GameObject basic3;
 	public GameObject special1;
-	public GameObject special2;
-	public GameObject special3;
 
-	public Vector2 velocity_basic1;
-	public Vector2 velocity_basic2;
-	public Vector2 velocity_basic3;
 	public Vector2 velocity_special1;
-	public Vector2 velocity_special2;
-	public Vector2 velocity_special3;
 
-	public Vector2 offset_basic1 = new Vector2(0.095f, 0.01729776f);
-	public Vector2 offset_basic2 = new Vector2(0f, 0f);
-	public Vector2 offset_basic3 = new Vector2(0f, 0f);
-	public Vector2 offset_special1 = new Vector2(0f, 0f);
-	public Vector2 offset_special2 = new Vector2(0f, 0f);
-	public Vector2 offset_special3 = new Vector2(0f, 0f);
+	public Vector2 offset_basic1;
+	public Vector2 offset_basic2;
+	public Vector2 offset_basic3;
+	public Vector2 offset_special1;
 
 	public float cooldown_special1 = 1f;
 	public float cooldown_special2 = 4f;
 	public float cooldown_special3 = 6f;
 
 	private float direction = 0f;
-	private float rotation = 0f;
+	private float rotation = 0;
 
 	private float lifeTime_special1 = 2f;
 	private float lifeTime_special2 = 2f;
-	private float lifeTime_special3 = 2f;
+	private float lifeTime_special3 = 3f;
 
 	bool canShoot_basic = true;
 	bool canShootSp1 = true;
 	bool canShootSp2 = true;
 	bool canShootSp3 = true;
+    private bool attacking;
 
-	public float cooldown = 0.3f;
-	private float damage;
+    private float cooldown = 0.3f;
+    private float lifeTime = 0.3f;
+    private float damage;
 
-	private Player player;
+    private Player player;
 	private Rigidbody2D rb2d;
 	private Animator anim;
-
-	private bool attacking;
-	public float lifeTime = 0.3f;
 
 	void Start()
 	{
@@ -85,29 +75,49 @@ public class Attacks : MonoBehaviour
 		canShootSp3 = true;
 	}
 
+    private void TaggingBasic(GameObject go, int playerNumber)
+    {
+        if (playerNumber == 1)
+        {
+            go.tag = "AttPlayer1";
+            go.layer = 11;
+        }
+        else if (playerNumber == 2)
+        {
+            go.tag = "AttPlayer2";
+            go.layer = 12;
+        }
+
+        Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());
+        Destroy(go, lifeTime);
+        rotation = 0;
+        StartCoroutine("CanShootBasic");
+    }
+
 	public void LaunchBasic1(int playerNum) //A
 	{
 		//Basic1
 		if (canShoot_basic && !player.dead)
 		{
-			damage = 0.25f;
-			GameObject go = (GameObject)Instantiate(basic1, (Vector2)transform.position + offset_basic1 * transform.localScale.x, Quaternion.Euler(0, 0, 0));
-			if (playerNum == 1)
-			{
-				go.tag = "AttPlayer1";
-				go.layer = 11;
-			}
-			else if (playerNum == 2)
-			{
-				go.tag = "AttPlayer2";
-				go.layer = 12;
-			}
-			Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());
-			go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity_basic1.x * transform.localScale.x, velocity_basic1.y);
-			Destroy(go, lifeTime);
-			StartCoroutine("CanShootBasic");
+            damage = 0.25f;
+            GameObject go;
 
-		}
+            if (player.name == "Scientist(Clone)" || player.name == "Demon(Clone)")
+            {
+                Debug.Log("Reee");
+                go = (GameObject)Instantiate(basic1, (Vector2)transform.position + (new Vector2(offset_basic1.x * transform.localScale.x, offset_basic1.y)), Quaternion.Euler(0, 0, 0));
+                TaggingBasic(go, playerNum);
+            }
+            if (player.name == "Alien(Clone)" || player.name == "Ninja(Clone)")
+            {
+                if (!player.isRight)
+                {
+                    rotation = 180;
+                }
+                go = (GameObject)Instantiate(basic1, (Vector2)transform.position + (new Vector2(offset_basic1.x * transform.localScale.x, offset_basic1.y)), Quaternion.Euler(0, rotation, 0));
+                TaggingBasic(go, playerNum);
+            }
+        }
 	}
 
 	public void LaunchBasic2(int playerNum) //A + ↑
@@ -116,21 +126,12 @@ public class Attacks : MonoBehaviour
 		if (canShoot_basic && !player.dead)
 		{
 			damage = 0.5f;
-			GameObject go = (GameObject)Instantiate(basic2, (Vector2)transform.position + offset_basic2 * transform.localScale.x, Quaternion.Euler(0, 0, 0));
-			if (playerNum == 1)
-			{
-				go.tag = "AttPlayer1";
-				go.layer = 11;
-			}
-			else if (playerNum == 2)
-			{
-				go.tag = "AttPlayer2";
-				go.layer = 12;
-			}
-			Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());
-			go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity_basic2.x * transform.localScale.x, velocity_basic2.y);
-			Destroy(go, lifeTime);
-			StartCoroutine("CanShootBasic");
+            if (!player.isRight)
+            {
+                rotation = 180;
+            }
+            GameObject go = (GameObject)Instantiate(basic2, (Vector2)transform.position + (new Vector2(offset_basic2.x * transform.localScale.x, offset_basic2.y)), Quaternion.Euler(0, rotation, 0));
+            TaggingBasic(go, playerNum);
 		}
 	}
 
@@ -140,21 +141,12 @@ public class Attacks : MonoBehaviour
 		if (canShoot_basic && !player.dead)
 		{
 			damage = 0.5f;
-			GameObject go = (GameObject)Instantiate(basic3, (Vector2)transform.position + offset_basic3 * transform.localScale.x, Quaternion.Euler(0, 0, 0));
-			if (playerNum == 1)
-			{
-				go.tag = "AttPlayer1";
-				go.layer = 11;
-			}
-			else if (playerNum == 2)
-			{
-				go.tag = "AttPlayer2";
-				go.layer = 12;
-			}
-			Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), go.GetComponent<Collider2D>());
-			go.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity_basic3.x * transform.localScale.x, velocity_basic3.y);
-			Destroy(go, lifeTime);
-			StartCoroutine("CanShootBasic");
+            if (!player.isRight)
+            {
+                rotation = 180;
+            }
+            GameObject go = (GameObject)Instantiate(basic3, (Vector2)transform.position + (new Vector2(offset_basic3.x * transform.localScale.x, offset_basic3.y)), Quaternion.Euler(0, rotation, 0));
+            TaggingBasic(go, playerNum);
 		}
 	}
 
@@ -326,7 +318,7 @@ public class Attacks : MonoBehaviour
 			StartCoroutine("CanShootSpecial2");
 		}
 
-        if (player.name == "Scientist" && canShootSp2 && !player.dead)
+        if (player.name == "Scientist(Clone)" && canShootSp2 && !player.dead)
         {
             damage = 1.25f;
             Vector2 offset;
@@ -450,7 +442,7 @@ public class Attacks : MonoBehaviour
 			Destroy(log, 1f);
 		}
 
-        if (player.name == "Scientist" && canShootSp3 && !player.dead)
+        if (player.name == "Scientist(Clone)" && canShootSp3 && !player.dead)
         {
             Vector2 offset;
             Vector2 velocity = new Vector2(1.8f, 2.3f);

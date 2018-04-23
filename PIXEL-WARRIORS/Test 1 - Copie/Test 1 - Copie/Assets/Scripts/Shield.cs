@@ -13,7 +13,7 @@ public class Shield : MonoBehaviour {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    private void OnCollisionEnter2D(Collision2D col)
+    public void OnCollisionEnter2D(Collision2D col)
     {
         if (shield.tag == "ShieldPlayer1" && col.gameObject.tag == "AttPlayer2")
         {
