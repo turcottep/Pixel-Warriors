@@ -38,7 +38,7 @@ public class Manager : MonoBehaviour
         string character1 = "Ninja";
         string character2 = "Demon";
 
-        int playerNumber = 1;
+        int playerNumber = 3;
         /*
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
         int playerNumber = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
@@ -53,7 +53,7 @@ public class Manager : MonoBehaviour
         timeLeftSec = 150 + 4.5f;
         timer.gameObject.SetActive(false);
 
-        player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.7f), Quaternion.identity) as GameObject;
+        player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
         player1.GetComponent<Player>().playerType = playerNumber;
         player1.tag = "Player 1";
         player1.layer = 8;
@@ -64,9 +64,9 @@ public class Manager : MonoBehaviour
         player1.GetComponent<Player>().left = KeyCode.A;
         player1.GetComponent<Player>().down = KeyCode.S;
         player1.GetComponent<Player>().right = KeyCode.D;
-        player1.GetComponent<Player>().initialPosition = new Vector3(-2.7f, 0.7f, 0);
+        player1.GetComponent<Player>().initialPosition = new Vector3(-2.7f, 0.9f, 0);
 
-        player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.7f), Quaternion.identity) as GameObject;
+        player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.9f), Quaternion.identity) as GameObject;
         player2.tag = "Player 2";
        
         player2.layer = 9;
@@ -77,7 +77,7 @@ public class Manager : MonoBehaviour
         player2.GetComponent<Player>().left = KeyCode.LeftArrow;
         player2.GetComponent<Player>().down = KeyCode.DownArrow;
         player2.GetComponent<Player>().right = KeyCode.RightArrow;
-        player2.GetComponent<Player>().initialPosition = new Vector3(2.7f, 0.7f, 0);
+        player2.GetComponent<Player>().initialPosition = new Vector3(2.7f, 0.9f, 0);
 
         player2.GetComponent<Player>().aiON = true;
     }

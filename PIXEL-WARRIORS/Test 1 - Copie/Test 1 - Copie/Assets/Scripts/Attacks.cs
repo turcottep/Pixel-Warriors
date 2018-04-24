@@ -49,7 +49,7 @@ public class Attacks : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
     }
 
-
+    #region Coroutines
     IEnumerator CanShootBasic()
     {
         canShoot_basic = false;
@@ -81,6 +81,7 @@ public class Attacks : MonoBehaviour
         player.special_2 = false;
         player.special_3 = false;
     }
+    #endregion
 
     private void TaggingBasic(GameObject go, int playerNumber)
     {
@@ -158,8 +159,6 @@ public class Attacks : MonoBehaviour
 
     public void LaunchSpecial1(int playerNum, bool state) //B
     {
-
-        //Problème d'animation (reste bloqué)
         if (canShootSp1 && !player.dead)
         {
             if (state)
@@ -382,12 +381,10 @@ public class Attacks : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         Explode(bomb);
     }
-
     public void Explode(GameObject bomb)
     {
         StartCoroutine("Explosion", bomb);
     }
-
     public IEnumerator Explosion(GameObject bomb)
     {
         yield return new WaitForSeconds(0f);
@@ -400,7 +397,6 @@ public class Attacks : MonoBehaviour
 
         StartCoroutine("BlastOff", blast);
     }
-
     IEnumerator BlastOff(GameObject blast)
     {
         yield return new WaitForSeconds(0.3f);

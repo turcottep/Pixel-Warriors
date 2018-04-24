@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
 
     public bool isRight;
     public bool isDead;
+    public bool controls;
     private float stun = 0f;
 
     public Rigidbody2D rb2d;
@@ -91,6 +92,14 @@ public class Player : MonoBehaviour
         manager.GetComponent<Manager>().UpdatePercentages();
     }
 
+    IEnumerator Poison(int time)
+    {
+        yield return new WaitForSeconds(time);
+        this.GetComponent<SpriteRenderer>().color = Color.red;
+        StartCoroutine("Whitecolor");
+        this.ReceiveDamage(0, 0.25f);
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
 
@@ -102,19 +111,27 @@ public class Player : MonoBehaviour
             {
                 player.GetComponent<Attacks>().Explode(col.gameObject);
             }
-            else if (!(col.gameObject.name == "Demon_Small_Bone(Clone)") && !(col.gameObject.name == "Demon_Big_Bone(Clone)")) Destroy(col.gameObject);
-
-            float d = col.gameObject.GetComponent<Damage>().getDamage();
-            this.GetComponent<SpriteRenderer>().color = Color.red;
-            StartCoroutine("whitecolor");
-            this.ReceiveDamage(10, d);
-            basic_1 = false;
-            basic_2 = false;
-            basic_3 = false;
-            special_1 = false;
-            special_2 = false;
-            special_3 = false;
-            charge = false;
+            else if (!(col.gameObject.name == "Demon_Small_Bone(Clone)") && !(col.gameObject.name == "Demon_Big_Bone(Clone)")) { Destroy(col.gameObject); }
+            else if (col.gameObject.name == "Scientist_PotionBreak(Clone)" || col.gameObject.name == "Scientist_Poison(Clone)")
+            {
+                Debug.Log("REEE");
+                StartCoroutine("Poison", 1);
+                StartCoroutine("Poison", 2);
+                StartCoroutine("Poison", 3);
+            }
+            
+                float damage = col.gameObject.GetComponentInParent<Damage>().getDamage();
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                StartCoroutine("Whitecolor");
+                this.ReceiveDamage(10, damage);
+                basic_1 = false;
+                basic_2 = false;
+                basic_3 = false;
+                special_1 = false;
+                special_2 = false;
+                special_3 = false;
+                charge = false;
+            
 
         }
 
@@ -127,11 +144,11 @@ public class Player : MonoBehaviour
             this.percentage += 0.5f;
             manager.GetComponent<Manager>().UpdatePercentages();
             this.GetComponent<SpriteRenderer>().color = Color.red;
-            StartCoroutine("whitecolor");
+            StartCoroutine("Whitecolor");
         }
     }
 
-    IEnumerator whitecolor()
+    IEnumerator Whitecolor()
     {
         yield return new WaitForSeconds(0.15f);
         GetComponent<SpriteRenderer>().color = Color.white;
@@ -193,76 +210,86 @@ public class Player : MonoBehaviour
             MoveDown();
         }
 
+        if (player.stunned)
+        {
+            controls = false;   
+        } else if (!player.stunned && !player.isDead)
+        {
+            controls = true;
+        }
+
 
         //////////////////////////////////ATTACKS
 
         //A
-        if (Input.GetKeyDown(A) && pressUp) // A + ↑
+        if (controls)
         {
-            Basic2();
-        }
-        else if (Input.GetKeyDown(A) && pressDown) // A + ↓
-        {
-            basic_2 = false;
-            Basic3();
-        }
-        else if (Input.GetKeyDown(A)) // A + ← →
-        {
-            basic_3 = false;
-            Basic1();
-        }
-        else
-        {
-            basic_1 = false;
-            basic_2 = false;
-            basic_3 = false;
-        }
+            if (Input.GetKeyDown(A) && pressUp) // A + ↑
+            {
+                Basic2();
+            }
+            else if (Input.GetKeyDown(A) && pressDown) // A + ↓
+            {
+                basic_2 = false;
+                Basic3();
+            }
+            else if (Input.GetKeyDown(A)) // A + ← →
+            {
+                basic_3 = false;
+                Basic1();
+            }
+            else
+            {
+                basic_1 = false;
+                basic_2 = false;
+                basic_3 = false;
+            }
 
-        //B
-        if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
-        {
-            Special2();
-        }
-        else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressDown) // B + ↓
-        {
-            special_2 = false;
-            Special3();
-        }
-        else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
-        {
-            special_3 = false;
-            Special1(true);
-        }
-        else if (Input.GetKeyUp(B)) // B + ← →
-        {
-            Special1(false);
-            special_1 = false;
-        }
-        
+            //B
+            if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
+            {
+                Special2();
+            }
+            else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressDown) // B + ↓
+            {
+                special_2 = false;
+                Special3();
+            }
+            else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
+            {
+                special_3 = false;
+                Special1(true);
+            }
+            else if (Input.GetKeyUp(B)) // B + ← →
+            {
+                Special1(false);
+                special_1 = false;
+            }
 
-        if (Input.GetKeyDown(down)) // B + ↓
-        {
-            pressDown = true;
-        }
-        else if (Input.GetKeyUp(down)) // B + ↓
-        {
-            pressDown = false;
-        }
 
-        if (Input.GetKeyDown(up)) // B + ↓
-        {
-            pressUp = true;
-        }
-        else if (Input.GetKeyUp(up)) // B + ↓
-        {
-            pressUp = false;
-        }
+            if (Input.GetKeyDown(down)) // B + ↓
+            {
+                pressDown = true;
+            }
+            else if (Input.GetKeyUp(down)) // B + ↓
+            {
+                pressDown = false;
+            }
 
-        //Gauche/Droite
-        if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
-        else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
-        else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+            if (Input.GetKeyDown(up)) // B + ↑
+            {
+                pressUp = true;
+            }
+            else if (Input.GetKeyUp(up)) // B + ↑
+            {
+                pressUp = false;
+            }
 
+            //Gauche/Droite
+            if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
+            else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
+            else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+        }
     }
 
 
@@ -375,13 +402,23 @@ public class Player : MonoBehaviour
         rb2d.AddForce(knockback * dir * percentage, ForceMode2D.Impulse);
         percentage += damage;
         stun = stunReceived + (percentage);
-        //stunned = true;
+        player.stunned = true;
+        StartCoroutine("Stun", stun);
         manager.GetComponent<Manager>().UpdatePercentages();
+    }
+    IEnumerator Stun(float stunDuration)
+    {
+        yield return new WaitForSeconds(stunDuration/20);
+        player.stunned = false;
     }
 
     public void Reset()
     {
         player.dead = true;
+        player.special_1 = false;
+        player.special_2 = false;
+        player.special_3 = false;
+        player.stunned = false;
         percentage = 0;
         manager.GetComponent<Manager>().UpdatePercentages();
         player.transform.position = initialPosition;

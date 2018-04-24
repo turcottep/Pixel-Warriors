@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 68769019478526920}
   - component: {fileID: 251106015445712842}
   - component: {fileID: 114203817115160464}
+  - component: {fileID: 114186925572515388}
   m_Layer: 0
   m_Name: Scientist_PotionBreak
   m_TagString: Untagged
@@ -60,6 +61,18 @@ EdgeCollider2D:
   m_Points:
   - {x: -0.3230092, y: -0.094563544}
   - {x: 0.3160413, y: -0.09257275}
+--- !u!114 &114186925572515388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1365174722262838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51083a4a5d0145347a024f40ac783eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.25
 --- !u!114 &114203817115160464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -72,6 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puddle: {fileID: 1419050450565324, guid: c18adf3500f9f07458b0699acec463ad, type: 2}
+  playerNum: 0
 --- !u!212 &212305930144687516
 SpriteRenderer:
   m_ObjectHideFlags: 1

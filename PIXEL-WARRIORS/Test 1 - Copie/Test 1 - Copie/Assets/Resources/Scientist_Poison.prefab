@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4808314891690996}
   - component: {fileID: 212026485657711726}
   - component: {fileID: 68797964873388576}
-  - component: {fileID: 251794728298798438}
+  - component: {fileID: 114046762669998910}
   m_Layer: 0
   m_Name: Scientist_Poison
   m_TagString: Untagged
@@ -52,13 +52,25 @@ EdgeCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 1
+  m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
   - {x: -0.31831488, y: -0.19716048}
   - {x: 0.31831482, y: -0.20053083}
+--- !u!114 &114046762669998910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1419050450565324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51083a4a5d0145347a024f40ac783eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.25
 --- !u!212 &212026485657711726
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -103,21 +115,3 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!251 &251794728298798438
-PlatformEffector2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1419050450565324}
-  m_Enabled: 1
-  m_UseColliderMask: 1
-  m_ColliderMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RotationalOffset: 0
-  m_UseOneWay: 1
-  m_UseOneWayGrouping: 1
-  m_SurfaceArc: 175
-  m_UseSideFriction: 0
-  m_UseSideBounce: 0
-  m_SideArc: 1

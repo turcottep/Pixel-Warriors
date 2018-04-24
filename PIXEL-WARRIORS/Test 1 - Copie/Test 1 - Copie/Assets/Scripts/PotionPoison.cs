@@ -97,7 +97,6 @@ public class PotionPoison : MonoBehaviour {
         }
     }
     
-    //Spawn beaucoup de de gameobject
     private void SlimeWall(float heightSlimeWall, bool hit)
     {
         GameObject potion = gameObject;
