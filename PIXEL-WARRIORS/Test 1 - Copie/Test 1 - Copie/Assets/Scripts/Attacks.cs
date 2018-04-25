@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Attacks : MonoBehaviour
 {
@@ -10,7 +11,11 @@ public class Attacks : MonoBehaviour
 	public GameObject basic3;
 	public GameObject special1;
 
-	public Vector2 velocity_special1;
+    public Image coolDown1_image;
+    public Image coolDown2_image;
+    public Image coolDown3_image;
+
+    public Vector2 velocity_special1;
 
 	public Vector2 offset_basic1;
 	public Vector2 offset_basic2;
@@ -58,6 +63,8 @@ public class Attacks : MonoBehaviour
 	}
 	IEnumerator CanShootSpecial1()
 	{
+        coolDown1_image.gameObject.SetActive(true);
+        coolDown1_image.fillAmount -= (4 / Time.deltaTime);
 		canShootSp1 = false;
 		yield return new WaitForSeconds(cooldown_special1);
 		canShootSp1 = true;
