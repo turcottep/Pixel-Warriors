@@ -267,8 +267,8 @@ public class Attacks : MonoBehaviour
                 ballUp.layer = 11;
                 ballMiddle.tag = "AttPlayer1";
                 ballMiddle.layer = 11;
-                ballUp.tag = "AttPlayer1";
-                ballUp.layer = 11;
+                ballBottom.tag = "AttPlayer1";
+                ballBottom.layer = 11;
             }
             else if (playerNum == 2)
             {
@@ -389,9 +389,8 @@ public class Attacks : MonoBehaviour
     {
         yield return new WaitForSeconds(0f);
         Vector2 pos = new Vector2(bomb.transform.position.x, bomb.transform.position.y);
-        Destroy(bomb);
         GameObject blast = Instantiate(Resources.Load("Ninja_Explosion"), new Vector2(pos.x, pos.y + 0.1f), Quaternion.identity) as GameObject;
-
+        Destroy(bomb);
         blast.tag = bomb.tag;
         blast.layer = bomb.layer;
 
@@ -444,12 +443,12 @@ public class Attacks : MonoBehaviour
             if (playerNum == 1)
             {
                 UFO.tag = "ShieldPlayer1";
-                UFO.layer = 13;
+                UFO.layer = 10;
             }
             else if (playerNum == 2)
             {
                 UFO.tag = "ShieldPlayer2";
-                UFO.layer = 14;
+                UFO.layer = 10;
             }
             Destroy(UFO, 2);
             StartCoroutine("CanShootSpecial3");

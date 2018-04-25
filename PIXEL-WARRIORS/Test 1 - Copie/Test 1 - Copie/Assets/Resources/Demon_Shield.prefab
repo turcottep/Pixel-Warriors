@@ -84,6 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  attackType: 2
 --- !u!114 &114993718112392612
 MonoBehaviour:
   m_ObjectHideFlags: 1

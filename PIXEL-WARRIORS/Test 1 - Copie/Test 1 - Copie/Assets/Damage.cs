@@ -5,6 +5,7 @@ using UnityEngine;
 public class Damage : MonoBehaviour {
 
     public float damage;
+    public int attackType;
 	
     public float getDamage()
     {

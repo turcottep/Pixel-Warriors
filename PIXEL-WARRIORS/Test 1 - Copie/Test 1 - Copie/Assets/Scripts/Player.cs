@@ -52,7 +52,6 @@ public class Player : MonoBehaviour
 
     public bool isRight;
     public bool isDead;
-    public bool controls;
     private float stun = 0f;
 
     public Rigidbody2D rb2d;
@@ -95,43 +94,66 @@ public class Player : MonoBehaviour
     IEnumerator Poison(int time)
     {
         yield return new WaitForSeconds(time);
-        this.GetComponent<SpriteRenderer>().color = Color.red;
+        this.GetComponent<SpriteRenderer>().color = Color.green;
         StartCoroutine("Whitecolor");
-        this.ReceiveDamage(0, 0.25f);
+        this.ReceiveDamage(0, 0.25f, false, new Vector2(0, 0));
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
 
+        Color damageColor = Color.red;
         //Hit by attacks
         if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
         {
-            //player.transform.position = pos;
+            player.transform.position = pos;
             if (col.gameObject.name == "Ninja_Bomb(Clone)")
             {
                 player.GetComponent<Attacks>().Explode(col.gameObject);
             }
-            else if (!(col.gameObject.name == "Demon_Small_Bone(Clone)") && !(col.gameObject.name == "Demon_Big_Bone(Clone)")) { Destroy(col.gameObject); }
-            else if (col.gameObject.name == "Scientist_PotionBreak(Clone)" || col.gameObject.name == "Scientist_Poison(Clone)")
+            else if (col.gameObject.name == "Scientist_Poison(Clone)")
             {
-                Debug.Log("REEE");
+                damageColor = Color.green;
                 StartCoroutine("Poison", 1);
                 StartCoroutine("Poison", 2);
                 StartCoroutine("Poison", 3);
             }
+            else if (!(col.gameObject.name == "Demon_Small_Bone(Clone)") && !(col.gameObject.name == "Demon_Big_Bone(Clone)") && !(col.gameObject.name == "Ninja_Bomb(Clone)"))
+            {
+                Destroy(col.gameObject);
+            }
+
+            //TEST
+            Vector2 vecteurTest = new Vector2(0,0);
+            if (!(col.gameObject.name == "Scientist_Poison(Clone)") || !(col.gameObject.name == "Ninja_Bomb(Clone)"))
+            {
+                vecteurTest = rb2d.position - col.rigidbody.position;
+                vecteurTest = new Vector2(vecteurTest.x, (vecteurTest.y + 0.5f) * 0.1f);
+                Debug.Log(vecteurTest);
+            }
+            //
+
+            float damage = col.gameObject.GetComponentInParent<Damage>().getDamage();
+            this.GetComponent<SpriteRenderer>().color = damageColor;
+            StartCoroutine("Whitecolor");
             
-                float damage = col.gameObject.GetComponentInParent<Damage>().getDamage();
-                this.GetComponent<SpriteRenderer>().color = Color.red;
-                StartCoroutine("Whitecolor");
-                this.ReceiveDamage(10, damage);
-                basic_1 = false;
-                basic_2 = false;
-                basic_3 = false;
-                special_1 = false;
-                special_2 = false;
-                special_3 = false;
-                charge = false;
-            
+            if (col.gameObject.GetComponent<Damage>().attackType == 1)
+            {
+                this.ReceiveDamage(0, damage, true, new Vector2(0,0));
+            }
+            else
+            {
+                this.ReceiveDamage(10, damage, true, vecteurTest);
+            }
+
+            basic_1 = false;
+            basic_2 = false;
+            basic_3 = false;
+            special_1 = false;
+            special_2 = false;
+            special_3 = false;
+            charge = false;
+
 
         }
 
@@ -201,29 +223,24 @@ public class Player : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
         }
 
-        if (Input.GetKeyDown(jump))
-        {
-            MoveUp();
-        }
-        if (Input.GetKeyDown(down))
-        {
-            MoveDown();
-        }
 
-        if (player.stunned)
+        if (!player.stunned)
         {
-            controls = false;   
-        } else if (!player.stunned && !player.isDead)
-        {
-            controls = true;
-        }
+
+            if (Input.GetKeyDown(jump))
+            {
+                MoveUp();
+            }
+            if (Input.GetKeyDown(down))
+            {
+                MoveDown();
+            }
 
 
-        //////////////////////////////////ATTACKS
+            //////////////////////////////////ATTACKS
 
-        //A
-        if (controls)
-        {
+            //A
+
             if (Input.GetKeyDown(A) && pressUp) // A + ↑
             {
                 Basic2();
@@ -321,9 +338,11 @@ public class Player : MonoBehaviour
         else { player.goingDown = false; }
 
         //Move player
-        if (stun < 1)
-        { rb2d.AddForce(Vector2.right * x * 10 * speed, ForceMode2D.Force); }
-        else { stun--; }
+
+        if (!player.stunned)
+        {
+            rb2d.AddForce(Vector2.right * x * 10 * speed, ForceMode2D.Force);
+        }
         rb2d.velocity = new Vector2(rb2d.velocity.x * decay, rb2d.velocity.y);
 
     }
@@ -393,22 +412,25 @@ public class Player : MonoBehaviour
         player.GetComponent<Attacks>().LaunchSpecial3(playerNum);
     }
 
-    //Ajouter l'effet stun pour l'animation
-    public void ReceiveDamage(int stunReceived, float damage)
+    public void ReceiveDamage(int stunReceived, float damage, bool knocksback, Vector2 vecteurTest)
     {
-        int dir = 0;
+        int dir;
         if (isRight) dir = 1;
         else dir = -1;
-        rb2d.AddForce(knockback * dir * percentage, ForceMode2D.Impulse);
+        //Debug.Log("knockbackof" + knockback * dir * percentage * stun / 10);
+        if (knocksback)
+        {
+            rb2d.AddForce(new Vector2(vecteurTest.x * (percentage + 20), vecteurTest.y/10 * (percentage + 20)), ForceMode2D.Impulse);
+        }
         percentage += damage;
-        stun = stunReceived + (percentage);
+        stun = stunReceived * (percentage);
         player.stunned = true;
         StartCoroutine("Stun", stun);
         manager.GetComponent<Manager>().UpdatePercentages();
     }
     IEnumerator Stun(float stunDuration)
     {
-        yield return new WaitForSeconds(stunDuration/20);
+        yield return new WaitForSeconds(stunDuration / 30);
         player.stunned = false;
     }
 

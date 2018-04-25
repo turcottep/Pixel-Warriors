@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0.75
+  attackType: 2
 --- !u!212 &212645338493175670
 SpriteRenderer:
   m_ObjectHideFlags: 1

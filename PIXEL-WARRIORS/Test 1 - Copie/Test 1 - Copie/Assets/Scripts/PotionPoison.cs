@@ -139,16 +139,7 @@ public class PotionPoison : MonoBehaviour {
             pos = rb2d.transform.position;
             GameObject potion = gameObject;
             GameObject potionBreak = Instantiate(Resources.Load("Scientist_PotionBreak"), new Vector2(pos.x, heightBreak), Quaternion.identity) as GameObject;
-            if (playerNum == 1)
-            {
-                potionBreak.tag = "AttPlayer1";
-                potionBreak.layer = 11;
-            }
-            else if (playerNum == 2)
-            {
-                potionBreak.tag = "AttPlayer2";
-                potionBreak.layer = 12;
-            }
+            
             StartCoroutine("Poison", potion);
             Destroy(potionBreak, 0.2f);
         }

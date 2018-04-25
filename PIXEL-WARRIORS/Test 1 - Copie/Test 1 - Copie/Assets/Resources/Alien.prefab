@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 68557100749876096}
   m_Layer: 8
   m_Name: feet
-  m_TagString: Player 1
+  m_TagString: Feet2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -201,7 +201,6 @@ MonoBehaviour:
   goingDown: 0
   dead: 0
   stunned: 0
-  isChargingSp1: 0
   up: 119
   pressUp: 0
   jump: 32
@@ -236,25 +235,14 @@ MonoBehaviour:
   basic2: {fileID: 1501171534556178, guid: 9c24133a039cafd48a1649874adac72e, type: 2}
   basic3: {fileID: 1075874815717482, guid: 411b62160bf26c54d8e6a2398f0cc709, type: 2}
   special1: {fileID: 1820569728722812, guid: 6b420f7e7deddcb4298bcc6535cbf41b, type: 2}
-  special2: {fileID: 0}
-  special3: {fileID: 0}
-  velocity_basic1: {x: 0, y: 0}
-  velocity_basic2: {x: 0, y: 0}
-  velocity_basic3: {x: 0, y: 0}
   velocity_special1: {x: 3, y: 0}
-  velocity_special2: {x: 0, y: 0}
-  velocity_special3: {x: 0, y: 0}
   offset_basic1: {x: 0.0073, y: 0}
   offset_basic2: {x: -0.036, y: 0.021}
   offset_basic3: {x: 0.039, y: 0.01}
   offset_special1: {x: 0.3, y: 0}
-  offset_special2: {x: 0, y: 0}
-  offset_special3: {x: 0, y: 0}
   cooldown_special1: 1
   cooldown_special2: 4
   cooldown_special3: 6
-  cooldown: 0.3
-  lifeTime: 0.3
 --- !u!114 &114979546845385544
 MonoBehaviour:
   m_ObjectHideFlags: 1

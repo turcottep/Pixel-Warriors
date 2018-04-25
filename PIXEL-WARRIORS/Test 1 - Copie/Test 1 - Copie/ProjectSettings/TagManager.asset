@@ -27,6 +27,10 @@ TagManager:
   - Map
   - ShieldPlayer1
   - ShieldPlayer2
+  - Feet1
+  - Feet2
+  - Feet3
+  - Feet4
   layers:
   - Default
   - TransparentFX

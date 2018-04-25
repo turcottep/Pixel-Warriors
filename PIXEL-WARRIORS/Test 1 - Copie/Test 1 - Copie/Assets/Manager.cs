@@ -38,7 +38,9 @@ public class Manager : MonoBehaviour
         string character1 = "Ninja";
         string character2 = "Demon";
 
-        int playerNumber = 3;
+        int playerNumber = 1;
+        int playerNumberP2 = 4;
+
         /*
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
         int playerNumber = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
@@ -78,7 +80,9 @@ public class Manager : MonoBehaviour
         player2.GetComponent<Player>().down = KeyCode.DownArrow;
         player2.GetComponent<Player>().right = KeyCode.RightArrow;
         player2.GetComponent<Player>().initialPosition = new Vector3(2.7f, 0.9f, 0);
-
+        GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP2);
+        piedsJ2.layer = player2.layer;
+        piedsJ2.tag = player2.tag;
         player2.GetComponent<Player>().aiON = true;
     }
 
