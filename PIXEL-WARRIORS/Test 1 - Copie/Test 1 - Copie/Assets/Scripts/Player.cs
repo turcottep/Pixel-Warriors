@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public float jumpPower = 175f;
     public float maxJump = 2f;
     public float percentage = 0f;
+    public float multiplier = 1f;
 
     //Animations
     public bool grounded;
@@ -106,6 +107,17 @@ public class Player : MonoBehaviour
         //Hit by attacks
         if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
         {
+            //TEST
+            Vector2 vecteurTest = new Vector2(0, 0);
+            if (!(col.gameObject.name == "Scientist_Poison(Clone)") && !(col.gameObject.name == "Ninja_Bomb(Clone)" && !(col.gameObject.name == "Ninja_Explosion(Clone)")))
+            {
+                Debug.Log("NAME:" + col.gameObject.name);
+                vecteurTest = rb2d.position; //- col.rigidbody.position;
+                vecteurTest = new Vector2(vecteurTest.x, (vecteurTest.y + 0.1f));
+                vecteurTest = vecteurTest * multiplier;
+            }
+            //
+
             player.transform.position = pos;
             if (col.gameObject.name == "Ninja_Bomb(Clone)")
             {
@@ -118,20 +130,10 @@ public class Player : MonoBehaviour
                 StartCoroutine("Poison", 2);
                 StartCoroutine("Poison", 3);
             }
-            else if (!(col.gameObject.name == "Demon_Small_Bone(Clone)") && !(col.gameObject.name == "Demon_Big_Bone(Clone)") && !(col.gameObject.name == "Ninja_Bomb(Clone)"))
+            else if (!(col.gameObject.name == "Demon_Small_Bone(Clone)") && !(col.gameObject.name == "Demon_Big_Bone(Clone)"))
             {
                 Destroy(col.gameObject);
             }
-
-            //TEST
-            Vector2 vecteurTest = new Vector2(0,0);
-            if (!(col.gameObject.name == "Scientist_Poison(Clone)") || !(col.gameObject.name == "Ninja_Bomb(Clone)"))
-            {
-                vecteurTest = rb2d.position - col.rigidbody.position;
-                vecteurTest = new Vector2(vecteurTest.x, (vecteurTest.y + 0.5f) * 0.1f);
-                Debug.Log(vecteurTest);
-            }
-            //
 
             float damage = col.gameObject.GetComponentInParent<Damage>().getDamage();
             this.GetComponent<SpriteRenderer>().color = damageColor;
@@ -166,6 +168,14 @@ public class Player : MonoBehaviour
             this.percentage += 0.5f;
             manager.GetComponent<Manager>().UpdatePercentages();
             this.GetComponent<SpriteRenderer>().color = Color.red;
+            StartCoroutine("Whitecolor");
+        }
+
+        if (col.gameObject.tag == "Bounce")
+        {
+            Debug.Log("x=:"+ rb2d.velocity.x + " y=" + rb2d.velocity.y);
+            this.rb2d.velocity = this.rb2d.velocity * -1;
+            Debug.Log("x=:" + rb2d.velocity.x + " y=" + rb2d.velocity.y);
             StartCoroutine("Whitecolor");
         }
     }
@@ -342,8 +352,12 @@ public class Player : MonoBehaviour
         if (!player.stunned)
         {
             rb2d.AddForce(Vector2.right * x * 10 * speed, ForceMode2D.Force);
+            rb2d.velocity = new Vector2(rb2d.velocity.x * decay, rb2d.velocity.y);
         }
-        rb2d.velocity = new Vector2(rb2d.velocity.x * decay, rb2d.velocity.y);
+        else
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y);
+        }
 
     }
 
@@ -356,9 +370,7 @@ public class Player : MonoBehaviour
         if (maxJump > 0)
         {
             maxSpeed = 2f; //ENLEVER?
-            Vector2 temp = rb2d.velocity;
-            temp.y = 0;
-            rb2d.velocity = new Vector2(temp.x, temp.y);
+            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             rb2d.AddForce(new Vector2(0, jumpPower));
             maxJump--;
         }
@@ -420,10 +432,10 @@ public class Player : MonoBehaviour
         //Debug.Log("knockbackof" + knockback * dir * percentage * stun / 10);
         if (knocksback)
         {
-            rb2d.AddForce(new Vector2(vecteurTest.x * (percentage + 20), vecteurTest.y/10 * (percentage + 20)), ForceMode2D.Impulse);
+            rb2d.AddForce(new Vector2(damage * vecteurTest.x * (percentage + 20), damage * vecteurTest.y * (percentage + 20)), ForceMode2D.Impulse);
         }
         percentage += damage;
-        stun = stunReceived * (percentage);
+        stun = stunReceived * (percentage)/20;
         player.stunned = true;
         StartCoroutine("Stun", stun);
         manager.GetComponent<Manager>().UpdatePercentages();

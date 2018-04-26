@@ -31,6 +31,7 @@ TagManager:
   - Feet2
   - Feet3
   - Feet4
+  - Bounce
   layers:
   - Default
   - TransparentFX
