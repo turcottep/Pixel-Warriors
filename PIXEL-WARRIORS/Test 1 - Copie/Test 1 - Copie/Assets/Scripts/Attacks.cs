@@ -388,7 +388,7 @@ public class Attacks : MonoBehaviour
     public IEnumerator Explosion(GameObject bomb)
     {
         yield return new WaitForSeconds(0f);
-        if (bomb!=null)
+        if (bomb != null)
         {
             Vector2 pos = new Vector2(bomb.transform.position.x, bomb.transform.position.y);
             GameObject blast = Instantiate(Resources.Load("Ninja_Explosion"), new Vector2(pos.x, pos.y + 0.1f), Quaternion.identity) as GameObject;
@@ -398,7 +398,7 @@ public class Attacks : MonoBehaviour
 
             StartCoroutine("BlastOff", blast);
         }
-        
+
     }
     IEnumerator BlastOff(GameObject blast)
     {

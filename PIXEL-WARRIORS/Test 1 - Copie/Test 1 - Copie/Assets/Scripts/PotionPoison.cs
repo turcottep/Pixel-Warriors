@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PotionPoison : MonoBehaviour {
+public class PotionPoison : MonoBehaviour
+{
 
     private Rigidbody2D rb2d;
     private Vector2 pos;
@@ -16,7 +17,8 @@ public class PotionPoison : MonoBehaviour {
     private bool hit = false;
     private bool isCreated = false;
 
-    void Start () {
+    void Start()
+    {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -96,7 +98,7 @@ public class PotionPoison : MonoBehaviour {
             SlimeWall(heightSlimeWall, hit);
         }
     }
-    
+
     private void SlimeWall(float heightSlimeWall, bool hit)
     {
         GameObject potion = gameObject;
@@ -139,7 +141,7 @@ public class PotionPoison : MonoBehaviour {
             pos = rb2d.transform.position;
             GameObject potion = gameObject;
             GameObject potionBreak = Instantiate(Resources.Load("Scientist_PotionBreak"), new Vector2(pos.x, heightBreak), Quaternion.identity) as GameObject;
-            
+
             StartCoroutine("Poison", potion);
             Destroy(potionBreak, 0.2f);
         }
@@ -147,7 +149,7 @@ public class PotionPoison : MonoBehaviour {
         {
             Destroy(gameObject, 2f);
         }
-        
+
     }
 
     IEnumerator Created()

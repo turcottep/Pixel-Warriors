@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
         player = gameObject.GetComponentInParent<Player>();
         manager = GameObject.FindGameObjectWithTag("Manager");
 
-        audioSource.clip = audioJump;
+        //audioSource.clip = audioJump; ////////////Erreur??
 
         if (player.tag == "Player 1")
         {
@@ -140,10 +140,10 @@ public class Player : MonoBehaviour
             float damage = col.gameObject.GetComponentInParent<Damage>().getDamage();
             this.GetComponent<SpriteRenderer>().color = damageColor;
             StartCoroutine("Whitecolor");
-            
+
             if (col.gameObject.GetComponent<Damage>().attackType == 1)
             {
-                this.ReceiveDamage(0, damage, true, new Vector2(0,0));
+                this.ReceiveDamage(0, damage, true, new Vector2(0, 0));
             }
             else
             {
@@ -175,7 +175,7 @@ public class Player : MonoBehaviour
 
         if (col.gameObject.tag == "Bounce")
         {
-            Debug.Log("x=:"+ rb2d.velocity.x + " y=" + rb2d.velocity.y);
+            Debug.Log("x=:" + rb2d.velocity.x + " y=" + rb2d.velocity.y);
             this.rb2d.velocity = this.rb2d.velocity * -1;
             Debug.Log("x=:" + rb2d.velocity.x + " y=" + rb2d.velocity.y);
             StartCoroutine("Whitecolor");
@@ -438,7 +438,7 @@ public class Player : MonoBehaviour
             rb2d.AddForce(new Vector2(damage * vecteurTest.x * (percentage + 20), damage * vecteurTest.y * (percentage + 20)), ForceMode2D.Impulse);
         }
         percentage += damage;
-        stun = stunReceived * (percentage)/20;
+        stun = stunReceived * (percentage) / 20;
         player.stunned = true;
         StartCoroutine("Stun", stun);
         manager.GetComponent<Manager>().UpdatePercentages();

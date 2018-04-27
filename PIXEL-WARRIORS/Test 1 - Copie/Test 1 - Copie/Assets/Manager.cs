@@ -10,6 +10,16 @@ public class Manager : MonoBehaviour
     private float timeLeftMin;
     public TextMeshProUGUI countdown;
 
+    public GameObject headP1_1;
+    public GameObject headP1_2;
+    public GameObject headP1_3;
+    public GameObject headP1_4;
+
+    public GameObject headP2_1;
+    public GameObject headP2_2;
+    public GameObject headP2_3;
+    public GameObject headP2_4;
+
     public TextMeshProUGUI textPercentageP1;
     public GameObject life1P1;
     public GameObject life2P1;
@@ -35,6 +45,9 @@ public class Manager : MonoBehaviour
 
     void Start()
     {
+        timeLeftSec = 150 + 4.5f;
+        timer.gameObject.SetActive(false);
+
         string character1 = "Ninja";
         string character2 = "Scientist";
 
@@ -51,10 +64,6 @@ public class Manager : MonoBehaviour
         if (playerNumber == 3) character1 = "Scientist";
         if (playerNumber == 4) character1 = "Demon";
 
-
-        timeLeftSec = 150 + 4.5f;
-        timer.gameObject.SetActive(false);
-
         player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
         player1.GetComponent<Player>().playerType = playerNumber;
         player1.tag = "Player 1";
@@ -70,7 +79,7 @@ public class Manager : MonoBehaviour
 
         player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.9f), Quaternion.identity) as GameObject;
         player2.tag = "Player 2";
-       
+
         player2.layer = 9;
         player2.GetComponent<Player>().jump = KeyCode.M;
         player2.GetComponent<Player>().A = KeyCode.Comma;
@@ -84,6 +93,8 @@ public class Manager : MonoBehaviour
         piedsJ2.layer = player2.layer;
         piedsJ2.tag = player2.tag;
         player2.GetComponent<Player>().aiON = true;
+
+        setHeads(playerNumber, playerNumberP2);
     }
 
     // Update is called once per frame
@@ -118,14 +129,10 @@ public class Manager : MonoBehaviour
         timeLeftSec -= Time.deltaTime;
         timeLeftMin = Mathf.Floor(timeLeftSec / 60);
 
-        if (timeLeftSec > 151)
+        if (timeLeftSec > 150.5)
         {
             if ((timeLeftSec - 151).ToString("f0") == "0") countdown.text = "GO!";
             else countdown.text = (timeLeftSec - 151).ToString("f0");
-        }
-        else if (timeLeftSec < 151 && timeLeftSec > 150)
-        {
-            countdown.text = "GO!";
         }
         else if ((timeLeftSec - (60 * timeLeftMin)) < 9.5)
         {
@@ -136,6 +143,11 @@ public class Manager : MonoBehaviour
             countdown.gameObject.SetActive(false);
             timer.gameObject.SetActive(true);
             timer.text = timeLeftMin.ToString() + ":" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
+        }
+
+        if (timeLeftSec == 0)
+        {
+            GameOver(0);
         }
     }
 
@@ -222,6 +234,42 @@ public class Manager : MonoBehaviour
     }
 
     //UI Will
+
+    void setHeads(int p1, int p2)
+    {
+        switch (p1)
+        {
+            case 1:
+                headP1_1.SetActive(true);
+                break;
+            case 2:
+                headP1_2.SetActive(true);
+                break;
+            case 3:
+                headP1_3.SetActive(true);
+                break;
+            case 4:
+                headP1_4.SetActive(true);
+                break;
+        }
+
+        switch (p2)
+        {
+            case 1:
+                headP2_1.SetActive(true);
+                break;
+            case 2:
+                headP2_2.SetActive(true);
+                break;
+            case 3:
+                headP2_3.SetActive(true);
+                break;
+            case 4:
+                headP2_4.SetActive(true);
+                break;
+        }
+    }
+
     #region UI P1
     //P1
     public void buttonJumpPointerDownP1()
