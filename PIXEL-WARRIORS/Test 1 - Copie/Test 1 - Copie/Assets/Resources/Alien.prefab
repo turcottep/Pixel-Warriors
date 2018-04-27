@@ -190,6 +190,7 @@ MonoBehaviour:
   jumpPower: 175
   maxJump: 2
   percentage: 0
+  multiplier: 1
   grounded: 0
   basic_1: 0
   basic_2: 0
@@ -201,6 +202,8 @@ MonoBehaviour:
   goingDown: 0
   dead: 0
   stunned: 0
+  audioJump: {fileID: 8300000, guid: c6e32c9a318f837498da250191e91c21, type: 3}
+  audioSource: {fileID: 0}
   up: 119
   pressUp: 0
   jump: 32

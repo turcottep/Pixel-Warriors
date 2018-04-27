@@ -36,10 +36,10 @@ public class Manager : MonoBehaviour
     void Start()
     {
         string character1 = "Ninja";
-        string character2 = "Demon";
+        string character2 = "Scientist";
 
-        int playerNumber = 1;
-        int playerNumberP2 = 4;
+        int playerNumber = 2;
+        int playerNumberP2 = 3;
 
         /*
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");

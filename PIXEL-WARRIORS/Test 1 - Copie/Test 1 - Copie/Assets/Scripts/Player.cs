@@ -73,6 +73,8 @@ public class Player : MonoBehaviour
         player = gameObject.GetComponentInParent<Player>();
         manager = GameObject.FindGameObjectWithTag("Manager");
 
+        audioSource.clip = audioJump;
+
         if (player.tag == "Player 1")
         {
             playerNum = 1;
@@ -369,6 +371,7 @@ public class Player : MonoBehaviour
         if (this.isDead) this.Revive();
         if (maxJump > 0)
         {
+
             maxSpeed = 2f; //ENLEVER?
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             rb2d.AddForce(new Vector2(0, jumpPower));
