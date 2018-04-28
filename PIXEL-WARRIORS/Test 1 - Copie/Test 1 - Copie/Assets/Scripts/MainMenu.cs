@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
+#endif
 
 public class MainMenu : MonoBehaviour {
 

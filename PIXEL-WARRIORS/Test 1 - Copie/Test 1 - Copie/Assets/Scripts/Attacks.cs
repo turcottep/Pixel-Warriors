@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Attacks : MonoBehaviour
 {
-
     public GameObject basic1;
     public GameObject basic2;
     public GameObject basic3;
@@ -41,12 +41,14 @@ public class Attacks : MonoBehaviour
     private Player player;
     private Rigidbody2D rb2d;
     private Animator anim;
+    private Manager manager;
 
     void Start()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         player = gameObject.GetComponentInParent<Player>();
         anim = gameObject.GetComponent<Animator>();
+        manager = gameObject.GetComponent<Manager>();
     }
 
     #region Coroutines
@@ -62,9 +64,10 @@ public class Attacks : MonoBehaviour
         yield return new WaitForSeconds(cooldown_special1);
         canShootSp1 = true;
     }
-    IEnumerator CanShootSpecial2()
+    IEnumerator CanShootSpecial2() //W-Y
     {
         canShootSp2 = false;
+        //manager.coolingDown2 = true;///////////
         yield return new WaitForSeconds(cooldown_special2);
         canShootSp2 = true;
     }
