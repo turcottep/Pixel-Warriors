@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     public bool dead;
     public bool stunned;
 
+    //Audio
+    public new AudioManager audio;
 
     //controls
     public KeyCode up = KeyCode.W;
@@ -72,8 +74,8 @@ public class Player : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         player = gameObject.GetComponentInParent<Player>();
         manager = GameObject.FindGameObjectWithTag("Manager");
+        audio = FindObjectOfType<AudioManager>();
 
-        //audioSource.clip = audioJump; ////////////Erreur??
 
         if (player.tag == "Player 1")
         {
@@ -109,6 +111,8 @@ public class Player : MonoBehaviour
         //Hit by attacks
         if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
         {
+            audio.Play("Hit");
+
             //TEST
             Vector2 vecteurTest = new Vector2(0, 0);
             if (!(col.gameObject.name == "Scientist_Poison(Clone)") && !(col.gameObject.name == "Ninja_Bomb(Clone)" && !(col.gameObject.name == "Ninja_Explosion(Clone)")))
@@ -164,6 +168,8 @@ public class Player : MonoBehaviour
         //Lava
         if (col.gameObject.tag == "Lava")
         {
+            audio.Play("Lava");
+
             charge = false;
             this.rb2d.velocity = new Vector2(0, 6);
             this.maxJump = 2;
@@ -371,6 +377,7 @@ public class Player : MonoBehaviour
         if (this.isDead) this.Revive();
         if (maxJump > 0)
         {
+            audio.Play("Jump");
 
             maxSpeed = 2f; //ENLEVER?
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
