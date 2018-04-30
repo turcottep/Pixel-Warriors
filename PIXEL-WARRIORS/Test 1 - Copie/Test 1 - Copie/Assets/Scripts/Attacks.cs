@@ -42,6 +42,7 @@ public class Attacks : MonoBehaviour
     private Rigidbody2D rb2d;
     private Animator anim;
     private Manager manager;
+    private  new AudioManager audio;
 
     void Start()
     {
@@ -49,6 +50,7 @@ public class Attacks : MonoBehaviour
         player = gameObject.GetComponentInParent<Player>();
         anim = gameObject.GetComponent<Animator>();
         manager = gameObject.GetComponent<Manager>();
+        audio = FindObjectOfType<AudioManager>();
     }
 
     #region Coroutines
@@ -113,6 +115,8 @@ public class Attacks : MonoBehaviour
             damage = 0.25f;
             GameObject go;
 
+            audio.Play("Whoosh");
+
             if (player.name == "Scientist(Clone)" || player.name == "Demon(Clone)")
             {
                 go = (GameObject)Instantiate(basic1, (Vector2)transform.position + (new Vector2(offset_basic1.x * transform.localScale.x, offset_basic1.y)), Quaternion.Euler(0, 0, 0));
@@ -136,6 +140,9 @@ public class Attacks : MonoBehaviour
         if (canShoot_basic && !player.dead)
         {
             damage = 0.5f;
+
+            audio.Play("Whoosh");
+
             if (!player.isRight)
             {
                 rotation = 180;
@@ -151,6 +158,9 @@ public class Attacks : MonoBehaviour
         if (canShoot_basic && !player.dead)
         {
             damage = 0.5f;
+
+            audio.Play("Whoosh");
+
             if (!player.isRight)
             {
                 rotation = 180;

@@ -342,6 +342,8 @@ public class Player : MonoBehaviour
         //Out of map
         if (rb2d.transform.position.y < -2.1f || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 4.5f || rb2d.transform.position.x < -4.5)
         {
+            audio.Play("Death");
+
             player.isDead = true;
             manager.GetComponent<Manager>().PlayerDeath(playerNum);
         }
@@ -403,16 +405,19 @@ public class Player : MonoBehaviour
 
     public void Basic1()
     {
+        
         basic_1 = true;
         player.GetComponent<Attacks>().LaunchBasic1(playerNum);
     }
     public void Basic2()
     {
+        
         basic_2 = true;
         player.GetComponent<Attacks>().LaunchBasic2(playerNum);
     }
     public void Basic3()
     {
+        
         basic_3 = true;
         player.GetComponent<Attacks>().LaunchBasic3(playerNum);
     }
