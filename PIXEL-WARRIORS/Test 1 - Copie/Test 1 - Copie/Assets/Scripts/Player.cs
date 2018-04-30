@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class Player : MonoBehaviour
+public class Player : Photon.MonoBehaviour, IPunObservable
 {
     public int playerType;
 
@@ -68,6 +68,9 @@ public class Player : MonoBehaviour
 
     private GameObject manager;
 
+    [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+    public static GameObject LocalPlayerInstance;
+
     void Start()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
@@ -95,6 +98,8 @@ public class Player : MonoBehaviour
         knockback.Set(-2, 1);
         manager.GetComponent<Manager>().UpdatePercentages();
     }
+
+    
 
     IEnumerator Poison(int time)
     {
@@ -231,8 +236,11 @@ public class Player : MonoBehaviour
         anim.SetBool("Dead", dead);
         anim.SetBool("Stunned", stunned);
 
-        //Flip character L/R
-        if (isRight == false)
+        if (photonView.isMine == false && PhotonNetwork.connected == true)
+        {
+
+            //Flip character L/R
+            if (isRight == false)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
@@ -324,6 +332,7 @@ public class Player : MonoBehaviour
             if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
             else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
             else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+        }
         }
     }
 
@@ -485,5 +494,50 @@ public class Player : MonoBehaviour
     public void Revive()
     {
 
+    }
+
+    private void Awake()
+    {
+        // #Important
+        // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
+        if (photonView.isMine)
+        {
+            Player.LocalPlayerInstance = this.gameObject;
+        }
+        // #Critical
+        // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            // We own this player: send the others our data
+            stream.SendNext(basic_1);
+            stream.SendNext(basic_2);
+            stream.SendNext(basic_3);
+            stream.SendNext(special_1);
+            stream.SendNext(special_2);
+            stream.SendNext(special_3);
+            stream.SendNext(isDead);
+            stream.SendNext(isRight);
+
+
+        }
+        else
+        {
+            // Network player, receive data
+            this.basic_1 = (bool)stream.ReceiveNext();
+            this.basic_2 = (bool)stream.ReceiveNext();
+            this.basic_3 = (bool)stream.ReceiveNext();
+            this.special_1 = (bool)stream.ReceiveNext();
+            this.special_2 = (bool)stream.ReceiveNext();
+            this.special_3 = (bool)stream.ReceiveNext();
+            this.isDead = (bool)stream.ReceiveNext();
+            this.isRight = (bool)stream.ReceiveNext();
+
+
+        }
     }
 }
