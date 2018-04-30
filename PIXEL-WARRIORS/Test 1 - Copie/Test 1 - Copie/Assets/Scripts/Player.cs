@@ -117,7 +117,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         //Hit by attacks
         if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
         {
-            audio.Play("Hit");
+            audio.Play("Hit", 0);
 
             //TEST
             Vector2 vecteurTest = new Vector2(0, 0);
@@ -174,7 +174,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         //Lava
         if (col.gameObject.tag == "Lava")
         {
-            audio.Play("Lava");
+            audio.Play("Lava", 0);
 
             charge = false;
             this.rb2d.velocity = new Vector2(0, 6);
@@ -353,7 +353,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         //Out of map
         if (rb2d.transform.position.y < -2.1f || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 4.5f || rb2d.transform.position.x < -4.5)
         {
-            audio.Play("Death");
+            audio.Play("Death", 0);
 
             player.isDead = true;
             manager.GetComponent<Manager>().PlayerDeath(playerNum);
@@ -390,7 +390,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         if (this.isDead) this.Revive();
         if (maxJump > 0)
         {
-            audio.Play("Jump");
+            audio.Play("Jump", 0);
 
             maxSpeed = 2f; //ENLEVER?
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
@@ -512,7 +512,6 @@ public class Player : Photon.MonoBehaviour, IPunObservable
             // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
             DontDestroyOnLoad(this.gameObject);
         }
-
     }
 
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

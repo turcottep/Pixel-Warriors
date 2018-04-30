@@ -6,6 +6,7 @@ public class PotionPoison : MonoBehaviour
 {
 
     private Rigidbody2D rb2d;
+    private AudioManager audio;
     private Vector2 pos;
     public GameObject puddle;
 
@@ -20,12 +21,15 @@ public class PotionPoison : MonoBehaviour
     void Start()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
+        audio = FindObjectOfType<AudioManager>();
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (gameObject.name == "Scientist_Potion_Poison(Clone)")
         {
+            audio.Play("Bottle_Break", 0);
+
             if (col.gameObject.name == "PlatformMiddleGround")
             {
                 heightBreak = -0.1f; heightPuddle = 0.026f; hit = true;
@@ -57,9 +61,9 @@ public class PotionPoison : MonoBehaviour
 
         if (gameObject.name == "Scientist_Potion_SlimeWall(Clone)")
         {
-            platformName = col.gameObject.name;
+            audio.Play("Bottle_Break", 0);
 
-            switch (platformName)
+            switch (col.gameObject.name)
             {
                 case "PlatformMiddleGround":
                     heightSlimeWall = 0.14f;
@@ -110,6 +114,9 @@ public class PotionPoison : MonoBehaviour
                 hit = false;
                 rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
                 pos = rb2d.transform.position;
+
+                audio.Play("SlimeWall", 0);
+
                 GameObject slimeWall = Instantiate(Resources.Load("Scientist_SlimeWall"), new Vector2(pos.x, heightSlimeWall), Quaternion.identity) as GameObject;
                 isCreated = true;
                 if (playerNum == 1)
@@ -160,6 +167,9 @@ public class PotionPoison : MonoBehaviour
 
     IEnumerator Poison(GameObject potion)
     {
+        audio.Play("Poison", 0);
+        audio.Stop("Poison", 3);
+
         potion.GetComponent<Collider2D>().enabled = false;
         potion.GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(0.2f);

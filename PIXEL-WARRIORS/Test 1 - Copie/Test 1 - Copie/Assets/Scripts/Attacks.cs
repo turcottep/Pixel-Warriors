@@ -115,7 +115,7 @@ public class Attacks : MonoBehaviour
             damage = 0.25f;
             GameObject go;
 
-            audio.Play("Whoosh");
+            audio.Play("Whoosh", 0);
 
             if (player.name == "Scientist(Clone)" || player.name == "Demon(Clone)")
             {
@@ -141,7 +141,7 @@ public class Attacks : MonoBehaviour
         {
             damage = 0.5f;
 
-            audio.Play("Whoosh");
+            audio.Play("Whoosh", 0);
 
             if (!player.isRight)
             {
@@ -159,7 +159,7 @@ public class Attacks : MonoBehaviour
         {
             damage = 0.5f;
 
-            audio.Play("Whoosh");
+            audio.Play("Whoosh", 0);
 
             if (!player.isRight)
             {
@@ -176,6 +176,7 @@ public class Attacks : MonoBehaviour
         {
             if (state)
             {
+                //audio.Play("Charge", 0);
                 player.charge = true;
                 anim.SetBool("Charge", true);
             }
@@ -191,6 +192,9 @@ public class Attacks : MonoBehaviour
                 damage = 0.75f;
                 if (player.name == "Scientist(Clone)") { rotation = 90; }
                 else { rotation = 0; }
+
+                audio.Play("Special1", 0);
+
                 GameObject go = (GameObject)Instantiate(special1, (Vector2)transform.position + offset_special1 * transform.localScale.x, Quaternion.Euler(0, direction, rotation));
                 if (playerNum == 1)
                 {
@@ -218,6 +222,9 @@ public class Attacks : MonoBehaviour
         {
             damage = 1.25f;
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
+            audio.Play("SpikeBones", 0);
+
             GameObject smallBoneLeft = Instantiate(Resources.Load("Demon_Small_Bone"), new Vector2(player.GetComponent<Rigidbody2D>().position.x - 0.58499652f, player.GetComponent<Rigidbody2D>().position.y - 0.07370224f), Quaternion.identity) as GameObject;
             GameObject smallBoneRight = Instantiate(Resources.Load("Demon_Small_Bone"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + 0.58499652f, player.GetComponent<Rigidbody2D>().position.y - 0.07370224f), Quaternion.identity) as GameObject;
             if (playerNum == 1)
@@ -271,6 +278,10 @@ public class Attacks : MonoBehaviour
                 ballSpeedBottom = new Vector2(-3.5f, -0.3f);
             }
             damage = 1.25f;
+
+            audio.Play("TriBall", 0);
+            audio.Play("TriBall", 0.1f);
+
             GameObject ballUp = Instantiate(Resources.Load("Alien_TriBall"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posBallUpBottom, player.GetComponent<Rigidbody2D>().position.y + 0.15663729f), Quaternion.Euler(0, direction, 0)) as GameObject;
             GameObject ballMiddle = Instantiate(Resources.Load("Alien_TriBall"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posBallMiddle, player.GetComponent<Rigidbody2D>().position.y + 0.00763729f), Quaternion.Euler(0, direction, 0)) as GameObject;
             GameObject ballBottom = Instantiate(Resources.Load("Alien_TriBall"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posBallUpBottom, player.GetComponent<Rigidbody2D>().position.y - 0.12336271f), Quaternion.Euler(0, direction, 0)) as GameObject;
@@ -296,7 +307,6 @@ public class Attacks : MonoBehaviour
             ballMiddle.GetComponent<Rigidbody2D>().velocity = ballSpeedMiddle;
             ballBottom.GetComponent<Rigidbody2D>().velocity = ballSpeedBottom;
 
-
             Destroy(ballUp, 3);
             Destroy(ballMiddle, 3);
             Destroy(ballBottom, 3);
@@ -319,6 +329,9 @@ public class Attacks : MonoBehaviour
                 direction = 180f;
                 offset = new Vector2(0.2f, -0.1f);
             }
+
+            audio.Play("Throw", 0);
+
             GameObject bomb = (GameObject)Instantiate(Resources.Load("Ninja_Bomb"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
             if (playerNum == 1)
             {
@@ -368,6 +381,9 @@ public class Attacks : MonoBehaviour
     IEnumerator DemonBones(int playerNum)
     {
         yield return new WaitForSeconds(0.05f);
+
+        audio.Play("SpikeBones", 0);
+
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         GameObject bigBoneLeft = Instantiate(Resources.Load("Demon_Big_Bone"), new Vector2(player.GetComponent<Rigidbody2D>().position.x - 0.26354105f, player.GetComponent<Rigidbody2D>().position.y - 0.01315464f), Quaternion.identity) as GameObject;
         GameObject bigBoneRight = Instantiate(Resources.Load("Demon_Big_Bone"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + 0.26354105f, player.GetComponent<Rigidbody2D>().position.y - 0.01315464f), Quaternion.identity) as GameObject;
@@ -404,6 +420,9 @@ public class Attacks : MonoBehaviour
         if (bomb != null)
         {
             Vector2 pos = new Vector2(bomb.transform.position.x, bomb.transform.position.y);
+
+            audio.Play("Bomb_Explosion", 0);
+
             GameObject blast = Instantiate(Resources.Load("Ninja_Explosion"), new Vector2(pos.x, pos.y + 0.1f), Quaternion.identity) as GameObject;
             blast.tag = bomb.tag;
             blast.layer = bomb.layer;
@@ -438,6 +457,8 @@ public class Attacks : MonoBehaviour
                 posShield = -0.2900102f;
             }
 
+            audio.Play("Demon_Shield", 0);
+
             GameObject boneShield = Instantiate(Resources.Load("Demon_Shield"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + posShield, player.GetComponent<Rigidbody2D>().position.y + 0.02229776f), Quaternion.Euler(0, direction, 0)) as GameObject;
             if (playerNum == 1)
             {
@@ -453,9 +474,11 @@ public class Attacks : MonoBehaviour
             StartCoroutine("CanShootSpecial3");
         }
 
-        //Doit se faire destroy si hit par attaque
         if (player.name == "Alien(Clone)" && canShootSp3 && !player.dead && !player.grounded)
         {
+            audio.Play("Ufo", 0);
+            audio.Stop("Ufo", 2);
+
             GameObject UFO = Instantiate(Resources.Load("Alien_UFO"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + 0.019f, player.GetComponent<Rigidbody2D>().position.y - 0.307f), Quaternion.identity) as GameObject;
             if (playerNum == 1)
             {
@@ -474,6 +497,8 @@ public class Attacks : MonoBehaviour
         if (player.name == "Ninja(Clone)" && canShootSp3 && !player.dead)
         {
             Vector2 pos = new Vector2(player.GetComponent<Rigidbody2D>().position.x, player.GetComponent<Rigidbody2D>().position.y);
+
+            audio.Play("Log", 0);
 
             GameObject log = Instantiate(Resources.Load("Ninja_Log"), new Vector2(player.GetComponent<Rigidbody2D>().position.x, player.GetComponent<Rigidbody2D>().position.y), Quaternion.identity) as GameObject;
             player.transform.position = pos;
@@ -499,6 +524,9 @@ public class Attacks : MonoBehaviour
                 direction = 180f;
                 offset = new Vector2(0.2f, -0.1f);
             }
+
+            audio.Play("Throw", 0);
+
             GameObject potionSlimeWall = (GameObject)Instantiate(Resources.Load("Scientist_Potion_SlimeWall"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
             if (playerNum == 1)
             {
@@ -516,6 +544,9 @@ public class Attacks : MonoBehaviour
     IEnumerator LogEffect()
     {
         yield return new WaitForSeconds(1f);
+
+        audio.Play("Log", 0);
+
         player.GetComponent<Collider2D>().enabled = true;
         player.GetComponent<Renderer>().enabled = true;
         rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;

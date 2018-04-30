@@ -6,17 +6,30 @@ public class Shield : MonoBehaviour {
 
     private GameObject shield;
     private Rigidbody2D rb2d;
+    private AudioManager audio;
 
     private int lives = 2;
 
     void Start () {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
+        audio = FindObjectOfType<AudioManager>();
     }
 
     public void OnCollisionEnter2D(Collision2D col)
     {
         if (shield.tag == "ShieldPlayer1" && col.gameObject.tag == "AttPlayer2")
         {
+            switch (shield.name)
+            {
+                case "Alien_UFO(Clone)":
+                    audio.Play("Ufo_Hit", 0);
+                    break;
+                case "Demon_Shield(Clone)":
+                case "Scientist_SlimeWall(Clone)":
+                    audio.Play("Shield_Hit", 0);
+                    break;
+            }
+
             Destroy(col.gameObject);
             lives--;
             shield.GetComponent<SpriteRenderer>().color = Color.red;

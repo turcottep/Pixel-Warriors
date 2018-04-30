@@ -65,9 +65,8 @@ public class Manager : MonoBehaviour
         string character2 = "Scientist";
 
         int playerNumberP1 = 2;
-        int playerNumberP2 = 3;
+        int playerNumberP2 = 1;
 
-        
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
         if (mainMenuManager !=null)
         {
@@ -79,6 +78,10 @@ public class Manager : MonoBehaviour
         if (playerNumberP1 == 2) character1 = "Alien";
         if (playerNumberP1 == 3) character1 = "Scientist";
         if (playerNumberP1 == 4) character1 = "Demon";
+        if (playerNumberP2 == 1) character2 = "Ninja";
+        if (playerNumberP2 == 2) character2 = "Alien";
+        if (playerNumberP2 == 3) character2 = "Scientist";
+        if (playerNumberP2 == 4) character2 = "Demon";
 
         player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
         player1.GetComponent<Player>().playerType = playerNumberP1;
@@ -96,10 +99,9 @@ public class Manager : MonoBehaviour
         piedsJ1.layer = player1.layer;
         piedsJ1.tag = player1.tag;
 
-
         player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.9f), Quaternion.identity) as GameObject;
+        player2.GetComponent<Player>().playerType = playerNumberP2;
         player2.tag = "Player 2";
-
         player2.layer = 9;
         player2.GetComponent<Player>().jump = KeyCode.M;
         player2.GetComponent<Player>().A = KeyCode.Comma;
