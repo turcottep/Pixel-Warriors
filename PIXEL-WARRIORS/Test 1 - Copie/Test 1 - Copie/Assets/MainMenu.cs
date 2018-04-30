@@ -6,7 +6,8 @@ using UnityEngine.UI;
 using UnityEditor.SceneManagement;
 #endif
 
-public class MainMenu : MonoBehaviour {
+public class MainMenu : MonoBehaviour
+{
 
     public Toggle toggleMap1;
     public Toggle toggleMap2;
@@ -24,6 +25,7 @@ public class MainMenu : MonoBehaviour {
     public int mapNumber;
     public int playerNumber = 0;
 
+    private bool aiMode = false;
 
     public void Awake()
     {
@@ -33,6 +35,7 @@ public class MainMenu : MonoBehaviour {
     public void playAI()
     {
         SelectPlayer();
+        aiMode = true;
 
         if (toggleMap1.isOn)
         {
@@ -164,5 +167,8 @@ public class MainMenu : MonoBehaviour {
         return playerNumber;
     }
 
-    
+    public bool getAIMode()
+    {
+        return aiMode;
+    }
 }

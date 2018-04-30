@@ -32,6 +32,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
     public new AudioManager audio;
 
     //controls
+    public bool controls = true;
     public KeyCode up = KeyCode.W;
     public bool pressUp = false;
     public KeyCode jump = KeyCode.Space;
@@ -99,7 +100,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         manager.GetComponent<Manager>().UpdatePercentages();
     }
 
-    
+
 
     IEnumerator Poison(int time)
     {
@@ -236,103 +237,104 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         anim.SetBool("Dead", dead);
         anim.SetBool("Stunned", stunned);
 
-        if (photonView.isMine == false && PhotonNetwork.connected == true)
+
+        if (photonView.isMine && PhotonNetwork.connected == true)
         {
 
             //Flip character L/R
             if (isRight == false)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        if (isRight == true)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-
-
-        if (!player.stunned)
-        {
-
-            if (Input.GetKeyDown(jump))
             {
-                MoveUp();
+                transform.localScale = new Vector3(-1, 1, 1);
             }
-            if (Input.GetKeyDown(down))
+            if (isRight == true)
             {
-                MoveDown();
+                transform.localScale = new Vector3(1, 1, 1);
             }
 
 
-            //////////////////////////////////ATTACKS
+            if (!player.stunned)
+            {
 
-            //A
-
-            if (Input.GetKeyDown(A) && pressUp) // A + ↑
-            {
-                Basic2();
-            }
-            else if (Input.GetKeyDown(A) && pressDown) // A + ↓
-            {
-                basic_2 = false;
-                Basic3();
-            }
-            else if (Input.GetKeyDown(A)) // A + ← →
-            {
-                basic_3 = false;
-                Basic1();
-            }
-            else
-            {
-                basic_1 = false;
-                basic_2 = false;
-                basic_3 = false;
-            }
-
-            //B
-            if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
-            {
-                Special2();
-            }
-            else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressDown) // B + ↓
-            {
-                special_2 = false;
-                Special3();
-            }
-            else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
-            {
-                special_3 = false;
-                Special1(true);
-            }
-            else if (Input.GetKeyUp(B)) // B + ← →
-            {
-                Special1(false);
-                special_1 = false;
-            }
+                if (Input.GetKeyDown(jump))
+                {
+                    MoveUp();
+                }
+                if (Input.GetKeyDown(down))
+                {
+                    MoveDown();
+                }
 
 
-            if (Input.GetKeyDown(down)) // B + ↓
-            {
-                pressDown = true;
-            }
-            else if (Input.GetKeyUp(down)) // B + ↓
-            {
-                pressDown = false;
-            }
+                //////////////////////////////////ATTACKS
 
-            if (Input.GetKeyDown(up)) // B + ↑
-            {
-                pressUp = true;
-            }
-            else if (Input.GetKeyUp(up)) // B + ↑
-            {
-                pressUp = false;
-            }
+                //A
 
-            //Gauche/Droite
-            if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
-            else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
-            else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
-        }
+                if (Input.GetKeyDown(A) && pressUp) // A + ↑
+                {
+                    Basic2();
+                }
+                else if (Input.GetKeyDown(A) && pressDown) // A + ↓
+                {
+                    basic_2 = false;
+                    Basic3();
+                }
+                else if (Input.GetKeyDown(A)) // A + ← →
+                {
+                    basic_3 = false;
+                    Basic1();
+                }
+                else
+                {
+                    basic_1 = false;
+                    basic_2 = false;
+                    basic_3 = false;
+                }
+
+                //B
+                if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
+                {
+                    Special2();
+                }
+                else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressDown) // B + ↓
+                {
+                    special_2 = false;
+                    Special3();
+                }
+                else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
+                {
+                    special_3 = false;
+                    Special1(true);
+                }
+                else if (Input.GetKeyUp(B)) // B + ← →
+                {
+                    Special1(false);
+                    special_1 = false;
+                }
+
+
+                if (Input.GetKeyDown(down)) // B + ↓
+                {
+                    pressDown = true;
+                }
+                else if (Input.GetKeyUp(down)) // B + ↓
+                {
+                    pressDown = false;
+                }
+
+                if (Input.GetKeyDown(up)) // B + ↑
+                {
+                    pressUp = true;
+                }
+                else if (Input.GetKeyUp(up)) // B + ↑
+                {
+                    pressUp = false;
+                }
+
+                //Gauche/Droite
+                if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
+                else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
+                else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+            }
         }
     }
 
@@ -414,19 +416,19 @@ public class Player : Photon.MonoBehaviour, IPunObservable
 
     public void Basic1()
     {
-        
+
         basic_1 = true;
         player.GetComponent<Attacks>().LaunchBasic1(playerNum);
     }
     public void Basic2()
     {
-        
+
         basic_2 = true;
         player.GetComponent<Attacks>().LaunchBasic2(playerNum);
     }
     public void Basic3()
     {
-        
+
         basic_3 = true;
         player.GetComponent<Attacks>().LaunchBasic3(playerNum);
     }
@@ -498,15 +500,19 @@ public class Player : Photon.MonoBehaviour, IPunObservable
 
     private void Awake()
     {
-        // #Important
-        // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
-        if (photonView.isMine)
+        if (!manager.GetComponent<MainMenu>().getAIMode())
         {
-            Player.LocalPlayerInstance = this.gameObject;
+            // #Important
+            // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
+            if (photonView.isMine)
+            {
+                Player.LocalPlayerInstance = this.gameObject;
+            }
+            // #Critical
+            // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
+            DontDestroyOnLoad(this.gameObject);
         }
-        // #Critical
-        // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-        DontDestroyOnLoad(this.gameObject);
+
     }
 
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
