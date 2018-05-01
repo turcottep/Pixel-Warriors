@@ -89,7 +89,22 @@ public class Manager : MonoBehaviour
 
         if (gameMode == 2)
         {
-            PhotonNetwork.Instantiate(character1, new Vector2(1f, 0.9f), Quaternion.identity, 0);
+            if (PhotonNetwork.room.PlayerCount == 1)
+            {
+                player1 = PhotonNetwork.Instantiate(character1, new Vector2(1f, 0.9f), Quaternion.identity, 0);
+
+            }
+            else
+            {
+                isStarted = true;
+                player2 = PhotonNetwork.Instantiate(character1, new Vector2(1f, 0.9f), Quaternion.identity, 0);
+                player2.tag = "Player 2";
+                player2.layer = 9;
+                GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
+                piedsJ2.layer = player2.layer;
+                piedsJ2.tag = player2.tag;
+
+            }
         }
         else if (gameMode != 2)
         {
@@ -141,19 +156,11 @@ public class Manager : MonoBehaviour
         if (PhotonNetwork.room.PlayerCount == 1)
         {
             player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            waitingScreen.SetActive(true);
+            //waitingScreen.SetActive(true);
         }
-        if (PhotonNetwork.room.PlayerCount == 2)
+        else if (PhotonNetwork.room.PlayerCount == 2)
         {
-            if (!isStarted)
-            {
-                player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-                player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-                waitingScreen.SetActive(false);
-                isStarted = true;
-            }
-            
+
 
             updateTimer();
             updateLifeDisplay();
@@ -227,6 +234,15 @@ public class Manager : MonoBehaviour
             countdown.gameObject.SetActive(false);
             timer.gameObject.SetActive(true);
             timer.text = timeLeftMin.ToString() + ":" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
+
+            player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+            player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+
+            //waitingScreen.SetActive(false);
+            player2 = GameObject.FindGameObjectWithTag("Player 2");
+            player1 = GameObject.FindGameObjectWithTag("Player 1");
+
+
         }
 
         if (timeLeftSec == 0)

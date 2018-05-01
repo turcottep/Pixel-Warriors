@@ -542,6 +542,13 @@ public class Player : Photon.MonoBehaviour, IPunObservable
             this.isDead = (bool)stream.ReceiveNext();
             this.isRight = (bool)stream.ReceiveNext();
 
+            if (basic_1) Basic1();
+            if (basic_2) Basic2();
+            if (basic_3) Basic3();
+            Special1(special_1);
+            if (special_2) Special2();
+            if (special_3) Special3();
+            if (isDead) manager.GetComponent<Manager>().PlayerDeath(playerNum);
 
         }
     }
