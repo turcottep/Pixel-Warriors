@@ -25,31 +25,37 @@ public class MainMenu : MonoBehaviour
     public int mapNumber;
     public int playerNumber = 0;
 
-    private bool aiMode = false;
+    private int gameMode = 0;
+
+    GameObject player1;
 
     public void Awake()
     {
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("MainMenuManager"));
+        //player1 = Instantiate(Resources.Load("Ninja"), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
+        //player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        //DontDestroyOnLoad(GameObject.FindGameObjectWithTag("MainMenuManager"));
+
     }
 
     public void playAI()
     {
         SelectPlayer();
-        aiMode = true;
+        gameMode = 1;
 
         if (toggleMap1.isOn)
         {
             toggleMap2.isOn = false;
-#if UNITY_EDITOR
-            EditorSceneManager.LoadScene("MAP1");
-#endif
+
+            PhotonNetwork.LoadLevel("MAP1");
+
         }
         else if (toggleMap2.isOn)
         {
             toggleMap1.isOn = false;
-#if UNITY_EDITOR
-            EditorSceneManager.LoadScene("MAP2");
-#endif
+
+            PhotonNetwork.LoadLevel("MAP2");
+
         }
 
     }
@@ -57,6 +63,7 @@ public class MainMenu : MonoBehaviour
     public void playOnline()
     {
         SelectPlayer();
+        gameMode = 2;
 
         if (playerNumber != 0)
         {
@@ -68,9 +75,9 @@ public class MainMenu : MonoBehaviour
             {
                 mapNumber = 2;
             }
-#if UNITY_EDITOR
-            EditorSceneManager.LoadScene("Launcher");
-#endif
+
+            PhotonNetwork.LoadLevel("Launcher");
+
         }
     }
 
@@ -167,8 +174,8 @@ public class MainMenu : MonoBehaviour
         return playerNumber;
     }
 
-    public bool getAIMode()
+    public int getGameMode()
     {
-        return aiMode;
+        return gameMode;
     }
 }

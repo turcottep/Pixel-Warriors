@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour
     private float timeLeftMin;
     public TextMeshProUGUI countdown;
 
-    public bool aiMode = false;
+    public int gameMode = 0;
 
     public GameObject headP1_1;
     public GameObject headP1_2;
@@ -68,10 +68,10 @@ public class Manager : MonoBehaviour
         int playerNumberP2 = 1;
 
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
-        if (mainMenuManager !=null)
+        if (mainMenuManager != null)
         {
             playerNumberP1 = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
-            aiMode = mainMenuManager.GetComponent<MainMenu>().getAIMode();
+            gameMode = mainMenuManager.GetComponent<MainMenu>().getGameMode();
         }
 
         if (playerNumberP1 == 1) character1 = "Ninja";
@@ -83,40 +83,47 @@ public class Manager : MonoBehaviour
         if (playerNumberP2 == 3) character2 = "Scientist";
         if (playerNumberP2 == 4) character2 = "Demon";
 
-        player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
-        player1.GetComponent<Player>().playerType = playerNumberP1;
-        player1.tag = "Player 1";
-        player1.layer = 8;
-        player1.GetComponent<Player>().jump = KeyCode.R;
-        player1.GetComponent<Player>().A = KeyCode.T;
-        player1.GetComponent<Player>().B = KeyCode.Y;
-        player1.GetComponent<Player>().up = KeyCode.W;
-        player1.GetComponent<Player>().left = KeyCode.A;
-        player1.GetComponent<Player>().down = KeyCode.S;
-        player1.GetComponent<Player>().right = KeyCode.D;
-        player1.GetComponent<Player>().initialPosition = new Vector3(-2.7f, 0.9f, 0);
-        GameObject piedsJ1 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
-        piedsJ1.layer = player1.layer;
-        piedsJ1.tag = player1.tag;
+        if (gameMode != 2)
+        {
+            player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
+            player1.GetComponent<Player>().playerType = playerNumberP1;
+            player1.tag = "Player 1";
+            player1.layer = 8;
+            player1.GetComponent<Player>().jump = KeyCode.R;
+            player1.GetComponent<Player>().A = KeyCode.T;
+            player1.GetComponent<Player>().B = KeyCode.Y;
+            player1.GetComponent<Player>().up = KeyCode.W;
+            player1.GetComponent<Player>().left = KeyCode.A;
+            player1.GetComponent<Player>().down = KeyCode.S;
+            player1.GetComponent<Player>().right = KeyCode.D;
+            player1.GetComponent<Player>().initialPosition = new Vector3(-2.7f, 0.9f, 0);
+            GameObject piedsJ1 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
+            piedsJ1.layer = player1.layer;
+            piedsJ1.tag = player1.tag;
 
-        player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.9f), Quaternion.identity) as GameObject;
-        player2.GetComponent<Player>().playerType = playerNumberP2;
-        player2.tag = "Player 2";
-        player2.layer = 9;
-        player2.GetComponent<Player>().jump = KeyCode.M;
-        player2.GetComponent<Player>().A = KeyCode.Comma;
-        player2.GetComponent<Player>().B = KeyCode.Period;
-        player2.GetComponent<Player>().up = KeyCode.UpArrow;
-        player2.GetComponent<Player>().left = KeyCode.LeftArrow;
-        player2.GetComponent<Player>().down = KeyCode.DownArrow;
-        player2.GetComponent<Player>().right = KeyCode.RightArrow;
-        player2.GetComponent<Player>().initialPosition = new Vector3(2.7f, 0.9f, 0);
-        GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP2);
-        piedsJ2.layer = player2.layer;
-        piedsJ2.tag = player2.tag;
+            player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.9f), Quaternion.identity) as GameObject;
+            player2.GetComponent<Player>().playerType = playerNumberP2;
+            player2.tag = "Player 2";
+            player2.layer = 9;
+            player2.GetComponent<Player>().jump = KeyCode.M;
+            player2.GetComponent<Player>().A = KeyCode.Comma;
+            player2.GetComponent<Player>().B = KeyCode.Period;
+            player2.GetComponent<Player>().up = KeyCode.UpArrow;
+            player2.GetComponent<Player>().left = KeyCode.LeftArrow;
+            player2.GetComponent<Player>().down = KeyCode.DownArrow;
+            player2.GetComponent<Player>().right = KeyCode.RightArrow;
+            player2.GetComponent<Player>().initialPosition = new Vector3(2.7f, 0.9f, 0);
+            GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP2);
+            piedsJ2.layer = player2.layer;
+            piedsJ2.tag = player2.tag;
+        }
 
 
-        player2.GetComponent<Player>().aiON = true;
+        if (gameMode == 1)
+        {
+            player2.GetComponent<Player>().aiON = true;
+        }
+
 
         setHeads(playerNumberP1, playerNumberP2);
     }
@@ -280,9 +287,9 @@ public class Manager : MonoBehaviour
         //cash.SetText((200 + 10 * temp).ToString());
     }
 
-    public bool getAIMode()
+    public int getGameMode()
     {
-        return aiMode;
+        return gameMode;
     }
 
     //UI Will

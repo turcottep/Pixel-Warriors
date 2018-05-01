@@ -694,6 +694,9 @@ MonoBehaviour:
   MaxPlayersPerRoom: 2
   controlPanel: {fileID: 583279228}
   progressLabel: {fileID: 966378679}
+  gameManager: {fileID: 821940166}
+  playerPrefab: {fileID: 1733465360978672, guid: 6ea63250444175247a4d6e522f949867,
+    type: 2}
 --- !u!4 &1242267093
 Transform:
   m_ObjectHideFlags: 0

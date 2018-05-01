@@ -79,33 +79,33 @@ namespace Com.MyCompany.MyGame
         //PhotonNetwork.LoadLevel("Room for " + PhotonNetwork.room.PlayerCount);
         void LoadArena()
         {
-            if (!PhotonNetwork.isMasterClient)
-            {
-                Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
-            }
-            GameObject manager = GameObject.FindGameObjectWithTag("Manager");
-            int mapNumber = manager.GetComponent<MainMenu>().getMapNumber();
-            Debug.Log("PhotonNetwork : Loading Level : " + mapNumber);
-            PhotonNetwork.LoadLevel("MAP " + mapNumber.ToString());
+            //if (!PhotonNetwork.isMasterClient)
+            //{
+            //    Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
+            //}
+            //GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+            //int mapNumber = manager.GetComponent<MainMenu>().getMapNumber();
+            //Debug.Log("PhotonNetwork : Loading Level : " + mapNumber);
+            //PhotonNetwork.LoadLevel("MAP " + mapNumber.ToString());
 
-            if (playerPrefab == null)
-            {
-                Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
-            }
-            else
-            {
+            //if (playerPrefab == null)
+            //{
+            //    Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
+            //}
+            //else
+            //{
 
-                if (Player.LocalPlayerInstance == null)
-                {
-                    Debug.Log("We are Instantiating LocalPlayer from ??? ");
-                    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
-                }
-                else
-                {
-                    Debug.Log("Ignoring scene load for &!& ");
-                }
-            }
+            //    if (Player.LocalPlayerInstance == null)
+            //    {
+            //        Debug.Log("We are Instantiating LocalPlayer from ??? ");
+            //        // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+            //        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("Ignoring scene load for &!& ");
+            //    }
+            //}
         }
 
         private void Start()

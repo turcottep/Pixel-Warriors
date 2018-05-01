@@ -32,6 +32,7 @@ TagManager:
   - Feet3
   - Feet4
   - Bounce
+  - AudioManager
   layers:
   - Default
   - TransparentFX

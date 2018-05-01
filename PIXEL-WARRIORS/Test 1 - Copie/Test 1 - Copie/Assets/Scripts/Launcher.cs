@@ -26,8 +26,8 @@ namespace Com.INDIEN.PixelWarriors
         public GameObject controlPanel;
         [Tooltip("The UI Label to inform the user that the connection is in progress")]
         public GameObject progressLabel;
-
-
+        public GameObject gameManager;
+        public GameObject playerPrefab;
         #endregion
 
 
@@ -154,16 +154,65 @@ namespace Com.INDIEN.PixelWarriors
         public override void OnJoinedRoom()
         {
             Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+            int mapNumber = 1;
+            int playerNumberP1 = 1;
+            string character1 = "Ninja";
 
-            // #Critical: We only load if we are the first player, else we rely on  PhotonNetwork.automaticallySyncScene to sync our instance scene.
+            GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
+            if (mainMenuManager != null)
+            {
+                playerNumberP1 = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
+                mapNumber = mainMenuManager.GetComponent<MainMenu>().getMapNumber();
+            }
+
+            if (playerNumberP1 == 1) character1 = "Ninja";
+            if (playerNumberP1 == 2) character1 = "Alien";
+            if (playerNumberP1 == 3) character1 = "Scientist";
+            if (playerNumberP1 == 4) character1 = "Demon";
+
+            // Critical: We only load if we are the first player, else we rely on  PhotonNetwork.automaticallySyncScene to sync our instance scene.
             if (PhotonNetwork.room.PlayerCount == 1)
             {
-                Debug.Log("We load the MAP1 by default ");
 
 
-                // #Critical
-                // Load the Room Level. 
-                PhotonNetwork.LoadLevel("MAP1");
+                if (!PhotonNetwork.isMasterClient)
+                {
+                    Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
+                }
+                GameObject manager = GameObject.FindGameObjectWithTag("MainMenuManager");
+                Debug.Log("PhotonNetwork : Loading Level : " + mapNumber);
+                PhotonNetwork.LoadLevel("MAP" + mapNumber.ToString());
+
+            }
+
+            //instantiate player
+            if (playerPrefab == null)
+            {
+                Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
+            }
+            else
+            {
+
+                if (Player.LocalPlayerInstance == null)
+                {
+                    Debug.Log("We are Instantiating LocalPlayer from ??? ");
+                    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+
+                    Vector2 initialPos;
+                    if (PhotonNetwork.room.PlayerCount == 1)
+                    {
+                        initialPos = new Vector2(2.7f, 0.9f);
+                    }
+                    else
+                    {
+                        initialPos = new Vector2(-2.7f, 0.9f);
+                    }
+                    PhotonNetwork.Instantiate(character1, initialPos, Quaternion.identity, 0);
+                }
+                else
+                {
+                    Debug.Log("Ignoring scene load for &!& ");
+                }
             }
         }
 
