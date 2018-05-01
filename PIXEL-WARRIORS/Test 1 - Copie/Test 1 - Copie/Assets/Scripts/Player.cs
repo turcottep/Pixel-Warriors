@@ -518,6 +518,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
     {
         if (stream.isWriting)
         {
+            Debug.Log("ENOVYE");
             // We own this player: send the others our data
             stream.SendNext(basic_1);
             stream.SendNext(basic_2);
@@ -532,6 +533,8 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         }
         else
         {
+            Debug.Log("RECOIT");
+
             // Network player, receive data
             this.basic_1 = (bool)stream.ReceiveNext();
             this.basic_2 = (bool)stream.ReceiveNext();
