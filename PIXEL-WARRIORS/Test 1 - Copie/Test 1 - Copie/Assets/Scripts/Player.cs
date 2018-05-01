@@ -115,7 +115,6 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         //Hit by attacks
         if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
         {
-            audioManager.Play("Hit", 0);
 
             //TEST
             Vector2 vecteurTest = new Vector2(0, 0);
@@ -166,13 +165,12 @@ public class Player : Photon.MonoBehaviour, IPunObservable
             special_3 = false;
             charge = false;
 
-
+            audioManager.Play("Hit", 0);
         }
 
         //Lava
         if (col.gameObject.tag == "Lava")
         {
-            audioManager.Play("Lava", 0);
 
             charge = false;
             this.rb2d.velocity = new Vector2(0, 6);
@@ -181,6 +179,9 @@ public class Player : Photon.MonoBehaviour, IPunObservable
             manager.GetComponent<Manager>().UpdatePercentages();
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("Whitecolor");
+
+            audioManager.Play("Lava", 0);
+
         }
 
         if (col.gameObject.tag == "Bounce")
@@ -350,10 +351,11 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         //Out of map
         if (rb2d.transform.position.y < -2.1f || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 4.5f || rb2d.transform.position.x < -4.5)
         {
-            audioManager.Play("Death", 0);
 
             player.isDead = true;
             manager.GetComponent<Manager>().PlayerDeath(playerNum);
+            audioManager.Play("Death", 0);
+
         }
         if (player.isDead)
         {
@@ -387,12 +389,14 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         if (this.isDead) this.Revive();
         if (maxJump > 0)
         {
-            audioManager.Play("Jump", 0);
 
             maxSpeed = 2f; //ENLEVER?
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             rb2d.AddForce(new Vector2(0, jumpPower));
             maxJump--;
+
+            audioManager.Play("Jump", 0);
+
         }
 
     }
