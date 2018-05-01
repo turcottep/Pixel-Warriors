@@ -207,7 +207,7 @@ namespace Com.INDIEN.PixelWarriors
                     {
                         initialPos = new Vector2(-2.7f, 0.9f);
                     }
-                    PhotonNetwork.Instantiate(character1, initialPos, Quaternion.identity, 0);
+                    //PhotonNetwork.Instantiate(character1, initialPos, Quaternion.identity, 0);
                 }
                 else
                 {

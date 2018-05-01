@@ -83,7 +83,11 @@ public class Manager : MonoBehaviour
         if (playerNumberP2 == 3) character2 = "Scientist";
         if (playerNumberP2 == 4) character2 = "Demon";
 
-        if (gameMode != 2)
+        if (gameMode == 2)
+        {
+            PhotonNetwork.Instantiate(character1, new Vector2(1f, 0.9f), Quaternion.identity, 0);
+        }
+        else if (gameMode != 2)
         {
             player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
             player1.GetComponent<Player>().playerType = playerNumberP1;
