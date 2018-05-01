@@ -14,6 +14,8 @@ public class Manager : MonoBehaviour
 
     public int gameMode = 0;
 
+    public GameObject waitingScreen;
+
     public GameObject headP1_1;
     public GameObject headP1_2;
     public GameObject headP1_3;
@@ -50,11 +52,11 @@ public class Manager : MonoBehaviour
     public int livesP1 = 3;
     public int livesP2 = 3;
 
+    private bool isStarted = false;
+
     GameObject player1;
     GameObject player2;
 
-    GameObject player3;
-    GameObject player4;
 
     void Start()
     {
@@ -72,6 +74,8 @@ public class Manager : MonoBehaviour
         {
             playerNumberP1 = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
             gameMode = mainMenuManager.GetComponent<MainMenu>().getGameMode();
+            int num = PhotonNetwork.room.PlayerCount;
+            Debug.Log("num = " + num);
         }
 
         if (playerNumberP1 == 1) character1 = "Ninja";
@@ -134,21 +138,43 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        updateTimer();
-        updateLifeDisplay();
-
-        //Cooldown
-        if (coolingDown1 == true)
+        if (PhotonNetwork.room.PlayerCount == 1)
         {
-            cooldown_image1.gameObject.SetActive(true);
-            coolDownTime = 5.0f;
-            cooldown_image1.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
+            player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            waitingScreen.SetActive(true);
         }
-        if (coolingDown2 == true)
+        if (PhotonNetwork.room.PlayerCount == 2)
         {
-            cooldown_image2.gameObject.SetActive(true);
-            coolDownTime = 4.0f;
-            cooldown_image2.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
+            if (!isStarted)
+            {
+                player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+                player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+                waitingScreen.SetActive(false);
+                isStarted = true;
+            }
+            
+
+            updateTimer();
+            updateLifeDisplay();
+
+            //Cooldown
+            if (coolingDown1 == true)
+            {
+                cooldown_image1.gameObject.SetActive(true);
+                coolDownTime = 5.0f;
+                cooldown_image1.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
+            }
+            if (coolingDown2 == true)
+            {
+                cooldown_image2.gameObject.SetActive(true);
+                coolDownTime = 4.0f;
+                cooldown_image2.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
+            }
+        }
+        else
+        {
+            //if (isStarted) OtherPlayerQuit();
         }
     }
 
