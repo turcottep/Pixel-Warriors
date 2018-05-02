@@ -10,6 +10,12 @@ public class Attacks : MonoBehaviour
     public GameObject basic3;
     public GameObject special1;
 
+    public Image cooldown1;
+    public Image cooldown2;
+    public Image cooldown3;
+
+    private float coolDownTime;
+
     public Vector2 velocity_special1;
 
     public Vector2 offset_basic1;
@@ -17,9 +23,9 @@ public class Attacks : MonoBehaviour
     public Vector2 offset_basic3;
     public Vector2 offset_special1;
 
-    public float cooldown_special1 = 1f;
-    public float cooldown_special2 = 4f;
-    public float cooldown_special3 = 6f;
+    public float cooldown_special1;
+    public float cooldown_special2;
+    public float cooldown_special3;
 
     private float direction = 0f;
     private float rotation = 0;
@@ -42,7 +48,7 @@ public class Attacks : MonoBehaviour
     private Rigidbody2D rb2d;
     private Animator anim;
     private Manager manager;
-    private  new AudioManager audio;
+    private new AudioManager audio;
 
     void Start()
     {
@@ -60,23 +66,25 @@ public class Attacks : MonoBehaviour
         yield return new WaitForSeconds(cooldown);
         canShoot_basic = true;
     }
-    IEnumerator CanShootSpecial1()
+    IEnumerator CanShootSpecial1() //Y
     {
         canShootSp1 = false;
         yield return new WaitForSeconds(cooldown_special1);
+        player.manager.GetComponent<Manager>().coolingDown1 = false;
         canShootSp1 = true;
     }
     IEnumerator CanShootSpecial2() //W-Y
     {
         canShootSp2 = false;
-        //manager.coolingDown2 = true;///////////
         yield return new WaitForSeconds(cooldown_special2);
+        player.manager.GetComponent<Manager>().coolingDown2 = false;
         canShootSp2 = true;
     }
-    IEnumerator CanShootSpecial3()
+    IEnumerator CanShootSpecial3() //s-y
     {
         canShootSp3 = false;
         yield return new WaitForSeconds(cooldown_special3);
+        player.manager.GetComponent<Manager>().coolingDown3 = false;
         canShootSp3 = true;
     }
     IEnumerator DelayAnim()
@@ -196,7 +204,7 @@ public class Attacks : MonoBehaviour
                 if (player.name == "Scientist(Clone)") { rotation = 90; }
                 else { rotation = 0; }
 
-
+                player.manager.GetComponent<Manager>().coolingDown1 = true;
                 GameObject go = (GameObject)Instantiate(special1, (Vector2)transform.position + offset_special1 * transform.localScale.x, Quaternion.Euler(0, direction, rotation));
                 if (playerNum == 1)
                 {
@@ -224,6 +232,7 @@ public class Attacks : MonoBehaviour
         StartCoroutine("DelayAnim");
         if (player.name == "Demon(Clone)" && canShootSp2 && !player.dead && player.grounded)
         {
+            player.manager.GetComponent<Manager>().coolingDown2 = true;
             damage = 1.25f;
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
@@ -259,6 +268,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Alien(Clone)" && canShootSp2 && !player.dead)
         {
+            player.manager.GetComponent<Manager>().coolingDown2 = true;
             float posBallUpBottom;
             float posBallMiddle;
             Vector2 ballSpeedUp;
@@ -324,6 +334,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Ninja(Clone)" && canShootSp2 && !player.dead)
         {
+            player.manager.GetComponent<Manager>().coolingDown2 = true;
             damage = 1.25f;
             Vector2 offset;
             Vector2 velocity = new Vector2(1.8f, 2.3f);
@@ -359,6 +370,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Scientist(Clone)" && canShootSp2 && !player.dead)
         {
+            player.manager.GetComponent<Manager>().coolingDown2 = true;
             damage = 1.25f;
             Vector2 offset;
             Vector2 velocity = new Vector2(1.8f, 2.3f);
@@ -455,6 +467,7 @@ public class Attacks : MonoBehaviour
         StartCoroutine("DelayAnim");
         if (player.name == "Demon(Clone)" && canShootSp3 && !player.dead)
         {
+            player.manager.GetComponent<Manager>().coolingDown3 = true;
             Vector2 offsetShield = new Vector2(0.2900102f, 0.02229776f);
             float posShield;
 
@@ -490,7 +503,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Alien(Clone)" && canShootSp3 && !player.dead && !player.grounded)
         {
-      
+            player.manager.GetComponent<Manager>().coolingDown3 = true;
 
             GameObject UFO = Instantiate(Resources.Load("Alien_UFO"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + 0.019f, player.GetComponent<Rigidbody2D>().position.y - 0.307f), Quaternion.identity) as GameObject;
             if (playerNum == 1)
@@ -512,16 +525,18 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Ninja(Clone)" && canShootSp3 && !player.dead)
         {
+            player.manager.GetComponent<Manager>().coolingDown3 = true;
+
             Vector2 pos = new Vector2(player.GetComponent<Rigidbody2D>().position.x, player.GetComponent<Rigidbody2D>().position.y);
 
 
             GameObject log = Instantiate(Resources.Load("Ninja_Log"), new Vector2(player.GetComponent<Rigidbody2D>().position.x, player.GetComponent<Rigidbody2D>().position.y), Quaternion.identity) as GameObject;
             player.transform.position = pos;
-            rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
             StartCoroutine("CanShootSpecial3");
             StartCoroutine("LogEffect");
             player.GetComponent<Collider2D>().enabled = false;
-            player.GetComponent<Renderer>().enabled = false;
+            player.rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+            //player.GetComponent<Renderer>().enabled = false;
             Destroy(log, 1f);
 
             audio.Play("Log", 0);
@@ -530,6 +545,8 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Scientist(Clone)" && canShootSp3 && !player.dead)
         {
+            player.manager.GetComponent<Manager>().coolingDown3 = true;
+
             Vector2 offset;
             Vector2 velocity = new Vector2(1.8f, 2.3f);
             if (player.isRight)
@@ -565,9 +582,8 @@ public class Attacks : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-
         player.GetComponent<Collider2D>().enabled = true;
-        player.GetComponent<Renderer>().enabled = true;
+        //player.GetComponent<Renderer>().enabled = true;
         rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         player.maxJump = 2;
 

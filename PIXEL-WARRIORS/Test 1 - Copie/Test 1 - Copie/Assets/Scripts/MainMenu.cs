@@ -46,6 +46,7 @@ public class MainMenu : MonoBehaviour
         if (toggleMap1.isOn)
         {
             toggleMap2.isOn = false;
+            mapNumber = 1;
 
             PhotonNetwork.LoadLevel("MAP1");
 
@@ -53,6 +54,7 @@ public class MainMenu : MonoBehaviour
         else if (toggleMap2.isOn)
         {
             toggleMap1.isOn = false;
+            mapNumber = 2;
 
             PhotonNetwork.LoadLevel("MAP2");
 
@@ -69,10 +71,12 @@ public class MainMenu : MonoBehaviour
         {
             if (toggleMap1.isOn)
             {
+                //Lava
                 mapNumber = 1;
             }
             else if (toggleMap2.isOn)
             {
+                //Boat
                 mapNumber = 2;
             }
 

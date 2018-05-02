@@ -63,7 +63,9 @@ public class Manager : MonoBehaviour
     private GameObject player2;
     #endregion
 
-
+    public int mapN = 1;
+    private Vector2 initialPositionP1;
+    private Vector2 initialPositionP2;
 
     void Start()
     {
@@ -78,6 +80,19 @@ public class Manager : MonoBehaviour
 
         // get info from main menu
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
+        mapN = mainMenuManager.GetComponent<MainMenu>().getMapNumber();
+
+        if (mapN == 1)
+        {
+            initialPositionP1 = new Vector2(-2.7f, 1.1f);
+            initialPositionP2 = new Vector2(2.7f, 1.1f);
+        }
+        else if (mapN == 2)
+        {
+            initialPositionP1 = new Vector2(-2.1f, 1.3f);
+            initialPositionP2 = new Vector2(2.1f, 1.3f);
+        }
+
         if (mainMenuManager != null)
         {
             playerNumberP1 = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
@@ -104,13 +119,13 @@ public class Manager : MonoBehaviour
             if (PhotonNetwork.room.PlayerCount == 1)
             {
                 //if you are the first in the room
-                player1 = PhotonNetwork.Instantiate(character1, new Vector2(-2.7f, 0.9f), Quaternion.identity, 0);
+                player1 = PhotonNetwork.Instantiate(character1, initialPositionP1, Quaternion.identity, 0);
 
             }
             else
             {
                 //if you arrive in a room with a player present
-                player2 = PhotonNetwork.Instantiate(character1, new Vector2(2.7f, 0.9f), Quaternion.identity, 0);
+                player2 = PhotonNetwork.Instantiate(character1, initialPositionP2, Quaternion.identity, 0);
                 player2.tag = "Player 2";
                 player2.layer = 9;
                 GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
@@ -124,7 +139,7 @@ public class Manager : MonoBehaviour
         else
         {
             //if in singleplayer
-            player1 = Instantiate(Resources.Load(character1), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
+            player1 = Instantiate(Resources.Load(character1), initialPositionP1, Quaternion.identity) as GameObject;
             player1.GetComponent<Player>().playerType = playerNumberP1;
             player1.tag = "Player 1";
             player1.layer = 8;
@@ -135,12 +150,12 @@ public class Manager : MonoBehaviour
             player1.GetComponent<Player>().left = KeyCode.A;
             player1.GetComponent<Player>().down = KeyCode.S;
             player1.GetComponent<Player>().right = KeyCode.D;
-            player1.GetComponent<Player>().initialPosition = new Vector3(-2.7f, 0.9f, 0);
+            player1.GetComponent<Player>().initialPosition = initialPositionP1;
             GameObject piedsJ1 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
             piedsJ1.layer = player1.layer;
             piedsJ1.tag = player1.tag;
 
-            player2 = Instantiate(Resources.Load(character2), new Vector2(2.7f, 0.9f), Quaternion.identity) as GameObject;
+            player2 = Instantiate(Resources.Load(character2), initialPositionP2, Quaternion.identity) as GameObject;
             player2.GetComponent<Player>().playerType = playerNumberP2;
             player2.tag = "Player 2";
             player2.layer = 9;
@@ -151,7 +166,7 @@ public class Manager : MonoBehaviour
             player2.GetComponent<Player>().left = KeyCode.LeftArrow;
             player2.GetComponent<Player>().down = KeyCode.DownArrow;
             player2.GetComponent<Player>().right = KeyCode.RightArrow;
-            player2.GetComponent<Player>().initialPosition = new Vector3(2.7f, 0.9f, 0);
+            player2.GetComponent<Player>().initialPosition = initialPositionP2;
             GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP2);
             piedsJ2.layer = player2.layer;
             piedsJ2.tag = player2.tag;
@@ -160,7 +175,6 @@ public class Manager : MonoBehaviour
             isStarted = true;
             setHeads(playerNumberP1, playerNumberP2);
         }
-
     }
 
     void Update()
@@ -171,7 +185,7 @@ public class Manager : MonoBehaviour
             if (PhotonNetwork.room.PlayerCount == 1)
             {
                 player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                //waitingScreen.SetActive(true);
+                waitingScreen.SetActive(true);
             }
             else if (PhotonNetwork.room.PlayerCount == 2)
             {
@@ -188,18 +202,42 @@ public class Manager : MonoBehaviour
             updateTimer();
             updateLifeDisplay();
 
-            //Cooldown
-            if (coolingDown1 == true)
+            //Cooldowns
+            //Cooldown1
+            if (coolingDown1 == false)
+            {
+                cooldown_image1.gameObject.SetActive(false);
+                cooldown_image1.fillAmount = 1;
+            }
+            else if (coolingDown1 == true)
             {
                 cooldown_image1.gameObject.SetActive(true);
-                coolDownTime = 5.0f;
+                coolDownTime = 1.0f;
                 cooldown_image1.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
             }
-            if (coolingDown2 == true)
+            //Cooldown2
+            if (coolingDown2 == false)
+            {
+                cooldown_image2.gameObject.SetActive(false);
+                cooldown_image2.fillAmount = 1;
+            }
+            else if (coolingDown2 == true)
             {
                 cooldown_image2.gameObject.SetActive(true);
                 coolDownTime = 4.0f;
                 cooldown_image2.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
+            }
+            //Cooldown3
+            if (coolingDown3 == false)
+            {
+                cooldown_image3.gameObject.SetActive(false);
+                cooldown_image3.fillAmount = 1;
+            }
+            else if (coolingDown3 == true)
+            {
+                cooldown_image3.gameObject.SetActive(true);
+                coolDownTime = 6.0f;
+                cooldown_image3.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
             }
         }
         else
@@ -208,7 +246,7 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public void isCoolingDown(int x)
+    /*public void isCoolingDown(int x)
     {
         switch (x)
         {
@@ -216,7 +254,8 @@ public class Manager : MonoBehaviour
                 coolingDown2 = true;
                 break;
         }
-    }
+    }*/
+    
     public void PlayerDeath(int playerNum)
     {
         if (playerNum == 1)
@@ -243,7 +282,7 @@ public class Manager : MonoBehaviour
 
         if (gameMode == 2)
         {
-            //waitingScreen.SetActive(false);
+            waitingScreen.SetActive(false);
             player1 = GameObject.FindGameObjectWithTag("Player 1");
             player2 = GameObject.FindGameObjectWithTag("Player 2");
         }
@@ -278,11 +317,6 @@ public class Manager : MonoBehaviour
             countdown.gameObject.SetActive(false);
             timer.gameObject.SetActive(true);
             timer.text = timeLeftMin.ToString() + ":" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
-
-
-
-
-
         }
 
         if (timeLeftSec == 0)

@@ -7,6 +7,7 @@ using System;
 public class Player : Photon.MonoBehaviour, IPunObservable
 {
     public int playerType;
+    public int mapNumber;
 
     public float maxSpeed = 2.5f;
     public float speed = 15f;
@@ -67,7 +68,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
 
     private int playerNum;
 
-    private GameObject manager;
+    public GameObject manager;
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
@@ -79,6 +80,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         player = gameObject.GetComponentInParent<Player>();
         manager = GameObject.FindGameObjectWithTag("Manager");
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        mapNumber = manager.GetComponent<Manager>().mapN;
         if (player.tag == "Player 1")
         {
             playerNum = 1;
@@ -349,7 +351,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         pos = transform.position;
 
         //Out of map
-        if (rb2d.transform.position.y < -2.1f || rb2d.transform.position.y > 3.2 || rb2d.transform.position.x > 4.5f || rb2d.transform.position.x < -4.5)
+        if (((mapNumber == 1) && (rb2d.transform.position.y < -2.4f || rb2d.transform.position.y > 3.2f || rb2d.transform.position.x > 4.6f || rb2d.transform.position.x < -4.6f)) || ((mapNumber == 2) && (rb2d.transform.position.y < -2.5f || rb2d.transform.position.y > 3.4f || rb2d.transform.position.x > 4.8f || rb2d.transform.position.x < -4.8f)))
         {
 
             player.isDead = true;
