@@ -32,91 +32,91 @@ public class AI : MonoBehaviour
     public void AIUpdate()
     {
         //Bug lorsque Scientist Special3
-        /*if (player.tag == "Player 2")
+        //if (player.tag == "Player 2")
+        //{
+        // Debug.Log("2");
+
+        //Debug.Log("YOUHHOUH");
+        List<Transform> trous = new List<Transform>();
+
+        Transform autre = GameObject.FindGameObjectWithTag("Player 1").transform;
+        distance = autre.position.x - player.transform.position.x;
+        if (!avance) player.isRight = distance > 0;
+
+        trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
+        trous.Add(GameObject.FindGameObjectWithTag("Hole 2").transform);
+        List<float> distanceTrousX = new List<float>();
+        List<float> distanceTrousY = new List<float>();
+
+        foreach (Transform t in trous)
         {
-            // Debug.Log("2");
+            distanceTrousX.Add(t.position.x - this.transform.position.x);
+            distanceTrousY.Add(t.position.y - this.transform.position.y);
 
-            //Debug.Log("YOUHHOUH");
-            List<Transform> trous = new List<Transform>();
+        }
 
-            Transform autre = GameObject.FindGameObjectWithTag("Player 1").transform;
-            distance = autre.position.x - player.transform.position.x;
-            if (!avance) player.isRight = distance > 0;
 
-            trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
-            trous.Add(GameObject.FindGameObjectWithTag("Hole 2").transform);
-            List<float> distanceTrousX = new List<float>();
-            List<float> distanceTrousY = new List<float>();
-
-            foreach (Transform t in trous)
+        bool saute = false;
+        foreach (float d in distanceTrousX)
+        {
+            //Debug.Log("distanceTrou " + d * player.x);
+            if (player.isRight) direction = 1;
+            else direction = -1;
+            saute = (d * direction > 0 && d * direction < dSauteMin);
+            if (saute)
             {
-                distanceTrousX.Add(t.position.x - this.transform.position.x);
-                distanceTrousY.Add(t.position.y - this.transform.position.y);
-
+                //Debug.Log("saute");
+                player.MoveUp();
+                break;
             }
 
+        }
 
-            bool saute = false;
-            foreach (float d in distanceTrousX)
-            {
-                Debug.Log("distanceTrou " + d * player.x);
-                if (player.isRight) direction = 1;
-                else direction = -1;
-                saute = (d * direction > 0 && d * direction < dSauteMin);
-                if (saute)
-                {
-                    Debug.Log("saute");
-                    player.MoveUp();
-                    break;
-                }
-
-            }
-
-            avance = false;
-            int trou = 0;
-            for (int i = 0; i < distanceTrousX.Count; i++)
-            {
-                avance = Mathf.Abs(distanceTrousX[i]) < dAvanceMin;
-                if (avance)
-                {
-                    trou = i;
-                    break;
-                }
-            }
+        avance = false;
+        int trou = 0;
+        for (int i = 0; i < distanceTrousX.Count; i++)
+        {
+            avance = Mathf.Abs(distanceTrousX[i]) < dAvanceMin;
             if (avance)
             {
-                //Over Edge
-
-                //si il est en train de redescendre
-                if (rb2d.velocity.y < -4.5)
-                {
-                    player.MoveUp();
-                }
-
-                if (player.x == 0)
-                {
-                    Debug.Log("Avance");
-                    if (player.isRight) { player.MoveRight(); }
-                    else { player.MoveLeft(); }
-                }
-
+                trou = i;
+                break;
             }
-            else if (Mathf.Abs(distance) > dAttack1Min)
-            {
+        }
+        if (avance)
+        {
+            //Over Edge
 
-                player.Special1(!player.charge);
-                //Debug.Log("Avance vers joueur");
+            //si il est en train de redescendre
+            if (rb2d.velocity.y < -4.5)
+            {
+                player.MoveUp();
+            }
+
+            if (player.x == 0)
+            {
+                Debug.Log("Avance");
                 if (player.isRight) { player.MoveRight(); }
                 else { player.MoveLeft(); }
-
-            }
-            else if (Mathf.Abs(distance) > 0)
-            {
-                player.x = 0;
-                player.Basic1();
             }
 
-        }*/
+        }
+        else if (Mathf.Abs(distance) > dAttack1Min)
+        {
+
+            player.Special1(!player.charge);
+            //Debug.Log("Avance vers joueur");
+            if (player.isRight) { player.MoveRight(); }
+            else { player.MoveLeft(); }
+
+        }
+        else if (Mathf.Abs(distance) > 0)
+        {
+            player.x = 0;
+            player.Basic1();
+        }
+
+        //}
     }
 
 }

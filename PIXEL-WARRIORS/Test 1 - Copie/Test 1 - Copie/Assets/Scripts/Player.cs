@@ -120,7 +120,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
             Vector2 vecteurTest = new Vector2(0, 0);
             if (!(col.gameObject.name == "Scientist_Poison(Clone)") && !(col.gameObject.name == "Ninja_Bomb(Clone)" && !(col.gameObject.name == "Ninja_Explosion(Clone)")))
             {
-                Debug.Log("NAME:" + col.gameObject.name);
+                //Debug.Log("NAME:" + col.gameObject.name);
                 vecteurTest = rb2d.position; //- col.rigidbody.position;
                 vecteurTest = new Vector2(vecteurTest.x, (vecteurTest.y + 0.1f));
                 vecteurTest = vecteurTest * multiplier;
@@ -250,7 +250,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         }
 
 
-        if (!player.stunned && photonView.isMine && PhotonNetwork.connected == true)
+        if (!player.stunned &&( (photonView.isMine && PhotonNetwork.connected == true)|| manager.GetComponent<Manager>().getGameMode() == 1))
         {
 
             if (Input.GetKeyDown(jump))
@@ -487,7 +487,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
         if (Input.GetKey(jump) || Input.GetKey(down))
         {
-            Debug.Log("revit");
+            //Debug.Log("revit");
             rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
             player.isDead = false;
             player.dead = false;

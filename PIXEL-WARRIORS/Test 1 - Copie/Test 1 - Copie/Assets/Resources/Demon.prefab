@@ -297,7 +297,7 @@ MonoBehaviour:
   goingDown: 0
   dead: 0
   stunned: 0
-  audio: {fileID: 0}
+  audioManager: {fileID: 0}
   controls: 1
   up: 119
   pressUp: 0
