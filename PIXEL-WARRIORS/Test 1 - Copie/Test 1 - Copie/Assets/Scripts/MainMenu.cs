@@ -25,7 +25,7 @@ public class MainMenu : MonoBehaviour
     public int mapNumber;
     public int playerNumber = 0;
 
-    private int gameMode = 0;
+    private int gameMode = 1;
 
     GameObject player1;
 

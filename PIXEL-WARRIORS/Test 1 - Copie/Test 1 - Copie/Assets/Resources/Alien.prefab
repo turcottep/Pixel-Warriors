@@ -44,7 +44,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4536022717110724}
-  - component: {fileID: 114979546845385544}
   - component: {fileID: 68557100749876096}
   m_Layer: 8
   m_Name: feet
@@ -394,17 +393,6 @@ MonoBehaviour:
   cooldown_special1: 1
   cooldown_special2: 4
   cooldown_special3: 6
---- !u!114 &114979546845385544
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1163180540337040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212976288398466460
 SpriteRenderer:
   m_ObjectHideFlags: 1

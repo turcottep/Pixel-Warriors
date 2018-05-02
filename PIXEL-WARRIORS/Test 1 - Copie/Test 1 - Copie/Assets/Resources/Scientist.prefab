@@ -44,7 +44,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4819464972444690}
-  - component: {fileID: 114702480771855368}
   - component: {fileID: 68710798387101762}
   m_Layer: 8
   m_Name: feet
@@ -344,17 +343,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &114702480771855368
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1894569559585058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114966273582453242
 MonoBehaviour:
   m_ObjectHideFlags: 1

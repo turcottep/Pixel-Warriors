@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour
     #region public variables
     public TextMeshProUGUI timer;
     public TextMeshProUGUI countdown;
-    public int gameMode = 0;
+    public int gameMode = 1;
 
     public GameObject waitingScreen;
 
@@ -81,7 +81,12 @@ public class Manager : MonoBehaviour
         if (mainMenuManager != null)
         {
             playerNumberP1 = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
+            Debug.Log("heyoh");
             gameMode = mainMenuManager.GetComponent<MainMenu>().getGameMode();
+        }
+        else
+        {
+            gameMode = 1;
         }
 
         if (playerNumberP1 == 1) character1 = "Ninja";
@@ -160,6 +165,7 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log("GameMode: " + gameMode);
         if (gameMode == 2)
         {
             if (PhotonNetwork.room.PlayerCount == 1)
@@ -176,7 +182,8 @@ public class Manager : MonoBehaviour
 
         if (isStarted)
         {
-
+            player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+            player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
 
             updateTimer();
             updateLifeDisplay();
@@ -201,7 +208,7 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public void isCoolingDown(int x) /////
+    public void isCoolingDown(int x)
     {
         switch (x)
         {
@@ -210,7 +217,6 @@ public class Manager : MonoBehaviour
                 break;
         }
     }
-
     public void PlayerDeath(int playerNum)
     {
         if (playerNum == 1)
@@ -233,10 +239,15 @@ public class Manager : MonoBehaviour
 
     private void TriggerStart()
     {
-        Debug.Log("GOGOGO");
-        //waitingScreen.SetActive(false);
-        player1 = GameObject.FindGameObjectWithTag("Player 1");
-        player2 = GameObject.FindGameObjectWithTag("Player 2");
+        //Debug.Log("GOGOGO");
+
+        if (gameMode == 2)
+        {
+            //waitingScreen.SetActive(false);
+            player1 = GameObject.FindGameObjectWithTag("Player 1");
+            player2 = GameObject.FindGameObjectWithTag("Player 2");
+        }
+
 
         player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
