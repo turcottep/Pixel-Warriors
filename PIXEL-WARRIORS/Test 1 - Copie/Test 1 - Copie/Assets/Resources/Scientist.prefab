@@ -173,6 +173,9 @@ MonoBehaviour:
   basic2: {fileID: 1501171534556178, guid: 9c24133a039cafd48a1649874adac72e, type: 2}
   basic3: {fileID: 1075874815717482, guid: 411b62160bf26c54d8e6a2398f0cc709, type: 2}
   special1: {fileID: 1778241103675672, guid: e3e5f41bdde891d45afd02eb41612401, type: 2}
+  cooldown1: {fileID: 0}
+  cooldown2: {fileID: 0}
+  cooldown3: {fileID: 0}
   velocity_special1: {x: 3, y: 0}
   offset_basic1: {x: 0.08081, y: 0}
   offset_basic2: {x: 0, y: 0.018}
@@ -355,6 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 0
+  mapNumber: 0
   maxSpeed: 2.5
   speed: 15
   jumpPower: 175
@@ -387,12 +391,13 @@ MonoBehaviour:
   isButtonRightPointerDown: 0
   isButtonDownPointerDown: 0
   isButtonAttackBPointerDown: 0
-  aiON: 1
+  aiON: 0
   x: 0
   initialPosition: {x: -2.7, y: 1.3, z: 0}
   isRight: 0
   isDead: 0
   rb2d: {fileID: 0}
+  manager: {fileID: 0}
 --- !u!212 &212590480970011840
 SpriteRenderer:
   m_ObjectHideFlags: 1

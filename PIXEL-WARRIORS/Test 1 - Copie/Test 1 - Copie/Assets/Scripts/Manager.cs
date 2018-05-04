@@ -51,6 +51,8 @@ public class Manager : MonoBehaviour
     public int livesP1 = 3;
     public int livesP2 = 3;
 
+    public int mapN = 1;
+
     #endregion
 
     #region private variables
@@ -58,14 +60,16 @@ public class Manager : MonoBehaviour
     private float timeLeftMin;
 
     private bool isStarted = false;
+    private bool canCountDown = true;
 
     private GameObject player1;
     private GameObject player2;
-    #endregion
 
-    public int mapN = 1;
     private Vector2 initialPositionP1;
     private Vector2 initialPositionP2;
+
+    #endregion
+
 
     void Start()
     {
@@ -100,6 +104,7 @@ public class Manager : MonoBehaviour
         }
         else
         {
+            //if when, for testing, no menu exists  
             gameMode = 1;
             initialPositionP1 = new Vector2(-2.7f, 1.5f);
             initialPositionP2 = new Vector2(2.7f, 1.5f);
@@ -121,7 +126,10 @@ public class Manager : MonoBehaviour
             {
                 //if you are the first in the room
                 player1 = PhotonNetwork.Instantiate(character1, initialPositionP1, Quaternion.identity, 0);
-
+                player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                waitingScreen.SetActive(true);
+                canCountDown = false;
+                StartCoroutine("WaitForOtherPlayer");
             }
             else
             {
@@ -132,8 +140,6 @@ public class Manager : MonoBehaviour
                 GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
                 piedsJ2.layer = player2.layer;
                 piedsJ2.tag = player2.tag;
-                //start game
-                isStarted = true;
 
             }
         }
@@ -180,21 +186,7 @@ public class Manager : MonoBehaviour
     void Update()
     {
 
-        //Debug.Log("GameMode: " + gameMode);
-        if (gameMode == 2)
-        {
-            if (PhotonNetwork.room.PlayerCount == 1)
-            {
-                player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                waitingScreen.SetActive(true);
-            }
-            else if (PhotonNetwork.room.PlayerCount == 2)
-            {
-                waitingScreen.SetActive(false);
-                isStarted = true;
-            }
-        }
-        else if (!isStarted) updateTimer();
+        if (canCountDown) updateTimer();
 
         if (isStarted)
         {
@@ -202,7 +194,6 @@ public class Manager : MonoBehaviour
             //player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
 
             updateLifeDisplay();
-
             //Cooldowns
             //Cooldown1
             if (coolingDown1 == false)
@@ -450,6 +441,23 @@ public class Manager : MonoBehaviour
                 break;
         }
     }
+
+    #region Multiplayer
+    IEnumerator WaitForOtherPlayer()
+    {
+        yield return new WaitForSeconds(1f);
+        if (PhotonNetwork.room.PlayerCount == 2)
+        {
+            waitingScreen.SetActive(false);
+            canCountDown = true;
+        }
+        else
+        {
+            Debug.Log("Waiting");
+            StartCoroutine("WaitForOtherPlayer");
+        }
+    }
+    #endregion
 
     #region UI P1
     //P1
