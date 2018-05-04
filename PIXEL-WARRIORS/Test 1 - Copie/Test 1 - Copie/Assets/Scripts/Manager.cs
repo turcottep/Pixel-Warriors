@@ -80,28 +80,29 @@ public class Manager : MonoBehaviour
 
         // get info from main menu
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
-        mapN = mainMenuManager.GetComponent<MainMenu>().getMapNumber();
-
-        if (mapN == 1)
-        {
-            initialPositionP1 = new Vector2(-2.7f, 1.1f);
-            initialPositionP2 = new Vector2(2.7f, 1.1f);
-        }
-        else if (mapN == 2)
-        {
-            initialPositionP1 = new Vector2(-2.1f, 1.3f);
-            initialPositionP2 = new Vector2(2.1f, 1.3f);
-        }
 
         if (mainMenuManager != null)
         {
             playerNumberP1 = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
-            Debug.Log("heyoh");
             gameMode = mainMenuManager.GetComponent<MainMenu>().getGameMode();
+            mapN = mainMenuManager.GetComponent<MainMenu>().getMapNumber();
+
+            if (mapN == 1)
+            {
+                initialPositionP1 = new Vector2(-2.7f, 1.1f);
+                initialPositionP2 = new Vector2(2.7f, 1.1f);
+            }
+            else if (mapN == 2)
+            {
+                initialPositionP1 = new Vector2(-2.1f, 1.3f);
+                initialPositionP2 = new Vector2(2.1f, 1.3f);
+            }
         }
         else
         {
             gameMode = 1;
+            initialPositionP1 = new Vector2(-2.7f, 1.5f);
+            initialPositionP2 = new Vector2(2.7f, 1.5f);
         }
 
         if (playerNumberP1 == 1) character1 = "Ninja";
@@ -172,13 +173,14 @@ public class Manager : MonoBehaviour
             piedsJ2.tag = player2.tag;
 
             // player2.GetComponent<Player>().aiON = true;
-            isStarted = true;
             setHeads(playerNumberP1, playerNumberP2);
         }
     }
 
     void Update()
     {
+        updateTimer();
+
         //Debug.Log("GameMode: " + gameMode);
         if (gameMode == 2)
         {
@@ -189,6 +191,7 @@ public class Manager : MonoBehaviour
             }
             else if (PhotonNetwork.room.PlayerCount == 2)
             {
+                waitingScreen.SetActive(false);
                 isStarted = true;
             }
         }
@@ -196,10 +199,9 @@ public class Manager : MonoBehaviour
 
         if (isStarted)
         {
-            player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
-            player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+            //player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+            //player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
 
-            updateTimer();
             updateLifeDisplay();
 
             //Cooldowns
@@ -242,7 +244,9 @@ public class Manager : MonoBehaviour
         }
         else
         {
-            //if (isStarted) OtherPlayerQuit();
+            player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
         }
     }
 
@@ -278,11 +282,10 @@ public class Manager : MonoBehaviour
 
     private void TriggerStart()
     {
-        //Debug.Log("GOGOGO");
+        Debug.Log("GOGOGO");
 
         if (gameMode == 2)
         {
-            waitingScreen.SetActive(false);
             player1 = GameObject.FindGameObjectWithTag("Player 1");
             player2 = GameObject.FindGameObjectWithTag("Player 2");
         }
@@ -291,7 +294,7 @@ public class Manager : MonoBehaviour
         player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         setHeads(player1.GetComponent<Player>().playerType, player2.GetComponent<Player>().playerType);
-
+        isStarted = true;
     }
 
 
@@ -299,7 +302,7 @@ public class Manager : MonoBehaviour
     {
         timeLeftSec -= Time.deltaTime;
         timeLeftMin = Mathf.Floor(timeLeftSec / 60);
-        if (timeLeftSec < 150.6 && timeLeftSec > 150.5) this.TriggerStart();
+        if (timeLeftSec < 151.52 && timeLeftSec > 151.5) this.TriggerStart();
         if (timeLeftSec > 150.5)
         {
             if ((timeLeftSec - 151).ToString("f0") == "0")

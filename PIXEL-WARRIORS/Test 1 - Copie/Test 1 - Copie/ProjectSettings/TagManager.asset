@@ -49,9 +49,9 @@ TagManager:
   - AttPlayer2
   - ShieldPlayer1
   - ShieldPlayer2
-  - 
-  - 
-  - 
+  - Player1Stunned
+  - Player2Stunned
+  - Bounce
   - 
   - 
   - 

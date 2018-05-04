@@ -2064,7 +2064,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
     public void OnStatusChanged(StatusCode statusCode)
     {
         if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
-            Debug.Log(string.Format("OnStatusChanged: {0} current State: {1}", statusCode.ToString(), this.State));
+ 
 
         switch (statusCode)
         {

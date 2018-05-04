@@ -123,8 +123,8 @@ public class Player : Photon.MonoBehaviour, IPunObservable
             if (!(col.gameObject.name == "Scientist_Poison(Clone)") && !(col.gameObject.name == "Ninja_Bomb(Clone)" && !(col.gameObject.name == "Ninja_Explosion(Clone)")))
             {
                 //Debug.Log("NAME:" + col.gameObject.name);
-                vecteurTest = rb2d.position; //- col.rigidbody.position;
-                vecteurTest = new Vector2(vecteurTest.x, (vecteurTest.y + 0.1f));
+                vecteurTest = rb2d.position - col.rigidbody.position;
+                vecteurTest = new Vector2(vecteurTest.x, (0.1f));
                 vecteurTest = vecteurTest * multiplier;
             }
             //
@@ -186,13 +186,13 @@ public class Player : Photon.MonoBehaviour, IPunObservable
 
         }
 
-        if (col.gameObject.tag == "Bounce")
-        {
-            Debug.Log("x=:" + rb2d.velocity.x + " y=" + rb2d.velocity.y);
-            this.rb2d.velocity = this.rb2d.velocity * -1;
-            Debug.Log("x=:" + rb2d.velocity.x + " y=" + rb2d.velocity.y);
-            StartCoroutine("Whitecolor");
-        }
+        //if (col.gameObject.tag == "Bounce")
+        //{
+        //    Debug.Log("x=:" + rb2d.velocity.x + " y=" + rb2d.velocity.y);
+        //    this.rb2d.velocity = this.rb2d.velocity * -1;
+        //    Debug.Log("x=:" + rb2d.velocity.x + " y=" + rb2d.velocity.y);
+        //    StartCoroutine("Whitecolor");
+        //}
     }
 
     IEnumerator Whitecolor()
@@ -459,13 +459,15 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         if (isRight) dir = 1;
         else dir = -1;
         //Debug.Log("knockbackof" + knockback * dir * percentage * stun / 10);
+        rb2d.velocity = Vector2.zero;
         if (knocksback)
         {
-            rb2d.AddForce(new Vector2(damage * vecteurTest.x * (percentage + 20), damage * vecteurTest.y * (percentage + 20)), ForceMode2D.Impulse);
+            rb2d.AddForce(new Vector2(damage * vecteurTest.x * (percentage + 20), vecteurTest.y * (percentage + 20)), ForceMode2D.Impulse);
         }
-        percentage += damage;
-        stun = stunReceived * (percentage) / 20;
+        percentage += 10*damage;
+        stun = stunReceived * (percentage)/10;
         player.stunned = true;
+        this.gameObject.layer = 14 + playerNum;
         StartCoroutine("Stun", stun);
         manager.GetComponent<Manager>().UpdatePercentages();
     }
@@ -473,6 +475,8 @@ public class Player : Photon.MonoBehaviour, IPunObservable
     {
         yield return new WaitForSeconds(stunDuration / 30);
         player.stunned = false;
+        player.gameObject.layer = 7 + playerNum;
+        Debug.Log("unstunned");
     }
 
     public void Reset()

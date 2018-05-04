@@ -125,7 +125,7 @@ public class PhotonAnimatorView : MonoBehaviour, IPunObservable
 
         if (PhotonNetwork.inRoom == false || PhotonNetwork.room.PlayerCount <= 1)
         {
-            this.m_StreamQueue.Reset();
+            // this.m_StreamQueue.Reset();
             return;
         }
 
