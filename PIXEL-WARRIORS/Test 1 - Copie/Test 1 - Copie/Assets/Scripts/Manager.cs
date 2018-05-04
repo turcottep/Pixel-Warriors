@@ -179,7 +179,6 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        updateTimer();
 
         //Debug.Log("GameMode: " + gameMode);
         if (gameMode == 2)
@@ -195,7 +194,7 @@ public class Manager : MonoBehaviour
                 isStarted = true;
             }
         }
-
+        else if (!isStarted) updateTimer();
 
         if (isStarted)
         {
@@ -245,7 +244,7 @@ public class Manager : MonoBehaviour
         else
         {
             player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            if (player2 != null) player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
         }
     }
@@ -259,7 +258,7 @@ public class Manager : MonoBehaviour
                 break;
         }
     }*/
-    
+
     public void PlayerDeath(int playerNum)
     {
         if (playerNum == 1)
