@@ -126,6 +126,11 @@ public class Manager : MonoBehaviour
             {
                 //if you are the first in the room
                 player1 = PhotonNetwork.Instantiate(character1, initialPositionP1, Quaternion.identity, 0);
+                player1.tag = "Player 1";
+                player1.layer = 8;
+                GameObject piedsJ1 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
+                piedsJ1.layer = player1.layer;
+                piedsJ1.tag = player1.tag;
                 player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
                 waitingScreen.SetActive(true);
                 canCountDown = false;
@@ -138,8 +143,8 @@ public class Manager : MonoBehaviour
                 player2.tag = "Player 2";
                 player2.layer = 9;
                 GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
-                piedsJ2.layer = player1.layer;
-                piedsJ2.tag = player1.tag;
+                piedsJ2.layer = player2.layer;
+                piedsJ2.tag = player2.tag;
 
                 player1 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
                 player1.tag = "Player 1";
@@ -445,6 +450,10 @@ public class Manager : MonoBehaviour
             player2 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
             player2.tag = "Player 2";
             player2.layer = 9;
+            int player2Num = player2.GetComponent<Player>().playerNum;
+            GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + player2Num);
+            piedsJ2.layer = player2.layer;
+            piedsJ2.tag = player2.tag;
 
             waitingScreen.SetActive(false);
             canCountDown = true;

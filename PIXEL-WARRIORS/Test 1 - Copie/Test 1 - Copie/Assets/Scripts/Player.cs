@@ -66,7 +66,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
     private Vector2 pos;
     private Vector2 knockback;
 
-    private int playerNum;
+    public int playerNum;
 
     public GameObject manager;
 
