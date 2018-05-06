@@ -61,6 +61,7 @@ public class Manager : MonoBehaviour
 
     private bool isStarted = false;
     private bool canCountDown = true;
+    private bool isConnected = false;
 
     private GameObject player1;
     private GameObject player2;
@@ -128,6 +129,8 @@ public class Manager : MonoBehaviour
                 player1 = PhotonNetwork.Instantiate(character1, initialPositionP1, Quaternion.identity, 0);
                 player1.tag = "Player 1";
                 player1.layer = 8;
+                player1.GetComponent<Player>().playerNum = 1;
+
                 GameObject piedsJ1 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
                 piedsJ1.layer = player1.layer;
                 piedsJ1.tag = player1.tag;
@@ -142,6 +145,7 @@ public class Manager : MonoBehaviour
                 player2 = PhotonNetwork.Instantiate(character1, initialPositionP2, Quaternion.identity, 0);
                 player2.tag = "Player 2";
                 player2.layer = 9;
+                player2.GetComponent<Player>().playerNum = 2;
                 GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
                 piedsJ2.layer = player2.layer;
                 piedsJ2.tag = player2.tag;
@@ -149,6 +153,8 @@ public class Manager : MonoBehaviour
                 player1 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
                 player1.tag = "Player 1";
                 player1.layer = 8;
+                player1.GetComponent<Player>().playerNum = 1;
+
 
             }
         }
@@ -156,7 +162,6 @@ public class Manager : MonoBehaviour
         {
             //if in singleplayer
             player1 = Instantiate(Resources.Load(character1), initialPositionP1, Quaternion.identity) as GameObject;
-            player1.GetComponent<Player>().playerType = playerNumberP1;
             player1.tag = "Player 1";
             player1.layer = 8;
             player1.GetComponent<Player>().jump = KeyCode.R;
@@ -172,7 +177,6 @@ public class Manager : MonoBehaviour
             piedsJ1.tag = player1.tag;
 
             player2 = Instantiate(Resources.Load(character2), initialPositionP2, Quaternion.identity) as GameObject;
-            player2.GetComponent<Player>().playerType = playerNumberP2;
             player2.tag = "Player 2";
             player2.layer = 9;
             player2.GetComponent<Player>().jump = KeyCode.M;
@@ -446,17 +450,30 @@ public class Manager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         if (PhotonNetwork.room.PlayerCount == 2)
         {
+            //wait one more second
+            if (!isConnected)
+            {
+                Debug.Log("waiting 1 more second");
+                isConnected = true;
+                StartCoroutine("WaitForOtherPlayer");
+            }
+            else
+            {
+                Debug.Log("1");
+                player2 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
+                if (player2 == null) Debug.Log("UNABLE to find connecting payer");
+                player2.tag = "Player 2";
+                player2.layer = 9;
+                player2.GetComponent<Player>().playerNum = 2;
+                int player2Type = player2.GetComponent<Player>().playerType;
+                GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + player2Type);
+                piedsJ2.layer = player2.layer;
+                piedsJ2.tag = player2.tag;
 
-            player2 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
-            player2.tag = "Player 2";
-            player2.layer = 9;
-            int player2Num = player2.GetComponent<Player>().playerNum;
-            GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + player2Num);
-            piedsJ2.layer = player2.layer;
-            piedsJ2.tag = player2.tag;
+                waitingScreen.SetActive(false);
+                canCountDown = true;
+            }
 
-            waitingScreen.SetActive(false);
-            canCountDown = true;
         }
         else
         {

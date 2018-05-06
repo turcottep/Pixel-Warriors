@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b1743f8c00d03b42babd28347c8f3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerType: 0
+  playerType: 2
   mapNumber: 0
   maxSpeed: 2.5
   speed: 15
@@ -318,6 +318,7 @@ MonoBehaviour:
   isRight: 0
   isDead: 0
   rb2d: {fileID: 0}
+  playerNum: 0
   manager: {fileID: 0}
 --- !u!114 &114504901667053348
 MonoBehaviour:

@@ -225,10 +225,6 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     void Update()
     {
-        if (photonView.isMine && PhotonNetwork.connected == true)
-        {
-            return;
-        }
 
         anim.SetBool("Grounded", grounded);
         anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
@@ -346,10 +342,6 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     private void FixedUpdate()
     {
-        if (photonView.isMine && PhotonNetwork.connected == true)
-        {
-            return;
-        }
 
         if (aiON) player.GetComponent<AI>().AIUpdate();
 
@@ -525,7 +517,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
         }
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
 
     }
 
