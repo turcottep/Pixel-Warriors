@@ -134,16 +134,16 @@ public class Manager : MonoBehaviour
             else
             {
                 //if you arrive in a room with a player present
-                player1 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
-                player1.tag = "Player 1";
-                player1.layer = 8;
-
                 player2 = PhotonNetwork.Instantiate(character1, initialPositionP2, Quaternion.identity, 0);
                 player2.tag = "Player 2";
                 player2.layer = 9;
                 GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
                 piedsJ2.layer = player1.layer;
                 piedsJ2.tag = player1.tag;
+
+                player1 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
+                player1.tag = "Player 1";
+                player1.layer = 8;
 
             }
         }
@@ -236,7 +236,7 @@ public class Manager : MonoBehaviour
                 cooldown_image3.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
             }
         }
-        
+
     }
 
     /*public void isCoolingDown(int x)
@@ -363,10 +363,11 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public void UpdatePercentages()
+    public void UpdatePercentages(int playernum)
     {
-        textPercentageP1.SetText((20 * player1.GetComponent<Player>().percentage).ToString() + "%");
-        textPercentageP2.SetText((20 * player2.GetComponent<Player>().percentage).ToString() + "%");
+
+        if (playernum == 1) textPercentageP1.SetText((20 * player1.GetComponent<Player>().percentage).ToString() + "%");
+        else if (playernum == 2) textPercentageP2.SetText((20 * player2.GetComponent<Player>().percentage).ToString() + "%");
     }
 
 

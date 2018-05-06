@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class Player : Photon.MonoBehaviour, IPunObservable
+public class Player : Photon.PunBehaviour, IPunObservable
 {
     public int playerType;
     public int mapNumber;
@@ -97,7 +97,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
 
         //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
         knockback.Set(-2, 1);
-        manager.GetComponent<Manager>().UpdatePercentages();
+        manager.GetComponent<Manager>().UpdatePercentages(playerNum);
     }
 
 
@@ -178,7 +178,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
             this.rb2d.velocity = new Vector2(0, 6);
             this.maxJump = 2;
             this.percentage += 0.5f;
-            manager.GetComponent<Manager>().UpdatePercentages();
+            manager.GetComponent<Manager>().UpdatePercentages(playerNum);
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("Whitecolor");
 
@@ -225,6 +225,11 @@ public class Player : Photon.MonoBehaviour, IPunObservable
 
     void Update()
     {
+        if (photonView.isMine && PhotonNetwork.connected == true)
+        {
+            return;
+        }
+
         anim.SetBool("Grounded", grounded);
         anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
         anim.SetBool("Basic1", basic_1);
@@ -252,7 +257,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         }
 
 
-        if (!player.stunned &&( (photonView.isMine && PhotonNetwork.connected == true)|| manager.GetComponent<Manager>().getGameMode() == 1))
+        if (!player.stunned && ((photonView.isMine && PhotonNetwork.connected == true) || manager.GetComponent<Manager>().getGameMode() == 1))
         {
 
             if (Input.GetKeyDown(jump))
@@ -341,6 +346,10 @@ public class Player : Photon.MonoBehaviour, IPunObservable
 
     private void FixedUpdate()
     {
+        if (photonView.isMine && PhotonNetwork.connected == true)
+        {
+            return;
+        }
 
         if (aiON) player.GetComponent<AI>().AIUpdate();
 
@@ -464,12 +473,12 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         {
             rb2d.AddForce(new Vector2(damage * vecteurTest.x * (percentage + 20), vecteurTest.y * (percentage + 20)), ForceMode2D.Impulse);
         }
-        percentage += 10*damage;
-        stun = stunReceived * (percentage)/10;
+        percentage += 10 * damage;
+        stun = stunReceived * (percentage) / 10;
         player.stunned = true;
         this.gameObject.layer = 14 + playerNum;
         StartCoroutine("Stun", stun);
-        manager.GetComponent<Manager>().UpdatePercentages();
+        manager.GetComponent<Manager>().UpdatePercentages(playerNum);
     }
     IEnumerator Stun(float stunDuration)
     {
@@ -487,7 +496,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         player.special_3 = false;
         player.stunned = false;
         percentage = 0;
-        manager.GetComponent<Manager>().UpdatePercentages();
+        manager.GetComponent<Manager>().UpdatePercentages(playerNum);
         player.transform.position = initialPosition;
         rb2d.velocity = new Vector2(0, 0);
         rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -522,6 +531,8 @@ public class Player : Photon.MonoBehaviour, IPunObservable
 
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+
+        Debug.Log("marche un peu");
         if (stream.isWriting)
         {
             Debug.Log("ENOVYE");
@@ -560,5 +571,6 @@ public class Player : Photon.MonoBehaviour, IPunObservable
             if (isDead) manager.GetComponent<Manager>().PlayerDeath(playerNum);
 
         }
+
     }
 }

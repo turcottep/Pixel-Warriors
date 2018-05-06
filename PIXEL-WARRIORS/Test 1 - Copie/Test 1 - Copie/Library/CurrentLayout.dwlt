@@ -323,10 +323,10 @@ MonoBehaviour:
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
-    m_HBaseRangeMin: -285
-    m_HBaseRangeMax: 285
-    m_VBaseRangeMin: -160.3125
-    m_VBaseRangeMax: 160.3125
+    m_HBaseRangeMin: -640
+    m_HBaseRangeMax: 640
+    m_VBaseRangeMin: -400
+    m_VBaseRangeMax: 400
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -404,19 +404,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Resources
+    - Assets/Scripts
   m_ViewMode: 1
   m_StartGridSize: 82
   m_LastFolders:
-  - Assets/Resources
+  - Assets/Scripts
   m_LastFoldersGridSize: 82
   m_LastProjectPath: C:\Users\User\Documents\GitHub\Pixel-Warriors\PIXEL-WARRIORS\Test
     1 - Copie\Test 1 - Copie
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d2320000
-    m_LastClickedID: 13010
+    m_SelectedIDs: e8310000
+    m_LastClickedID: 12776
     m_ExpandedIDs: 00000000242a0000202b0000f22f00003c3100004631000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -497,7 +497,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 1093}
     m_GridSize: 82
   m_DirectoriesAreaWidth: 110
 --- !u!114 &15
@@ -817,9 +817,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 0e340000
+    m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ae6bffffe6e4ffff9efbfffff4ffffff000000002637000048370000
+    m_ExpandedIDs: 38acfbff9efbfffff4ffffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
