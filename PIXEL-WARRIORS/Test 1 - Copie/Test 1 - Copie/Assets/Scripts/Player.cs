@@ -91,7 +91,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
         }
         else
         {
-            Debug.Log("ERREUR TAG JOUEURS");
+            Debug.Log("ERREUR TAG JOUEURS"); //fixed by manually changing playernumber in manager
         }
 
 

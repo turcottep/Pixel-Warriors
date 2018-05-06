@@ -256,8 +256,8 @@ MonoBehaviour:
     y: 0
     width: 245
     height: 731
-  m_MinSize: {x: 204, y: 221}
-  m_MaxSize: {x: 4004, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -404,20 +404,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Photon Unity Networking/Plugins/PhotonNetwork
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 82
   m_LastFolders:
-  - Assets/Photon Unity Networking/Plugins/PhotonNetwork
+  - Assets
   m_LastFoldersGridSize: 82
   m_LastProjectPath: C:\Users\User\Documents\GitHub\Pixel-Warriors\PIXEL-WARRIORS\Test
     1 - Copie\Test 1 - Copie
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 80310000
-    m_LastClickedID: 12672
-    m_ExpandedIDs: 00000000282a00003a2a0000242b0000f62f0000403100004a31000000ca9a3bffffff7f
+    m_SelectedIDs: 442a0000
+    m_LastClickedID: 10820
+    m_ExpandedIDs: 00000000442a0000562a0000402b0000123000005c3100006631000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -445,7 +445,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000282a0000242b0000f62f0000403100004a310000
+    m_ExpandedIDs: 00000000442a0000562a0000402b0000123000005c31000066310000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -817,28 +817,28 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 8493faff
-    m_LastClickedID: -355452
-    m_ExpandedIDs: f891faff264afcff1c4bfcff3099fcff1a9afcff30bdfcfff40afdffba0dfdfff2a7fdff54a9fdff90a9fdff44e6fdff7ee7fdffbae7fdffb0f7fdffe0fafdffdc2dfeffeaf6ffff98fbfffff4ffffff00000000
+    m_SelectedIDs: 4e560000
+    m_LastClickedID: 22094
+    m_ExpandedIDs: 7415fcff0062fdff2062fdff8062fdff0283fdff2283fdff5e83fdff3e33feff7a33feff12f1ffff3af6ffff76f6ffff84fbfffff4ffffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: feet
+      m_OriginalName: feet
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: -3846
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 11}
     m_SearchString: 
   m_ExpandedScenes:
-  - Menu
+  - Launcher
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting

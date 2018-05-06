@@ -150,11 +150,7 @@ public class Manager : MonoBehaviour
                 piedsJ2.layer = player2.layer;
                 piedsJ2.tag = player2.tag;
 
-                player1 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
-                player1.tag = "Player 1";
-                player1.layer = 8;
-                player1.GetComponent<Player>().playerNum = 1;
-
+                StartCoroutine("WaitForMapToLoad");
 
             }
         }
@@ -459,7 +455,6 @@ public class Manager : MonoBehaviour
             }
             else
             {
-                Debug.Log("1");
                 player2 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
                 if (player2 == null) Debug.Log("UNABLE to find connecting payer");
                 player2.tag = "Player 2";
@@ -480,6 +475,19 @@ public class Manager : MonoBehaviour
             Debug.Log("Waiting");
             StartCoroutine("WaitForOtherPlayer");
         }
+    }
+
+    IEnumerator WaitForMapToLoad()
+    {
+        yield return new WaitForSeconds(1f);
+        player1 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
+        player1.tag = "Player 1";
+        player1.layer = 8;
+        player1.GetComponent<Player>().playerNum = 1;
+        int player1Type = player1.GetComponent<Player>().playerType;
+        GameObject piedsJ1 = GameObject.FindGameObjectWithTag("Feet" + player1Type);
+        piedsJ1.layer = player1.layer;
+        piedsJ1.tag = player1.tag;
     }
     #endregion
 
