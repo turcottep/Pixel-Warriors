@@ -29,9 +29,9 @@ GameObject:
   - component: {fileID: 114583051797658418}
   - component: {fileID: 114302863305786614}
   - component: {fileID: 114632184629386284}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Scientist
-  m_TagString: Player 1
+  m_TagString: UnassignedPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4819464972444690}
   - component: {fileID: 68710798387101762}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: feet
   m_TagString: Feet3
   m_Icon: {fileID: 0}

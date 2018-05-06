@@ -29,9 +29,9 @@ GameObject:
   - component: {fileID: 114018884426314452}
   - component: {fileID: 114504901667053348}
   - component: {fileID: 114162472804500906}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Alien
-  m_TagString: Player 1
+  m_TagString: UnassignedPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4536022717110724}
   - component: {fileID: 68557100749876096}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: feet
   m_TagString: Feet2
   m_Icon: {fileID: 0}
@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 0
+  mapNumber: 0
   maxSpeed: 2.5
   speed: 15
   jumpPower: 175
@@ -317,6 +318,7 @@ MonoBehaviour:
   isRight: 0
   isDead: 0
   rb2d: {fileID: 0}
+  manager: {fileID: 0}
 --- !u!114 &114504901667053348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -385,6 +387,9 @@ MonoBehaviour:
   basic2: {fileID: 1501171534556178, guid: 9c24133a039cafd48a1649874adac72e, type: 2}
   basic3: {fileID: 1075874815717482, guid: 411b62160bf26c54d8e6a2398f0cc709, type: 2}
   special1: {fileID: 1820569728722812, guid: 6b420f7e7deddcb4298bcc6535cbf41b, type: 2}
+  cooldown1: {fileID: 0}
+  cooldown2: {fileID: 0}
+  cooldown3: {fileID: 0}
   velocity_special1: {x: 3, y: 0}
   offset_basic1: {x: 0.0073, y: 0}
   offset_basic2: {x: -0.036, y: 0.021}

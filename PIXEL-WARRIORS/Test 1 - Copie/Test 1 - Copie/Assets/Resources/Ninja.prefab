@@ -29,9 +29,9 @@ GameObject:
   - component: {fileID: 114533400428047586}
   - component: {fileID: 114574045974705550}
   - component: {fileID: 114329508447119580}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Ninja
-  m_TagString: Player 1
+  m_TagString: UnassignedPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4278069791254858}
   - component: {fileID: 68217358055201508}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: feet
   m_TagString: Feet1
   m_Icon: {fileID: 0}
@@ -335,6 +335,9 @@ MonoBehaviour:
   basic2: {fileID: 1501171534556178, guid: 9c24133a039cafd48a1649874adac72e, type: 2}
   basic3: {fileID: 1075874815717482, guid: 411b62160bf26c54d8e6a2398f0cc709, type: 2}
   special1: {fileID: 1088369706142868, guid: 85c0c67c12880d6479fa7e82a2a07d70, type: 2}
+  cooldown1: {fileID: 0}
+  cooldown2: {fileID: 0}
+  cooldown3: {fileID: 0}
   velocity_special1: {x: 3, y: 0}
   offset_basic1: {x: 0.0073, y: 0}
   offset_basic2: {x: -0.034, y: 0.019}
@@ -355,6 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 0
+  mapNumber: 0
   maxSpeed: 2.5
   speed: 15
   jumpPower: 175
@@ -393,6 +397,7 @@ MonoBehaviour:
   isRight: 0
   isDead: 0
   rb2d: {fileID: 0}
+  manager: {fileID: 0}
 --- !u!212 &212741927714056260
 SpriteRenderer:
   m_ObjectHideFlags: 1

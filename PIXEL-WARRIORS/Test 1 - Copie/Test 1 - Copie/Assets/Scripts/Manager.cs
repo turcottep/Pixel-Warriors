@@ -134,12 +134,16 @@ public class Manager : MonoBehaviour
             else
             {
                 //if you arrive in a room with a player present
+                player1 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
+                player1.tag = "Player 1";
+                player1.layer = 8;
+
                 player2 = PhotonNetwork.Instantiate(character1, initialPositionP2, Quaternion.identity, 0);
                 player2.tag = "Player 2";
                 player2.layer = 9;
                 GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
-                piedsJ2.layer = player2.layer;
-                piedsJ2.tag = player2.tag;
+                piedsJ2.layer = player1.layer;
+                piedsJ2.tag = player1.tag;
 
             }
         }
@@ -232,12 +236,7 @@ public class Manager : MonoBehaviour
                 cooldown_image3.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
             }
         }
-        else
-        {
-            player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            if (player2 != null) player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-
-        }
+        
     }
 
     /*public void isCoolingDown(int x)
@@ -273,13 +272,6 @@ public class Manager : MonoBehaviour
     private void TriggerStart()
     {
         Debug.Log("GOGOGO");
-
-        if (gameMode == 2)
-        {
-            player1 = GameObject.FindGameObjectWithTag("Player 1");
-            player2 = GameObject.FindGameObjectWithTag("Player 2");
-        }
-
 
         player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
@@ -448,6 +440,11 @@ public class Manager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         if (PhotonNetwork.room.PlayerCount == 2)
         {
+
+            player2 = GameObject.FindGameObjectWithTag("UnassignedPlayer");
+            player2.tag = "Player 2";
+            player2.layer = 9;
+
             waitingScreen.SetActive(false);
             canCountDown = true;
         }

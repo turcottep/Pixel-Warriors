@@ -345,7 +345,7 @@ public class Player : Photon.MonoBehaviour, IPunObservable
         if (aiON) player.GetComponent<AI>().AIUpdate();
 
 
-        float h = Input.GetAxisRaw("Horizontal");
+        //float h = Input.GetAxisRaw("Horizontal");
         float decay = 0.8f;
 
         pos = transform.position;

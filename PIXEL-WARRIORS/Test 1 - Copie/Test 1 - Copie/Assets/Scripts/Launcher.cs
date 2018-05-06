@@ -155,21 +155,14 @@ namespace Com.INDIEN.PixelWarriors
         {
             Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
             int mapNumber = 1;
-            int playerNumberP1 = 1;
-            string character1 = "Ninja";
 
             GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
             if (mainMenuManager != null)
             {
-                playerNumberP1 = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
                 mapNumber = mainMenuManager.GetComponent<MainMenu>().getMapNumber();
             }
 
-            if (playerNumberP1 == 1) character1 = "Ninja";
-            if (playerNumberP1 == 2) character1 = "Alien";
-            if (playerNumberP1 == 3) character1 = "Scientist";
-            if (playerNumberP1 == 4) character1 = "Demon";
-
+       
             // Critical: We only load if we are the first player, else we rely on  PhotonNetwork.automaticallySyncScene to sync our instance scene.
             if (PhotonNetwork.room.PlayerCount == 1)
             {
@@ -185,35 +178,7 @@ namespace Com.INDIEN.PixelWarriors
 
             }
 
-            //instantiate player
-            if (playerPrefab == null)
-            {
-                Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
-            }
-            else
-            {
-
-                if (Player.LocalPlayerInstance == null)
-                {
-                    Debug.Log("We are Instantiating LocalPlayer from ??? ");
-                    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-
-                    Vector2 initialPos;
-                    if (PhotonNetwork.room.PlayerCount == 1)
-                    {
-                        initialPos = new Vector2(2.7f, 0.9f);
-                    }
-                    else
-                    {
-                        initialPos = new Vector2(-2.7f, 0.9f);
-                    }
-                    //PhotonNetwork.Instantiate(character1, initialPos, Quaternion.identity, 0);
-                }
-                else
-                {
-                    Debug.Log("Ignoring scene load for &!& ");
-                }
-            }
+          
         }
 
 

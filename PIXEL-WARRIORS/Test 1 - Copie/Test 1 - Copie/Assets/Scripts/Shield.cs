@@ -6,7 +6,7 @@ public class Shield : MonoBehaviour {
 
     private GameObject shield;
     private Rigidbody2D rb2d;
-    private AudioManager audio;
+    private new AudioManager audio;
 
     private int lives = 2;
 
