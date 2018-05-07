@@ -371,8 +371,8 @@ public class Manager : MonoBehaviour
     public void UpdatePercentages(int playernum)
     {
 
-        if (playernum == 1) textPercentageP1.SetText((20 * player1.GetComponent<Player>().percentage).ToString() + "%");
-        else if (playernum == 2) textPercentageP2.SetText((20 * player2.GetComponent<Player>().percentage).ToString() + "%");
+        if (playernum == 1) textPercentageP1.SetText((20 * Math.Ceiling(player1.GetComponent<Player>().percentage)).ToString() + "%");
+        else if (playernum == 2) textPercentageP2.SetText((20 * Math.Ceiling(player2.GetComponent<Player>().percentage)).ToString() + "%");
     }
 
 

@@ -298,7 +298,12 @@ MonoBehaviour:
   goingDown: 0
   dead: 0
   stunned: 0
-  audioManager: {fileID: 0}
+  chargeBar1: {fileID: 1224513374401484, guid: 4405d16ef3b11384da3552043853c0ad, type: 2}
+  isCreated1: 0
+  chargeBar2: {fileID: 1899026710120444, guid: 6c01eca396d91dc43a5f9a674094cf18, type: 2}
+  isCreated2: 0
+  chargeBar3: {fileID: 1498870689540694, guid: 9c6e50cddb195ca4b9aa151ea8c68134, type: 2}
+  isCreated3: 0
   controls: 1
   up: 119
   pressUp: 0

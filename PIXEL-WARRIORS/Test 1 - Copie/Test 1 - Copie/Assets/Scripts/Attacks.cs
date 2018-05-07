@@ -183,29 +183,19 @@ public class Attacks : MonoBehaviour
         }
     }
 
-    public void LaunchSpecial1(int playerNum, bool state) //B
+    public void LaunchSpecial1(int playerNum, bool state, float chargePercentage) //B
     {
         if (canShootSp1 && !player.dead)
         {
-            float maxCharge = 0;
             if (state)
             {
-                //Damage over time
-                //Charge bar over head???
-                maxCharge += Time.deltaTime;
-                if (maxCharge == 2.8f)
-                {
-                    earlyShoot = true;
-                }
-                /////////////
-
                 audio.Play("Charge", 0);
                 player.charge = true;
                 anim.SetBool("Charge", true);
             }
             else if (player.charge || earlyShoot)
             {
-                Debug.Log("Charge = " + maxCharge);
+                Debug.Log("Charge = " + chargePercentage);
 
                 audio.Stop("Charge", 0);
                 player.charge = false;
@@ -221,7 +211,12 @@ public class Attacks : MonoBehaviour
 
                 player.manager.GetComponent<Manager>().coolingDown1 = true;
                 GameObject go = (GameObject)Instantiate(special1, (Vector2)transform.position + offset_special1 * transform.localScale.x, Quaternion.Euler(0, direction, rotation));
-                go.GetComponent<Damage>().damage = 0.05f + (maxCharge / 14);
+
+                if (chargePercentage < 1) { damage = 0.1f; }
+                if (chargePercentage > 1 && chargePercentage < 2) { damage = 0.2f; }
+                if (chargePercentage > 2) { damage = 0.3f; }
+                go.GetComponent<Damage>().damage = damage;
+
                 if (playerNum == 1)
                 {
                     go.tag = "AttPlayer1";

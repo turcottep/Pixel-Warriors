@@ -16,6 +16,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
     public float percentage = 0f;
     public float multiplier = 1f;
 
+    private float chargeTime = 0;
+    private float chargePercentage = 0;
+    private bool isCharging = false;
+
     //Animations
     public bool grounded;
     public bool basic_1;
@@ -29,8 +33,15 @@ public class Player : Photon.PunBehaviour, IPunObservable
     public bool dead;
     public bool stunned;
 
+    private GameObject chargeBar1;
+    private bool isCreated1 = false;
+    private GameObject chargeBar2;
+    private bool isCreated2 = false;
+    private GameObject chargeBar3;
+    private bool isCreated3 = false;
+
     //Audio
-    public AudioManager audioManager;
+    private AudioManager audioManager;
 
     //controls
     public bool controls = true;
@@ -293,6 +304,45 @@ public class Player : Photon.PunBehaviour, IPunObservable
             }
 
             //B
+
+            //Work in progress (à finir Mercredi)
+            if (isCharging)
+            {
+                chargeTime += Time.deltaTime;
+                Debug.Log("Charging : " + chargeTime);
+
+                if(chargeTime < 1 && !isCreated1)
+                {
+                    GameObject bar1 = Instantiate(Resources.Load("ChargeBar1"), new Vector2(player.pos.x - 0.034655f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
+                    chargeBar1 = bar1;
+                    chargeBar1.transform.position = new Vector2(player.pos.x - 0.034655f, player.pos.y + 0.2713515f);
+                    isCreated1 = true;
+                }
+                if (chargeTime > 1 && chargeTime < 2 && !isCreated2)
+                {
+                    GameObject bar2 = Instantiate(Resources.Load("ChargeBar2"), new Vector2(player.pos.x + 0.015345f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
+                    chargeBar2 = bar2;
+                    isCreated2 = true;
+                }
+                if (chargeTime > 2 && !isCreated3)
+                {
+                    GameObject bar3 = Instantiate(Resources.Load("ChargeBar3"), new Vector2(player.pos.x + 0.065345f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
+                    chargeBar3 = bar3;
+                    isCreated3 = true;
+                }
+
+                if (chargeTime > 2.7f && chargeTime < 2.8f)
+                {
+                    chargePercentage = 2.8f;
+                    isCharging = false;
+                }
+                else
+                {
+                    chargePercentage = chargeTime;
+                }
+            }
+
+
             if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
             {
                 Special2();
@@ -304,15 +354,28 @@ public class Player : Photon.PunBehaviour, IPunObservable
             }
             else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
             {
-                special_3 = false;
-                Special1(true);
-            }
-            else if (Input.GetKeyUp(B)) // B + ← →
-            {
-                Special1(false);
-                special_1 = false;
-            }
+                isCharging = true;
 
+                special_3 = false;
+                Special1(true, chargePercentage);
+            }
+            else if (Input.GetKeyUp(B) || chargePercentage == 2.8f) // B + ← →
+            {
+                isCharging = false;
+
+                Special1(false, chargePercentage);
+                special_1 = false;
+
+                if (chargeBar1 != null) { Destroy(chargeBar1); }
+                isCreated1 = false;
+                if (chargeBar2 != null) { Destroy(chargeBar2); }
+                isCreated2 = false;
+                if (chargeBar3 != null) { Destroy(chargeBar3); }
+                isCreated3 = false;
+
+                chargePercentage = 0;
+                chargeTime = 0;
+            }
 
             if (Input.GetKeyDown(down)) // B + ↓
             {
@@ -339,7 +402,6 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
         }
     }
-
 
     private void FixedUpdate()
     {
@@ -438,10 +500,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
         player.GetComponent<Attacks>().LaunchBasic3(playerNum);
     }
 
-    public void Special1(bool state)
+    public void Special1(bool state, float charge)
     {
 
-        player.GetComponent<Attacks>().LaunchSpecial1(playerNum, state);
+        player.GetComponent<Attacks>().LaunchSpecial1(playerNum, state, charge);
 
     }
     public void Special2()
@@ -644,11 +706,11 @@ public class Player : Photon.PunBehaviour, IPunObservable
             else if (isPressingB) // B + ← →
             {
                 special_3 = false;
-                Special1(true);
+                Special1(true, chargePercentage);
             }
             else
             {
-                Special1(false);
+                Special1(false, chargePercentage);
                 special_1 = false;
             }
 
