@@ -115,7 +115,7 @@ public class PotionPoison : MonoBehaviour
                 rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
                 pos = rb2d.transform.position;
 
-                audio.Play("SlimeWall", 0);
+                audio.Play("SlimeWall", 0.05f);
 
                 GameObject slimeWall = Instantiate(Resources.Load("Scientist_SlimeWall"), new Vector2(pos.x, heightSlimeWall), Quaternion.identity) as GameObject;
                 isCreated = true;

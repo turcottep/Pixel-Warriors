@@ -119,6 +119,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
         {
 
             //TEST
+            // CRASH HIT BOMB EXPLOSION
             Vector2 vecteurTest = new Vector2(0, 0);
             if (!(col.gameObject.name == "Scientist_Poison(Clone)") && !(col.gameObject.name == "Ninja_Bomb(Clone)" && !(col.gameObject.name == "Ninja_Explosion(Clone)")))
             {

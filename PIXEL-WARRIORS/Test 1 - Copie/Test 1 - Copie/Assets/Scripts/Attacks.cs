@@ -50,6 +50,8 @@ public class Attacks : MonoBehaviour
     private Manager manager;
     private new AudioManager audio;
 
+    private bool earlyShoot = false;
+
     void Start()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
@@ -185,14 +187,27 @@ public class Attacks : MonoBehaviour
     {
         if (canShootSp1 && !player.dead)
         {
+            float maxCharge = 0;
             if (state)
             {
-                //audio.Play("Charge", 0);
+                //Damage over time
+                //Charge bar over head???
+                maxCharge += Time.deltaTime;
+                if (maxCharge == 2.8f)
+                {
+                    earlyShoot = true;
+                }
+                /////////////
+
+                audio.Play("Charge", 0);
                 player.charge = true;
                 anim.SetBool("Charge", true);
             }
-            else if (player.charge)
+            else if (player.charge || earlyShoot)
             {
+                Debug.Log("Charge = " + maxCharge);
+
+                audio.Stop("Charge", 0);
                 player.charge = false;
                 anim.SetBool("Charge", false);
                 if (player.isRight)
@@ -206,6 +221,7 @@ public class Attacks : MonoBehaviour
 
                 player.manager.GetComponent<Manager>().coolingDown1 = true;
                 GameObject go = (GameObject)Instantiate(special1, (Vector2)transform.position + offset_special1 * transform.localScale.x, Quaternion.Euler(0, direction, rotation));
+                go.GetComponent<Damage>().damage = 0.05f + (maxCharge / 14);
                 if (playerNum == 1)
                 {
                     go.tag = "AttPlayer1";
@@ -330,6 +346,7 @@ public class Attacks : MonoBehaviour
 
             audio.Play("TriBall", 0);
             audio.Play("TriBall", 0.1f);
+            audio.Play("TriBall", 0.2f);
         }
 
         if (player.name == "Ninja(Clone)" && canShootSp2 && !player.dead)
@@ -384,6 +401,9 @@ public class Attacks : MonoBehaviour
                 direction = 180f;
                 offset = new Vector2(0.2f, -0.1f);
             }
+
+            audio.Play("Throw", 0);
+
             GameObject potionPoison = (GameObject)Instantiate(Resources.Load("Scientist_Potion_Poison"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
             if (playerNum == 1)
             {
@@ -424,9 +444,6 @@ public class Attacks : MonoBehaviour
         bigBoneRight.transform.localScale = new Vector3(-1, 1, 1);
         Destroy(bigBoneLeft, 0.4f);
         Destroy(bigBoneRight, 0.4f);
-
-        audio.Play("SpikeBones", 0);
-
     }
     public IEnumerator BombBlast(GameObject bomb)
     {
@@ -560,6 +577,7 @@ public class Attacks : MonoBehaviour
                 offset = new Vector2(0.2f, -0.1f);
             }
 
+            audio.Play("Throw", 0);
 
             GameObject potionSlimeWall = (GameObject)Instantiate(Resources.Load("Scientist_Potion_SlimeWall"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
             if (playerNum == 1)
@@ -574,7 +592,7 @@ public class Attacks : MonoBehaviour
 
             StartCoroutine("CanShootSpecial3");
 
-            audio.Play("Throw", 0);
+            
 
         }
     }

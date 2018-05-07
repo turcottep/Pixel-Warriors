@@ -80,7 +80,7 @@ public class Manager : MonoBehaviour
         string character1 = "Ninja";
         string character2 = "Scientist";
 
-        int playerNumberP1 = 2;
+        int playerNumberP1 = 4;
         int playerNumberP2 = 1;
 
         // get info from main menu

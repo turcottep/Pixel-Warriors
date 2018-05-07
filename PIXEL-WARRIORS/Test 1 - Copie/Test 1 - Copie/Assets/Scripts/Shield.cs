@@ -21,9 +21,6 @@ public class Shield : MonoBehaviour {
         {
             switch (shield.name)
             {
-                case "Alien_UFO(Clone)":
-                    audio.Play("Ufo_Hit", 0);
-                    break;
                 case "Demon_Shield(Clone)":
                 case "Scientist_SlimeWall(Clone)":
                     audio.Play("Shield_Hit", 0);
