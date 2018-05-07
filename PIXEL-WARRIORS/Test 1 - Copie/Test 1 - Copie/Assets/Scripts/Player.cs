@@ -524,44 +524,158 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-
-        Debug.Log("marche un peu");
+        //Debug.Log("marche un peu");
         if (stream.isWriting)
         {
-            Debug.Log("ENOVYE");
+            //Debug.Log("ENOVYE");
             // We own this player: send the others our data
-            stream.SendNext(basic_1);
-            stream.SendNext(basic_2);
-            stream.SendNext(basic_3);
-            stream.SendNext(special_1);
-            stream.SendNext(special_2);
-            stream.SendNext(special_3);
-            stream.SendNext(isDead);
-            stream.SendNext(isRight);
+            //stream.SendNext(basic_1);
+            //stream.SendNext(basic_2);
+            //stream.SendNext(basic_3);
+            //stream.SendNext(special_1);
+            //stream.SendNext(special_2);
+            //stream.SendNext(special_3);
+            //stream.SendNext(isDead);
+            //stream.SendNext(isRight);
+            bool isPressingUp = false;
+            bool isPressingLeft = false;
+            bool isPressingDown = false;
+            bool isPressingRight = false;
+            bool isPressingJump = false;
+            bool isPressingA = false;
+            bool isPressingB = false;
 
+            if (Input.GetKeyDown(jump))
+            {
+                isPressingJump = true;
+            }
+            if (Input.GetKeyDown(up))
+            {
+                isPressingUp = true;
+            }
+            if (Input.GetKeyDown(left))
+            {
+                isPressingLeft = true;
+            }
+            if (Input.GetKeyDown(down))
+            {
+                isPressingDown = true;
+            }
+            if (Input.GetKeyDown(right))
+            {
+                isPressingRight = true;
+            }
+            if (Input.GetKeyDown(A))
+            {
+                isPressingA = true;
+            }
+            if (Input.GetKeyDown(B))
+            {
+                isPressingB = true;
+            }
+
+            stream.SendNext(isPressingUp);
+            stream.SendNext(isPressingLeft);
+            stream.SendNext(isPressingDown);
+            stream.SendNext(isPressingRight);
+            stream.SendNext(isPressingJump);
+            stream.SendNext(isPressingA);
+            stream.SendNext(isPressingB);
 
         }
         else
         {
-            Debug.Log("RECOIT");
+            //Debug.Log("RECOIT");
 
             // Network player, receive data
-            this.basic_1 = (bool)stream.ReceiveNext();
-            this.basic_2 = (bool)stream.ReceiveNext();
-            this.basic_3 = (bool)stream.ReceiveNext();
-            this.special_1 = (bool)stream.ReceiveNext();
-            this.special_2 = (bool)stream.ReceiveNext();
-            this.special_3 = (bool)stream.ReceiveNext();
-            this.isDead = (bool)stream.ReceiveNext();
-            this.isRight = (bool)stream.ReceiveNext();
+            bool isPressingUp = (bool)stream.ReceiveNext();
+            bool isPressingLeft = (bool)stream.ReceiveNext();
+            bool isPressingDown = (bool)stream.ReceiveNext();
+            bool isPressingRight = (bool)stream.ReceiveNext();
+            bool isPressingJump = (bool)stream.ReceiveNext();
+            bool isPressingA = (bool)stream.ReceiveNext();
+            bool isPressingB = (bool)stream.ReceiveNext();
 
-            if (basic_1) Basic1();
-            if (basic_2) Basic2();
-            if (basic_3) Basic3();
-            Special1(special_1);
-            if (special_2) Special2();
-            if (special_3) Special3();
-            if (isDead) manager.GetComponent<Manager>().PlayerDeath(playerNum);
+            if (isPressingJump)
+            {
+                MoveUp();
+            }
+            if (isPressingDown)
+            {
+                MoveDown();
+            }
+
+
+            //////////////////////////////////ATTACKS
+
+            //A
+
+            if (isPressingA && isPressingUp) // A + ↑
+            {
+                Basic2();
+            }
+            else if (isPressingA && isPressingDown) // A + ↓
+            {
+                basic_2 = false;
+                Basic3();
+            }
+            else if (isPressingA) // A + ← →
+            {
+                basic_3 = false;
+                Basic1();
+            }
+            else
+            {
+                basic_1 = false;
+                basic_2 = false;
+                basic_3 = false;
+            }
+
+            //B
+            if (isPressingB && isPressingUp) // B + ↑
+            {
+                Special2();
+            }
+            else if (isPressingB && isPressingDown) // B + ↓
+            {
+                special_2 = false;
+                Special3();
+            }
+            else if (isPressingB) // B + ← →
+            {
+                special_3 = false;
+                Special1(true);
+            }
+            else
+            {
+                Special1(false);
+                special_1 = false;
+            }
+
+
+            if (isPressingDown) // B + ↓
+            {
+                pressDown = true;
+            }
+            else
+            {
+                pressDown = false;
+            }
+
+            if (isPressingUp) // B + ↑
+            {
+                pressUp = true;
+            }
+            else
+            {
+                pressUp = false;
+            }
+
+            //Gauche/Droite
+            if (isPressingLeft && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
+            else if (isPressingRight && rb2d.velocity.x < maxSpeed) { MoveRight(); }
+            else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+
 
         }
 
