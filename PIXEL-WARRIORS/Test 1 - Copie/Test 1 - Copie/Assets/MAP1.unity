@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 119978613}
   m_Layer: 10
   m_Name: PlatformRightGround1
-  m_TagString: Map
+  m_TagString: Plateform Right
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3311,7 +3311,7 @@ GameObject:
   - component: {fileID: 1296231453}
   m_Layer: 10
   m_Name: PlatformLeftGround1
-  m_TagString: Map
+  m_TagString: Plateform Left
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

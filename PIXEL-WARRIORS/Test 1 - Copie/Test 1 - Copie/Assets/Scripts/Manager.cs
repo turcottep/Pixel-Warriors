@@ -187,7 +187,7 @@ public class Manager : MonoBehaviour
             piedsJ2.layer = player2.layer;
             piedsJ2.tag = player2.tag;
 
-            // player2.GetComponent<Player>().aiON = true;
+            player2.GetComponent<Player>().aiON = true;
             setHeads(playerNumberP1, playerNumberP2);
         }
     }

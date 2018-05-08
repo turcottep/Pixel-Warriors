@@ -593,8 +593,12 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     }
 
+
+    //Send and receive packets
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        Debug.Log("rate: " +
+        PhotonNetwork.sendRate + " serialize: " + PhotonNetwork.sendRateOnSerialize);
         //Debug.Log("marche un peu");
         if (stream.isWriting)
         {

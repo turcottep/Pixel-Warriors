@@ -10,11 +10,16 @@ public class AI : MonoBehaviour
 
     public float distance;
     public float dAvanceMin = 0.5f;
-    public float dSauteMin = 0.8f;
+    public float dSauteMin = 0.1f;
     public float dAttack1Min = 0.05f;
-    public float speed = 0.25f;
+    public float speedAI = 1;
     public int direction = 0;
     private bool avance;
+
+    public float distanceToLeftEdge;
+    public float distanceToRightEdge;
+    public float heightDistanceToPlateform;
+    public float distanceTrouX1;
 
     private List<Transform> trous = new List<Transform>();
     private List<float> distanceTrousX = new List<float>();
@@ -22,19 +27,27 @@ public class AI : MonoBehaviour
 
     private Transform edgeLeft;
     private Transform edgeRight;
+
+    private Transform plateformRight;
+    private Transform plateformLeft;
+
+    private bool firstJump;
     // Use this for initialization
     void Start()
     {
         player = gameObject.GetComponentInParent<Player>();
         rb2d = gameObject.GetComponent<Rigidbody2D>();
-        player.speed = player.speed * speed;
+        player.speed = player.speed * speedAI;
 
         trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
         GameObject temp = GameObject.FindGameObjectWithTag("Hole 2");
         if (temp != null) trous.Add(temp.transform);
 
         edgeLeft = GameObject.FindGameObjectWithTag("Edge Left").transform;
-        edgeRight = GameObject.FindGameObjectWithTag("Edge Left").transform;
+        edgeRight = GameObject.FindGameObjectWithTag("Edge Right").transform;
+
+        plateformRight = GameObject.FindGameObjectWithTag("Plateform Right").transform;
+        plateformLeft = GameObject.FindGameObjectWithTag("Plateform Left").transform;
     }
 
     // Update is called once per frame
@@ -55,6 +68,10 @@ public class AI : MonoBehaviour
         distance = autre.position.x - player.transform.position.x;
         if (!avance) player.isRight = distance > 0;
 
+        distanceToLeftEdge = this.transform.position.x - edgeLeft.position.x;
+        distanceToRightEdge = edgeRight.position.x - this.transform.position.x;
+
+        heightDistanceToPlateform = this.transform.position.y - plateformLeft.position.y;
 
         foreach (Transform t in trous)
         {
@@ -64,21 +81,21 @@ public class AI : MonoBehaviour
         }
 
 
-        bool saute = false;
-        foreach (float d in distanceTrousX)
-        {
-            //Debug.Log("distanceTrou " + d * player.x);
-            if (player.isRight) direction = 1;
-            else direction = -1;
-            saute = (d * direction > 0 && d * direction < dSauteMin);
-            if (saute)
-            {
-                //Debug.Log("saute");
-                player.MoveUp();
-                break;
-            }
+        //bool saute = false;
+        //foreach (float d in distanceTrousX)
+        //{
+        //    //Debug.Log("distanceTrou " + d * player.x);
+        //    if (player.isRight) direction = 1;
+        //    else direction = -1;
+        //    saute = (d * direction > 0 && d * direction < dSauteMin);
+        //    if (saute)
+        //    {
+        //        //Debug.Log("saute");
+        //        player.MoveUp();
+        //        break;
+        //    }
 
-        }
+        //}
 
         avance = false;
         int trou = 0;
@@ -91,39 +108,65 @@ public class AI : MonoBehaviour
                 break;
             }
         }
-        if (avance)
+        if (distanceToLeftEdge < 0 || distanceToRightEdge < 0)
         {
-            //Over Edge
-
-            //si il est en train de redescendre
-            if (rb2d.velocity.y < -4.5)
+            //Debug.Log("Hors-Map");
+            if (!firstJump)
+            {
+                //Debug.Log("firstJump, maxJump = " + player.maxJump);
+                player.MoveUp();
+                firstJump = true;
+            }
+            if (rb2d.velocity.y < 0)
             {
                 player.MoveUp();
             }
-
-            if (player.x == 0)
+            if (distanceToLeftEdge < 0)
             {
-                //Debug.Log("Avance");
+                player.MoveRight();
+            }
+            else if (distanceToRightEdge < 0)
+            {
+                player.MoveLeft();
+            }
+        }
+        else
+        {
+            firstJump = false;
+
+            if (avance)
+            {
+                //Over Edge
+                Debug.Log("overEdge");
+                //si il est en train de redescendre
+                if (rb2d.velocity.y < -4.5 || heightDistanceToPlateform < dSauteMin)
+                {
+                    player.MoveUp();
+                }
+
+                if (player.x == 0)
+                {
+                    //Debug.Log("Avance");
+                    if (player.isRight) { player.MoveRight(); }
+                    else { player.MoveLeft(); }
+                }
+
+            }
+            else if (Mathf.Abs(distance) > dAttack1Min)
+            {
+
+                player.Special1(!player.charge, 0);
+                //Debug.Log("Avance vers joueur");
                 if (player.isRight) { player.MoveRight(); }
                 else { player.MoveLeft(); }
+
             }
-
+            else if (Mathf.Abs(distance) > 0)
+            {
+                player.x = 0;
+                player.Basic1();
+            }
         }
-        else if (Mathf.Abs(distance) > dAttack1Min)
-        {
-
-            player.Special1(!player.charge, 0);
-            //Debug.Log("Avance vers joueur");
-            if (player.isRight) { player.MoveRight(); }
-            else { player.MoveLeft(); }
-
-        }
-        else if (Mathf.Abs(distance) > 0)
-        {
-            player.x = 0;
-            player.Basic1();
-        }
-
         //}
     }
 

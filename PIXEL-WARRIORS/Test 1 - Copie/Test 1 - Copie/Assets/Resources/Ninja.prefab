@@ -171,10 +171,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: 0
   dAvanceMin: 0.5
-  dSauteMin: 0.8
+  dSauteMin: 0.1
   dAttack1Min: 0.05
-  speed: 0.25
+  speedAI: 1
   direction: 0
+  distanceToLeftEdge: 0
+  distanceToRightEdge: 0
+  heightDistanceToPlateform: 0
 --- !u!114 &114329508447119580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -361,7 +364,7 @@ MonoBehaviour:
   playerType: 1
   mapNumber: 0
   maxSpeed: 2.5
-  speed: 15
+  speed: 2.5
   jumpPower: 175
   maxJump: 2
   percentage: 0
@@ -377,7 +380,13 @@ MonoBehaviour:
   goingDown: 0
   dead: 0
   stunned: 0
-  audioManager: {fileID: 0}
+  isPressingUp: 0
+  isPressingLeft: 0
+  isPressingDown: 0
+  isPressingRight: 0
+  isPressingJump: 0
+  isPressingA: 0
+  isPressingB: 0
   controls: 1
   up: 119
   pressUp: 0
