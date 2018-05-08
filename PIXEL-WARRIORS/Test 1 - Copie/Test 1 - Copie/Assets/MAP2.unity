@@ -5044,7 +5044,7 @@ GameObject:
   - component: {fileID: 1703054760}
   m_Layer: 10
   m_Name: DeckLeft
-  m_TagString: Map
+  m_TagString: Plateform Left
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6542,7 +6542,7 @@ GameObject:
   - component: {fileID: 2078429232}
   m_Layer: 10
   m_Name: DeckRight
-  m_TagString: Map
+  m_TagString: Plateform Right
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

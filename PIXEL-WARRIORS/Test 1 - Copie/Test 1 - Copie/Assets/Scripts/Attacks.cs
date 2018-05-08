@@ -195,7 +195,7 @@ public class Attacks : MonoBehaviour
             }
             else if (player.charge || earlyShoot)
             {
-                Debug.Log("Charge = " + chargePercentage);
+                //Debug.Log("Charge = " + chargePercentage);
 
                 audio.Stop("Charge", 0);
                 player.charge = false;

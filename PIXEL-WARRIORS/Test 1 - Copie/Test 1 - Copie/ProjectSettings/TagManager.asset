@@ -4,8 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ball1
-  - Ball2
   - Player 1
   - Player 2
   - Poing
@@ -34,6 +32,8 @@ TagManager:
   - Bounce
   - AudioManager
   - UnassignedPlayer
+  - Plateform Left
+  - Plateform Right
   layers:
   - Default
   - TransparentFX

@@ -15,6 +15,13 @@ public class AI : MonoBehaviour
     public float speed = 0.25f;
     public int direction = 0;
     private bool avance;
+
+    private List<Transform> trous = new List<Transform>();
+    private List<float> distanceTrousX = new List<float>();
+    private List<float> distanceTrousY = new List<float>();
+
+    private Transform edgeLeft;
+    private Transform edgeRight;
     // Use this for initialization
     void Start()
     {
@@ -22,6 +29,12 @@ public class AI : MonoBehaviour
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         player.speed = player.speed * speed;
 
+        trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
+        GameObject temp = GameObject.FindGameObjectWithTag("Hole 2");
+        if (temp != null) trous.Add(temp.transform);
+
+        edgeLeft = GameObject.FindGameObjectWithTag("Edge Left").transform;
+        edgeRight = GameObject.FindGameObjectWithTag("Edge Left").transform;
     }
 
     // Update is called once per frame
@@ -37,17 +50,11 @@ public class AI : MonoBehaviour
         // Debug.Log("2");
 
         //Debug.Log("YOUHHOUH");
-        List<Transform> trous = new List<Transform>();
 
         Transform autre = GameObject.FindGameObjectWithTag("Player 1").transform;
         distance = autre.position.x - player.transform.position.x;
         if (!avance) player.isRight = distance > 0;
 
-        trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
-        GameObject temp = GameObject.FindGameObjectWithTag("Hole 2");
-        if(temp!=null) trous.Add(temp.transform);
-        List<float> distanceTrousX = new List<float>();
-        List<float> distanceTrousY = new List<float>();
 
         foreach (Transform t in trous)
         {
@@ -96,7 +103,7 @@ public class AI : MonoBehaviour
 
             if (player.x == 0)
             {
-                Debug.Log("Avance");
+                //Debug.Log("Avance");
                 if (player.isRight) { player.MoveRight(); }
                 else { player.MoveLeft(); }
             }

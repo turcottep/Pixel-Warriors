@@ -33,6 +33,15 @@ public class Player : Photon.PunBehaviour, IPunObservable
     public bool dead;
     public bool stunned;
 
+    //Multiplayer
+    public bool isPressingUp = false;
+    public bool isPressingLeft = false;
+    public bool isPressingDown = false;
+    public bool isPressingRight = false;
+    public bool isPressingJump = false;
+    public bool isPressingA = false;
+    public bool isPressingB = false;
+
     private GameObject chargeBar1;
     private bool isCreated1 = false;
     private GameObject chargeBar2;
@@ -309,9 +318,9 @@ public class Player : Photon.PunBehaviour, IPunObservable
             if (isCharging)
             {
                 chargeTime += Time.deltaTime;
-                Debug.Log("Charging : " + chargeTime);
+                //Debug.Log("Charging : " + chargeTime);
 
-                if(chargeTime < 1 && !isCreated1)
+                if (chargeTime < 1 && !isCreated1)
                 {
                     GameObject bar1 = Instantiate(Resources.Load("ChargeBar1"), new Vector2(player.pos.x - 0.034655f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
                     chargeBar1 = bar1;
@@ -540,7 +549,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
         yield return new WaitForSeconds(stunDuration / 30);
         player.stunned = false;
         player.gameObject.layer = 7 + playerNum;
-        Debug.Log("unstunned");
+        //Debug.Log("unstunned");
     }
 
     public void Reset()
@@ -589,7 +598,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
         //Debug.Log("marche un peu");
         if (stream.isWriting)
         {
-            //Debug.Log("ENOVYE");
+            Debug.Log("ENOVYE");
             // We own this player: send the others our data
             //stream.SendNext(basic_1);
             //stream.SendNext(basic_2);
@@ -599,13 +608,6 @@ public class Player : Photon.PunBehaviour, IPunObservable
             //stream.SendNext(special_3);
             //stream.SendNext(isDead);
             //stream.SendNext(isRight);
-            bool isPressingUp = false;
-            bool isPressingLeft = false;
-            bool isPressingDown = false;
-            bool isPressingRight = false;
-            bool isPressingJump = false;
-            bool isPressingA = false;
-            bool isPressingB = false;
 
             if (Input.GetKeyDown(jump))
             {
@@ -650,13 +652,13 @@ public class Player : Photon.PunBehaviour, IPunObservable
             //Debug.Log("RECOIT");
 
             // Network player, receive data
-            bool isPressingUp = (bool)stream.ReceiveNext();
-            bool isPressingLeft = (bool)stream.ReceiveNext();
-            bool isPressingDown = (bool)stream.ReceiveNext();
-            bool isPressingRight = (bool)stream.ReceiveNext();
-            bool isPressingJump = (bool)stream.ReceiveNext();
-            bool isPressingA = (bool)stream.ReceiveNext();
-            bool isPressingB = (bool)stream.ReceiveNext();
+            isPressingUp = (bool)stream.ReceiveNext();
+            isPressingLeft = (bool)stream.ReceiveNext();
+            isPressingDown = (bool)stream.ReceiveNext();
+            isPressingRight = (bool)stream.ReceiveNext();
+            isPressingJump = (bool)stream.ReceiveNext();
+            isPressingA = (bool)stream.ReceiveNext();
+            isPressingB = (bool)stream.ReceiveNext();
 
             if (isPressingJump)
             {
