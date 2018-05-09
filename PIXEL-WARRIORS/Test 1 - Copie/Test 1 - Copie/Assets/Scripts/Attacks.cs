@@ -14,6 +14,8 @@ public class Attacks : MonoBehaviour
     public Image cooldown2;
     public Image cooldown3;
 
+    public bool muteSound;
+
     private float coolDownTime;
 
     public Vector2 velocity_special1;
@@ -59,6 +61,10 @@ public class Attacks : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         manager = gameObject.GetComponent<Manager>();
         audio = FindObjectOfType<AudioManager>();
+
+        //Debug.Log(player.muteSound);
+        //muteSound = player.muteSound;
+        muteSound = audio.soundOn;
     }
 
     #region Coroutines
@@ -125,7 +131,7 @@ public class Attacks : MonoBehaviour
             damage = 0.25f;
             GameObject go;
 
-            audio.Play("Whoosh", 0);
+            audio.Play("Whoosh", 0, muteSound);
 
             if (player.name == "Scientist(Clone)" || player.name == "Demon(Clone)")
             {
@@ -158,7 +164,8 @@ public class Attacks : MonoBehaviour
             }
             GameObject go = (GameObject)Instantiate(basic2, (Vector2)transform.position + (new Vector2(offset_basic2.x * transform.localScale.x, offset_basic2.y)), Quaternion.Euler(0, rotation, 0));
             TaggingBasic(go, playerNum);
-            audio.Play("Whoosh", 0);
+
+            audio.Play("Whoosh", 0, muteSound);
 
         }
     }
@@ -178,7 +185,7 @@ public class Attacks : MonoBehaviour
             GameObject go = (GameObject)Instantiate(basic3, (Vector2)transform.position + (new Vector2(offset_basic3.x * transform.localScale.x, offset_basic3.y)), Quaternion.Euler(0, rotation, 0));
             TaggingBasic(go, playerNum);
 
-            audio.Play("Whoosh", 0);
+            audio.Play("Whoosh", 0, muteSound);
 
         }
     }
@@ -189,7 +196,8 @@ public class Attacks : MonoBehaviour
         {
             if (state)
             {
-                audio.Play("Charge", 0);
+                audio.Play("Charge", 0, muteSound); 
+
                 player.charge = true;
                 anim.SetBool("Charge", true);
             }
@@ -197,7 +205,8 @@ public class Attacks : MonoBehaviour
             {
                 //Debug.Log("Charge = " + chargePercentage);
 
-                audio.Stop("Charge", 0);
+                audio.Stop("Charge", 0, muteSound);
+
                 player.charge = false;
                 anim.SetBool("Charge", false);
                 if (player.isRight)
@@ -231,7 +240,8 @@ public class Attacks : MonoBehaviour
                 GetComponent<Animator>().SetTrigger("Special1");
                 Destroy(go, lifeTime_special1);
                 StartCoroutine("CanShootSpecial1");
-                audio.Play("Special1", 0);
+
+                audio.Play("Special1", 0, muteSound);
 
             }
         }
@@ -273,7 +283,7 @@ public class Attacks : MonoBehaviour
 
             StartCoroutine("CanShootSpecial2");
 
-            audio.Play("SpikeBones", 0);
+            audio.Play("SpikeBones", 0, muteSound);
 
         }
 
@@ -339,9 +349,10 @@ public class Attacks : MonoBehaviour
 
             StartCoroutine("CanShootSpecial2");
 
-            audio.Play("TriBall", 0);
-            audio.Play("TriBall", 0.1f);
-            audio.Play("TriBall", 0.2f);
+            
+             audio.Play("TriBall", 0, muteSound);
+             audio.Play("TriBall", 0.1f, muteSound);
+             audio.Play("TriBall", 0.2f, muteSound);
         }
 
         if (player.name == "Ninja(Clone)" && canShootSp2 && !player.dead)
@@ -376,7 +387,8 @@ public class Attacks : MonoBehaviour
             bomb.GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x * transform.localScale.x, velocity.y);
             StartCoroutine("BombBlast", bomb);
             StartCoroutine("CanShootSpecial2");
-            audio.Play("Throw", 0);
+
+            audio.Play("Throw", 0, muteSound); 
 
         }
 
@@ -397,7 +409,7 @@ public class Attacks : MonoBehaviour
                 offset = new Vector2(0.2f, -0.1f);
             }
 
-            audio.Play("Throw", 0);
+            audio.Play("Throw", 0, muteSound);
 
             GameObject potionPoison = (GameObject)Instantiate(Resources.Load("Scientist_Potion_Poison"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
             if (playerNum == 1)
@@ -463,7 +475,8 @@ public class Attacks : MonoBehaviour
             Destroy(bomb);
 
             StartCoroutine("BlastOff", blast);
-            audio.Play("Bomb_Explosion", 0);
+
+            audio.Play("Bomb_Explosion", 0, muteSound); 
 
         }
 
@@ -509,7 +522,7 @@ public class Attacks : MonoBehaviour
             Destroy(boneShield, lifeTime_special3);
             StartCoroutine("CanShootSpecial3");
 
-            audio.Play("Demon_Shield", 0);
+            audio.Play("Demon_Shield", 0, muteSound);
 
         }
 
@@ -531,8 +544,8 @@ public class Attacks : MonoBehaviour
             Destroy(UFO, 2);
             StartCoroutine("CanShootSpecial3");
 
-            audio.Play("Ufo", 0);
-            audio.Stop("Ufo", 2);
+            audio.Play("Ufo", 0, muteSound);
+            audio.Stop("Ufo", 2, muteSound);
         }
 
         if (player.name == "Ninja(Clone)" && canShootSp3 && !player.dead)
@@ -551,7 +564,7 @@ public class Attacks : MonoBehaviour
             //player.GetComponent<Renderer>().enabled = false;
             Destroy(log, 1f);
 
-            audio.Play("Log", 0);
+            audio.Play("Log", 0, muteSound);
 
         }
 
@@ -571,8 +584,8 @@ public class Attacks : MonoBehaviour
                 direction = 180f;
                 offset = new Vector2(0.2f, -0.1f);
             }
-
-            audio.Play("Throw", 0);
+        
+            audio.Play("Throw", 0, muteSound); 
 
             GameObject potionSlimeWall = (GameObject)Instantiate(Resources.Load("Scientist_Potion_SlimeWall"), (Vector2)transform.position + offset * transform.localScale.x, Quaternion.Euler(0, direction, 0));
             if (playerNum == 1)
@@ -600,7 +613,7 @@ public class Attacks : MonoBehaviour
         rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         player.maxJump = 2;
 
-        audio.Play("Log", 0);
+        audio.Play("Log", 0, muteSound);
 
     }
 

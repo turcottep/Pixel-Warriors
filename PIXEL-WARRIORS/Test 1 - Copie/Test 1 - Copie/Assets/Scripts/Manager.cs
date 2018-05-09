@@ -53,6 +53,10 @@ public class Manager : MonoBehaviour
 
     public int mapN = 1;
 
+    private new AudioManager audio;
+    public bool sound;
+    public bool music;
+
     #endregion
 
     #region private variables
@@ -86,6 +90,10 @@ public class Manager : MonoBehaviour
         // get info from main menu
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
 
+        audio = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        sound = audio.soundOn;
+        music = audio.musicOn;
+
         if (mainMenuManager != null)
         {
             playerNumberP1 = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
@@ -94,11 +102,17 @@ public class Manager : MonoBehaviour
 
             if (mapN == 1)
             {
+                audio.Stop("MusicMenu", 0, music);
+                audio.Play("MusicMap1", 0, music);
+
                 initialPositionP1 = new Vector2(-2.7f, 1.1f);
                 initialPositionP2 = new Vector2(2.7f, 1.1f);
             }
             else if (mapN == 2)
             {
+                audio.Stop("MusicMenu", 0, music);
+                audio.Play("MusicMap2", 0, music);
+
                 initialPositionP1 = new Vector2(-2.1f, 1.3f);
                 initialPositionP2 = new Vector2(2.1f, 1.3f);
             }

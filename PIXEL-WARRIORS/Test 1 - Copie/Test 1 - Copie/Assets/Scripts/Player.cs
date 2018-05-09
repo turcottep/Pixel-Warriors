@@ -61,6 +61,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
     public bool isButtonDownPointerDown;
     public bool isButtonAttackBPointerDown;
 
+    //audio
+    public bool muteSound;
+    public bool music;
+
     //misc variables
     public bool aiON = true;
     public int x = 0;
@@ -84,7 +88,6 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     //Audio
     private AudioManager audioManager;
-
     
     private float stun = 0f;
 
@@ -104,7 +107,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
         anim = gameObject.GetComponent<Animator>();
         player = gameObject.GetComponentInParent<Player>();
         manager = GameObject.FindGameObjectWithTag("Manager");
+
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        muteSound = audioManager.soundOn;
+
         mapNumber = manager.GetComponent<Manager>().mapN;
         if (player.tag == "Player 1")
         {
@@ -186,7 +192,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
             special_3 = false;
             charge = false;
 
-            audioManager.Play("Hit", 0);
+            audioManager.Play("Hit", 0, muteSound);
         }
 
         //Lava
@@ -201,7 +207,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("Whitecolor");
 
-            audioManager.Play("Lava", 0);
+            audioManager.Play("Lava", 0, muteSound); 
 
         }
 
@@ -424,8 +430,8 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
             player.isDead = true;
             manager.GetComponent<Manager>().PlayerDeath(playerNum);
-            audioManager.Play("Death", 0);
 
+            audioManager.Play("Death", 0, muteSound);
         }
         if (player.isDead)
         {
@@ -466,7 +472,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
             rb2d.AddForce(new Vector2(0, jumpPower));
             maxJump--;
 
-            audioManager.Play("Jump", 0);
+            audioManager.Play("Jump", 0, muteSound);
 
         }
 
@@ -700,7 +706,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
         #endregion
     }
 
-
+    public bool getSound()
+    {
+        return muteSound;
+    }
     #region misc functions
     IEnumerator Poison(int time)
     {

@@ -21,13 +21,34 @@ public class MainMenu : MonoBehaviour
     public Toggle togglePlayer4;
     public GameObject p4Background;
 
+    public Toggle sound;
+    public Toggle music;
 
     public int mapNumber;
     public int playerNumber = 0;
 
     private int gameMode = 1;
+    private new AudioManager audio;
 
     GameObject player1;
+
+    private void Start()
+    {
+        audio = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        //audio.Play("MusicMenu", 0, getMusic());
+
+        
+    }
+
+    private void Update()
+    {
+        audio.soundOn = sound.isOn;
+        audio.musicOn = music.isOn;
+
+        if (!audio.musicOn) { audio.Stop("MusicMenu", 0, true); }
+        else { audio.Play("MusicMenu", 0, true); }
+
+    }
 
     public void Awake()
     {
@@ -40,6 +61,7 @@ public class MainMenu : MonoBehaviour
 
     public void playAI()
     {
+
         SelectPlayer();
         gameMode = 1;
 
@@ -49,7 +71,6 @@ public class MainMenu : MonoBehaviour
             mapNumber = 1;
 
             PhotonNetwork.LoadLevel("MAP1");
-
         }
         else if (toggleMap2.isOn)
         {
@@ -181,5 +202,17 @@ public class MainMenu : MonoBehaviour
     public int getGameMode()
     {
         return gameMode;
+    }
+
+    public bool getMusic()
+    {
+
+        return music.isOn;
+    }
+
+    public bool getSound()
+    {
+
+        return sound.isOn;
     }
 }

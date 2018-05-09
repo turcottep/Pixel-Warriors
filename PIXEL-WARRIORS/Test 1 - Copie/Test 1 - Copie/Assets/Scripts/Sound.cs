@@ -13,7 +13,7 @@ public class Sound {
     [Range(1, 3)]
     public float pitch;
 
-    //public bool loop;
+    public bool loop;
 
     [HideInInspector]
     public AudioSource source;

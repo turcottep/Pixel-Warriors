@@ -1868,6 +1868,8 @@ MonoBehaviour:
   p3Background: {fileID: 1006035520}
   togglePlayer4: {fileID: 1291229090}
   p4Background: {fileID: 343543174}
+  sound: {fileID: 2056883833}
+  music: {fileID: 654629895}
   mapNumber: 0
   playerNumber: 0
 --- !u!4 &325884068
@@ -3099,6 +3101,181 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 579571588}
+--- !u!1 &582899668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 582899670}
+  - component: {fileID: 582899669}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: AudioManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &582899669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 582899668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ab16387fbf373c4ca4241465e5308ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Bomb_Explosion
+    clip: {fileID: 8300000, guid: a55ebc7a1ef46e748b1fb5ba93b1cad3, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Bottle_Break
+    clip: {fileID: 8300000, guid: 02780ec4ca11a614994d7d8857cded2b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Charge
+    clip: {fileID: 8300000, guid: 79d6d56c20ca66b4699b282c19ff4b2d, type: 3}
+    volume: 0.03
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Countdown
+    clip: {fileID: 8300000, guid: 7253178e9d085644089124b64c5ec2b2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Death
+    clip: {fileID: 8300000, guid: 5743c91008370014d9e9d8706e9e9f8a, type: 3}
+    volume: 0.8
+    pitch: 1.1
+    loop: 0
+    source: {fileID: 0}
+  - name: Demon_Shield
+    clip: {fileID: 8300000, guid: 3f9daef22e8405a4fb7608e7dcf72972, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hit
+    clip: {fileID: 8300000, guid: 8550102f014c1834aa500eed129a58b4, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Jump
+    clip: {fileID: 8300000, guid: 0b5670a9f738847419e1e986250c1140, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Lava
+    clip: {fileID: 8300000, guid: 7e230fa028dc52849a1ad3dac3059309, type: 3}
+    volume: 0.2
+    pitch: 1.1
+    loop: 0
+    source: {fileID: 0}
+  - name: Log
+    clip: {fileID: 8300000, guid: aec10a8e2b6dcd5479d98eaceb7793d6, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Poison
+    clip: {fileID: 8300000, guid: ae25c186f25917d498b92ffff72cef8d, type: 3}
+    volume: 0.08
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Shield_Hit
+    clip: {fileID: 8300000, guid: fc5325f84d6eeff4ab8039a545125c49, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: SlimeWall
+    clip: {fileID: 8300000, guid: 44806d590f1bf554fa00c3a65bb602aa, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Special1
+    clip: {fileID: 8300000, guid: 3a7572a2f231d684d9edbf91afebc337, type: 3}
+    volume: 0.4
+    pitch: 1.2
+    loop: 0
+    source: {fileID: 0}
+  - name: SpikeBones
+    clip: {fileID: 8300000, guid: a766d959f3f721e4ebb09d1339708c87, type: 3}
+    volume: 0.06
+    pitch: 1.1
+    loop: 0
+    source: {fileID: 0}
+  - name: Throw
+    clip: {fileID: 8300000, guid: eec8919c645cd7d448272f08802318c4, type: 3}
+    volume: 0.1
+    pitch: 1.1
+    loop: 0
+    source: {fileID: 0}
+  - name: TriBall
+    clip: {fileID: 8300000, guid: 3cc1c5a77f457af4cb9e8d1f6908ffc1, type: 3}
+    volume: 0.5
+    pitch: 2.5
+    loop: 0
+    source: {fileID: 0}
+  - name: Ufo
+    clip: {fileID: 8300000, guid: 162b8a95fce67b3499344afaf4790d24, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Whoosh
+    clip: {fileID: 8300000, guid: 3c38774f2445ba74e8279be7061b6764, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MusicMenu
+    clip: {fileID: 8300000, guid: 6e184df3cb65c2043889b589288c565a, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: MusicMap1
+    clip: {fileID: 8300000, guid: 15c5fd8bd3d9f654988844ddf1bb9831, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: MusicMap2
+    clip: {fileID: 0}
+    volume: 0.15
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  soundOn: 1
+  musicOn: 1
+--- !u!4 &582899670
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 582899668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &654629893
 GameObject:
   m_ObjectHideFlags: 0
@@ -3536,7 +3713,6 @@ GameObject:
   - component: {fileID: 740982407}
   - component: {fileID: 740982406}
   - component: {fileID: 740982405}
-  - component: {fileID: 740982409}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3607,86 +3783,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &740982409
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 740982404}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6e184df3cb65c2043889b589288c565a, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!1 &748216572
 GameObject:
   m_ObjectHideFlags: 0

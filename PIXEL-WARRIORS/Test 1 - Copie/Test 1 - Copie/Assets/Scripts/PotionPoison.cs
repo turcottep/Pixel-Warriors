@@ -8,7 +8,10 @@ public class PotionPoison : MonoBehaviour
     private Rigidbody2D rb2d;
     private AudioManager audio;
     private Vector2 pos;
-    public GameObject puddle;
+    private Player player;
+
+    private bool muteSound;
+    private bool music;
 
     public int playerNum;
     private float heightBreak;
@@ -22,13 +25,15 @@ public class PotionPoison : MonoBehaviour
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         audio = FindObjectOfType<AudioManager>();
+
+        muteSound = audio.soundOn;
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (gameObject.name == "Scientist_Potion_Poison(Clone)")
         {
-            audio.Play("Bottle_Break", 0);
+            audio.Play("Bottle_Break", 0, muteSound);
 
             if (col.gameObject.name == "PlatformMiddleGround")
             {
@@ -61,7 +66,7 @@ public class PotionPoison : MonoBehaviour
 
         if (gameObject.name == "Scientist_Potion_SlimeWall(Clone)")
         {
-            audio.Play("Bottle_Break", 0);
+            audio.Play("Bottle_Break", 0, muteSound);
 
             switch (col.gameObject.name)
             {
@@ -115,7 +120,7 @@ public class PotionPoison : MonoBehaviour
                 rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
                 pos = rb2d.transform.position;
 
-                audio.Play("SlimeWall", 0.05f);
+                audio.Play("SlimeWall", 0.05f, muteSound);
 
                 GameObject slimeWall = Instantiate(Resources.Load("Scientist_SlimeWall"), new Vector2(pos.x, heightSlimeWall), Quaternion.identity) as GameObject;
                 isCreated = true;
@@ -167,8 +172,8 @@ public class PotionPoison : MonoBehaviour
 
     IEnumerator Poison(GameObject potion)
     {
-        audio.Play("Poison", 0);
-        audio.Stop("Poison", 3);
+         audio.Play("Poison", 0, muteSound);
+         audio.Stop("Poison", 3, muteSound);
 
         potion.GetComponent<Collider2D>().enabled = false;
         potion.GetComponent<Renderer>().enabled = false;

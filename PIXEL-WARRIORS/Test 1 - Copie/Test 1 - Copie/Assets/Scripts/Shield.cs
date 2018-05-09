@@ -7,12 +7,16 @@ public class Shield : MonoBehaviour {
     private GameObject shield;
     private Rigidbody2D rb2d;
     private new AudioManager audio;
+    private Player player;
+    private bool muteSound;
 
     private int lives = 2;
 
     void Start () {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         audio = FindObjectOfType<AudioManager>();
+
+        muteSound = audio.soundOn;
     }
 
     public void OnCollisionEnter2D(Collision2D col)
@@ -23,7 +27,7 @@ public class Shield : MonoBehaviour {
             {
                 case "Demon_Shield(Clone)":
                 case "Scientist_SlimeWall(Clone)":
-                    audio.Play("Shield_Hit", 0);
+                    audio.Play("Shield_Hit", 0, muteSound);
                     break;
             }
 
