@@ -29,6 +29,7 @@ public class AI : MonoBehaviour
     private Transform plateformLeft;
 
     private bool firstJump;
+    private bool firstJumpEdge;
     // Use this for initialization
     void Start()
     {
@@ -141,21 +142,25 @@ public class AI : MonoBehaviour
                 //Over Edge
                 Debug.Log("overEdge");
                 //si il est en train de redescendre
-                if (rb2d.velocity.y < -4.5 || heightDistanceToPlateform < dSauteMin)
+                if (rb2d.velocity.y < -4.5)
                 {
-                    if (!firstJump)
+                    player.MoveUp();
+                }
+                if (heightDistanceToPlateform < dSauteMin && rb2d.velocity.y < 0)
+                {
+                    Debug.Log("too low!");
+                    if (!firstJumpEdge)
                     {
                         //Debug.Log("firstJump, maxJump = " + player.maxJump);
                         player.MoveUp();
-                        firstJump = true;
+                        firstJumpEdge = true;
                     }
-                    else if(rb2d.velocity.y < 1)
+                    else if (rb2d.velocity.y < 1)
                     {
                         Debug.Log("Jumping for second timme");
                         player.MoveUp();
                     }
                 }
-
                 if (player.x == 0)
                 {
                     //Debug.Log("Avance");
@@ -164,23 +169,29 @@ public class AI : MonoBehaviour
                 }
 
             }
-            else if (Mathf.Abs(distance) > dAttack1Min)
+            else
             {
+                firstJumpEdge = false;
+                if (Mathf.Abs(distance) > dAttack1Min)
+                {
 
-                player.Special1(!player.charge, 0);
-                //Debug.Log("Avance vers joueur");
-                if (player.isRight) { player.MoveRight(); }
-                else { player.MoveLeft(); }
+                    player.Special1(!player.charge, 0);
+                    //Debug.Log("Avance vers joueur");
+                    if (player.isRight) { player.MoveRight(); }
+                    else { player.MoveLeft(); }
+
+                }
+                else if (Mathf.Abs(distance) > 0)
+                {
+                    player.x = 0;
+                    player.Basic1();
+                }
+                player.MoveUp();
 
             }
-            else if (Mathf.Abs(distance) > 0)
-            {
-                player.x = 0;
-                player.Basic1();
-            }
+            //}
         }
-        //}
-    }
 
+    }
 }
 

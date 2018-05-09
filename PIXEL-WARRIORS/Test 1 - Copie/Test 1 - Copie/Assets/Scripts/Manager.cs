@@ -188,6 +188,7 @@ public class Manager : MonoBehaviour
             piedsJ2.tag = player2.tag;
 
             player2.GetComponent<Player>().aiON = true;
+            player2.GetComponent<Player>().speed = 2.5f;
             setHeads(playerNumberP1, playerNumberP2);
         }
     }

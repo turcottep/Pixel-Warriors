@@ -178,6 +178,7 @@ MonoBehaviour:
   distanceToLeftEdge: 0
   distanceToRightEdge: 0
   heightDistanceToPlateform: 0
+  distanceTrouX1: 0
 --- !u!114 &114329508447119580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -364,7 +365,7 @@ MonoBehaviour:
   playerType: 1
   mapNumber: 0
   maxSpeed: 2.5
-  speed: 2.5
+  speed: 8
   jumpPower: 175
   maxJump: 2
   percentage: 0
@@ -406,9 +407,9 @@ MonoBehaviour:
   initialPosition: {x: -2.7, y: 1.3, z: 0}
   isRight: 0
   isDead: 0
-  rb2d: {fileID: 0}
   playerNum: 0
   manager: {fileID: 0}
+  rb2d: {fileID: 0}
 --- !u!212 &212741927714056260
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -266,8 +266,12 @@ MonoBehaviour:
   dAvanceMin: 0.5
   dSauteMin: 0.8
   dAttack1Min: 0.05
-  speed: 0.25
+  speedAI: 1
   direction: 0
+  distanceToLeftEdge: 0
+  distanceToRightEdge: 0
+  heightDistanceToPlateform: 0
+  distanceTrouX1: 0
 --- !u!114 &114467498572183006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -282,7 +286,7 @@ MonoBehaviour:
   playerType: 2
   mapNumber: 0
   maxSpeed: 2.5
-  speed: 15
+  speed: 8
   jumpPower: 175
   maxJump: 2
   percentage: 0
@@ -298,7 +302,13 @@ MonoBehaviour:
   goingDown: 0
   dead: 0
   stunned: 0
-  audioManager: {fileID: 0}
+  isPressingUp: 0
+  isPressingLeft: 0
+  isPressingDown: 0
+  isPressingRight: 0
+  isPressingJump: 0
+  isPressingA: 0
+  isPressingB: 0
   controls: 1
   up: 119
   pressUp: 0
@@ -318,9 +328,9 @@ MonoBehaviour:
   initialPosition: {x: -2.7, y: 1.3, z: 0}
   isRight: 0
   isDead: 0
-  rb2d: {fileID: 0}
   playerNum: 0
   manager: {fileID: 0}
+  rb2d: {fileID: 0}
 --- !u!114 &114504901667053348
 MonoBehaviour:
   m_ObjectHideFlags: 1
