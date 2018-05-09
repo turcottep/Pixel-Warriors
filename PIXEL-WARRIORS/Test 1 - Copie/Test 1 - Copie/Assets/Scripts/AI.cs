@@ -21,9 +21,6 @@ public class AI : MonoBehaviour
     public float heightDistanceToPlateform;
     public float distanceTrouX1;
 
-    private List<Transform> trous = new List<Transform>();
-    private List<float> distanceTrousX = new List<float>();
-    private List<float> distanceTrousY = new List<float>();
 
     private Transform edgeLeft;
     private Transform edgeRight;
@@ -38,10 +35,6 @@ public class AI : MonoBehaviour
         player = gameObject.GetComponentInParent<Player>();
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         player.speed = player.speed * speedAI;
-
-        trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
-        GameObject temp = GameObject.FindGameObjectWithTag("Hole 2");
-        if (temp != null) trous.Add(temp.transform);
 
         edgeLeft = GameObject.FindGameObjectWithTag("Edge Left").transform;
         edgeRight = GameObject.FindGameObjectWithTag("Edge Right").transform;
@@ -63,6 +56,13 @@ public class AI : MonoBehaviour
         // Debug.Log("2");
 
         //Debug.Log("YOUHHOUH");
+        List<Transform> trous = new List<Transform>();
+        List<float> distanceTrousX = new List<float>();
+        List<float> distanceTrousY = new List<float>();
+
+        trous.Add(GameObject.FindGameObjectWithTag("Hole 1").transform);
+        GameObject temp = GameObject.FindGameObjectWithTag("Hole 2");
+        if (temp != null) trous.Add(temp.transform);
 
         Transform autre = GameObject.FindGameObjectWithTag("Player 1").transform;
         distance = autre.position.x - player.transform.position.x;
@@ -99,8 +99,10 @@ public class AI : MonoBehaviour
 
         avance = false;
         int trou = 0;
+        //Debug.Log("nb trous = " + distanceTrousX.Count);
         for (int i = 0; i < distanceTrousX.Count; i++)
         {
+            //Debug.Log("distance trou de " + i + " " + Mathf.Abs(distanceTrousX[i]) + " < " + dAvanceMin);
             avance = Mathf.Abs(distanceTrousX[i]) < dAvanceMin;
             if (avance)
             {
@@ -141,7 +143,17 @@ public class AI : MonoBehaviour
                 //si il est en train de redescendre
                 if (rb2d.velocity.y < -4.5 || heightDistanceToPlateform < dSauteMin)
                 {
-                    player.MoveUp();
+                    if (!firstJump)
+                    {
+                        //Debug.Log("firstJump, maxJump = " + player.maxJump);
+                        player.MoveUp();
+                        firstJump = true;
+                    }
+                    else if(rb2d.velocity.y < 1)
+                    {
+                        Debug.Log("Jumping for second timme");
+                        player.MoveUp();
+                    }
                 }
 
                 if (player.x == 0)

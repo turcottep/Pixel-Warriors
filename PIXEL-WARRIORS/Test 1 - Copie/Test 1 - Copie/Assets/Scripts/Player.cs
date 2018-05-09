@@ -118,8 +118,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
         //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
         knockback.Set(-2, 1);
         manager.GetComponent<Manager>().UpdatePercentages(playerNum);
-    }
 
+        PhotonNetwork.sendRate = 100;
+        PhotonNetwork.sendRateOnSerialize = 100;
+    }
 
 
     IEnumerator Poison(int time)
@@ -276,140 +278,163 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
         if (!player.stunned && ((photonView.isMine && PhotonNetwork.connected == true) || manager.GetComponent<Manager>().getGameMode() == 1))
         {
+            //manage inputs
+            isPressingUp = false;
+            isPressingLeft = false;
+            isPressingDown = false;
+            isPressingRight = false;
+            isPressingJump = false;
+            isPressingA = false;
+            isPressingB = false;
 
             if (Input.GetKeyDown(jump))
             {
-                MoveUp();
+                isPressingJump = true;
+            }
+            if (Input.GetKeyDown(up))
+            {
+                isPressingUp = true;
+            }
+            if (Input.GetKeyDown(left))
+            {
+                isPressingLeft = true;
             }
             if (Input.GetKeyDown(down))
             {
-                MoveDown();
+                isPressingDown = true;
             }
-
-
-            //////////////////////////////////ATTACKS
-
-            //A
-
-            if (Input.GetKeyDown(A) && pressUp) // A + ↑
+            if (Input.GetKeyDown(right))
             {
-                Basic2();
+                isPressingRight = true;
             }
-            else if (Input.GetKeyDown(A) && pressDown) // A + ↓
+            if (Input.GetKeyDown(A))
             {
-                basic_2 = false;
-                Basic3();
+                isPressingA = true;
             }
-            else if (Input.GetKeyDown(A)) // A + ← →
+            if (Input.GetKeyDown(B))
             {
-                basic_3 = false;
-                Basic1();
+                isPressingB = true;
             }
-            else
-            {
-                basic_1 = false;
-                basic_2 = false;
-                basic_3 = false;
-            }
-
-            //B
-
-            //Work in progress (à finir Mercredi)
-            if (isCharging)
-            {
-                chargeTime += Time.deltaTime;
-                //Debug.Log("Charging : " + chargeTime);
-
-                if (chargeTime < 1 && !isCreated1)
-                {
-                    GameObject bar1 = Instantiate(Resources.Load("ChargeBar1"), new Vector2(player.pos.x - 0.034655f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
-                    chargeBar1 = bar1;
-                    chargeBar1.transform.position = new Vector2(player.pos.x - 0.034655f, player.pos.y + 0.2713515f);
-                    isCreated1 = true;
-                }
-                if (chargeTime > 1 && chargeTime < 2 && !isCreated2)
-                {
-                    GameObject bar2 = Instantiate(Resources.Load("ChargeBar2"), new Vector2(player.pos.x + 0.015345f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
-                    chargeBar2 = bar2;
-                    isCreated2 = true;
-                }
-                if (chargeTime > 2 && !isCreated3)
-                {
-                    GameObject bar3 = Instantiate(Resources.Load("ChargeBar3"), new Vector2(player.pos.x + 0.065345f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
-                    chargeBar3 = bar3;
-                    isCreated3 = true;
-                }
-
-                if (chargeTime > 2.7f && chargeTime < 2.8f)
-                {
-                    chargePercentage = 2.8f;
-                    isCharging = false;
-                }
-                else
-                {
-                    chargePercentage = chargeTime;
-                }
-            }
-
-
-            if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
-            {
-                Special2();
-            }
-            else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressDown) // B + ↓
-            {
-                special_2 = false;
-                Special3();
-            }
-            else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
-            {
-                isCharging = true;
-
-                special_3 = false;
-                Special1(true, chargePercentage);
-            }
-            else if (Input.GetKeyUp(B) || chargePercentage == 2.8f) // B + ← →
-            {
-                isCharging = false;
-
-                Special1(false, chargePercentage);
-                special_1 = false;
-
-                if (chargeBar1 != null) { Destroy(chargeBar1); }
-                isCreated1 = false;
-                if (chargeBar2 != null) { Destroy(chargeBar2); }
-                isCreated2 = false;
-                if (chargeBar3 != null) { Destroy(chargeBar3); }
-                isCreated3 = false;
-
-                chargePercentage = 0;
-                chargeTime = 0;
-            }
-
-            if (Input.GetKeyDown(down)) // B + ↓
-            {
-                pressDown = true;
-            }
-            else if (Input.GetKeyUp(down)) // B + ↓
-            {
-                pressDown = false;
-            }
-
-            if (Input.GetKeyDown(up)) // B + ↑
-            {
-                pressUp = true;
-            }
-            else if (Input.GetKeyUp(up)) // B + ↑
-            {
-                pressUp = false;
-            }
-
-            //Gauche/Droite
-            if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
-            else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
-            else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
 
         }
+        ////Work in progress (à finir Mercredi)
+        //if (isCharging)
+        //{
+        //    chargeTime += Time.deltaTime;
+        //    //Debug.Log("Charging : " + chargeTime);
+
+        //    if (chargeTime < 1 && !isCreated1)
+        //    {
+        //        GameObject bar1 = Instantiate(Resources.Load("ChargeBar1"), new Vector2(player.pos.x - 0.034655f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
+        //        chargeBar1 = bar1;
+        //        chargeBar1.transform.position = new Vector2(player.pos.x - 0.034655f, player.pos.y + 0.2713515f);
+        //        isCreated1 = true;
+        //    }
+        //    if (chargeTime > 1 && chargeTime < 2 && !isCreated2)
+        //    {
+        //        GameObject bar2 = Instantiate(Resources.Load("ChargeBar2"), new Vector2(player.pos.x + 0.015345f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
+        //        chargeBar2 = bar2;
+        //        isCreated2 = true;
+        //    }
+        //    if (chargeTime > 2 && !isCreated3)
+        //    {
+        //        GameObject bar3 = Instantiate(Resources.Load("ChargeBar3"), new Vector2(player.pos.x + 0.065345f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
+        //        chargeBar3 = bar3;
+        //        isCreated3 = true;
+        //    }
+
+        //    if (chargeTime > 2.7f && chargeTime < 2.8f)
+        //    {
+        //        chargePercentage = 2.8f;
+        //        isCharging = false;
+        //    }
+        //    else
+        //    {
+        //        chargePercentage = chargeTime;
+        //    }
+        //}
+
+        // control player
+        if (isPressingJump)
+        {
+            MoveUp();
+        }
+        if (isPressingDown)
+        {
+            MoveDown();
+        }
+
+
+        //////////////////////////////////ATTACKS
+
+        //A
+
+        if (isPressingA && isPressingUp) // A + ↑
+        {
+            Basic2();
+        }
+        else if (isPressingA && isPressingDown) // A + ↓
+        {
+            basic_2 = false;
+            Basic3();
+        }
+        else if (isPressingA) // A + ← →
+        {
+            basic_3 = false;
+            Basic1();
+        }
+        else
+        {
+            basic_1 = false;
+            basic_2 = false;
+            basic_3 = false;
+        }
+
+        //B
+        if (isPressingB && isPressingUp) // B + ↑
+        {
+            Special2();
+        }
+        else if (isPressingB && isPressingDown) // B + ↓
+        {
+            special_2 = false;
+            Special3();
+        }
+        else if (isPressingB) // B + ← →
+        {
+            special_3 = false;
+            Special1(true, chargePercentage);
+        }
+        else
+        {
+            Special1(false, chargePercentage);
+            special_1 = false;
+        }
+
+
+        if (isPressingDown) // B + ↓
+        {
+            pressDown = true;
+        }
+        else
+        {
+            pressDown = false;
+        }
+
+        if (isPressingUp) // B + ↑
+        {
+            pressUp = true;
+        }
+        else
+        {
+            pressUp = false;
+        }
+
+        //Gauche/Droite
+        if (isPressingLeft && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
+        else if (isPressingRight && rb2d.velocity.x < maxSpeed) { MoveRight(); }
+        else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+
     }
 
     private void FixedUpdate()
@@ -597,50 +622,11 @@ public class Player : Photon.PunBehaviour, IPunObservable
     //Send and receive packets
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        Debug.Log("rate: " +
-        PhotonNetwork.sendRate + " serialize: " + PhotonNetwork.sendRateOnSerialize);
         //Debug.Log("marche un peu");
         if (stream.isWriting)
         {
-            Debug.Log("ENOVYE");
+            //Debug.Log("ENOVYE");
             // We own this player: send the others our data
-            //stream.SendNext(basic_1);
-            //stream.SendNext(basic_2);
-            //stream.SendNext(basic_3);
-            //stream.SendNext(special_1);
-            //stream.SendNext(special_2);
-            //stream.SendNext(special_3);
-            //stream.SendNext(isDead);
-            //stream.SendNext(isRight);
-
-            if (Input.GetKeyDown(jump))
-            {
-                isPressingJump = true;
-            }
-            if (Input.GetKeyDown(up))
-            {
-                isPressingUp = true;
-            }
-            if (Input.GetKeyDown(left))
-            {
-                isPressingLeft = true;
-            }
-            if (Input.GetKeyDown(down))
-            {
-                isPressingDown = true;
-            }
-            if (Input.GetKeyDown(right))
-            {
-                isPressingRight = true;
-            }
-            if (Input.GetKeyDown(A))
-            {
-                isPressingA = true;
-            }
-            if (Input.GetKeyDown(B))
-            {
-                isPressingB = true;
-            }
 
             stream.SendNext(isPressingUp);
             stream.SendNext(isPressingLeft);
@@ -663,86 +649,6 @@ public class Player : Photon.PunBehaviour, IPunObservable
             isPressingJump = (bool)stream.ReceiveNext();
             isPressingA = (bool)stream.ReceiveNext();
             isPressingB = (bool)stream.ReceiveNext();
-
-            if (isPressingJump)
-            {
-                MoveUp();
-            }
-            if (isPressingDown)
-            {
-                MoveDown();
-            }
-
-
-            //////////////////////////////////ATTACKS
-
-            //A
-
-            if (isPressingA && isPressingUp) // A + ↑
-            {
-                Basic2();
-            }
-            else if (isPressingA && isPressingDown) // A + ↓
-            {
-                basic_2 = false;
-                Basic3();
-            }
-            else if (isPressingA) // A + ← →
-            {
-                basic_3 = false;
-                Basic1();
-            }
-            else
-            {
-                basic_1 = false;
-                basic_2 = false;
-                basic_3 = false;
-            }
-
-            //B
-            if (isPressingB && isPressingUp) // B + ↑
-            {
-                Special2();
-            }
-            else if (isPressingB && isPressingDown) // B + ↓
-            {
-                special_2 = false;
-                Special3();
-            }
-            else if (isPressingB) // B + ← →
-            {
-                special_3 = false;
-                Special1(true, chargePercentage);
-            }
-            else
-            {
-                Special1(false, chargePercentage);
-                special_1 = false;
-            }
-
-
-            if (isPressingDown) // B + ↓
-            {
-                pressDown = true;
-            }
-            else
-            {
-                pressDown = false;
-            }
-
-            if (isPressingUp) // B + ↑
-            {
-                pressUp = true;
-            }
-            else
-            {
-                pressUp = false;
-            }
-
-            //Gauche/Droite
-            if (isPressingLeft && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
-            else if (isPressingRight && rb2d.velocity.x < maxSpeed) { MoveRight(); }
-            else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
 
 
         }
