@@ -91,8 +91,9 @@ public class Manager : MonoBehaviour
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
 
         audio = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        sound = audio.soundOn;
         music = audio.musicOn;
+        sound = audio.soundOn;
+        Debug.Log("Music is : " + music);
 
         if (mainMenuManager != null)
         {
@@ -102,16 +103,22 @@ public class Manager : MonoBehaviour
 
             if (mapN == 1)
             {
-                audio.Stop("MusicMenu", 0, music);
-                audio.Play("MusicMap1", 0, music);
+                if (music)
+                {
+                    audio.Stop("MusicMenu", 0, music);
+                    audio.Play("MusicMap1", 0, music);
+                }
 
                 initialPositionP1 = new Vector2(-2.7f, 1.1f);
                 initialPositionP2 = new Vector2(2.7f, 1.1f);
             }
             else if (mapN == 2)
             {
-                audio.Stop("MusicMenu", 0, music);
-                audio.Play("MusicMap2", 0, music);
+                if (music)
+                {
+                    audio.Stop("MusicMenu", 0, music);
+                    audio.Play("MusicMap2", 0, music);
+                }
 
                 initialPositionP1 = new Vector2(-2.1f, 1.3f);
                 initialPositionP2 = new Vector2(2.1f, 1.3f);

@@ -6,71 +6,43 @@ using UnityEngine.UI;
 public class CheckBoxChange : MonoBehaviour {
 
     private new AudioManager audio;
-    public Toggle checkBox;
+    private Manager manager;
+    //public Toggle checkBox;
 
     private void Start()
     {
-        checkBox = GetComponent<Toggle>();
-        checkBox.onValueChanged.AddListener(delegate
-        {
-            ToggleValueChanged(checkBox);
-        });
+        manager = gameObject.GetComponent<Manager>();
+        audio = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        audio.Play("MusicMenu", 0, true);
     }
 
-    void ToggleValueChanged (Toggle change)
+    public void ToggleMusic(bool val)
     {
-        if (change.isOn)
+        if (val)
         {
-            Debug.Log("REEEE");
+            audio.musicOn = true;
+            Debug.Log("play");
             audio.Play("MusicMenu", 0, true);
         }
-        if (!change.isOn)
+        if (!val)
         {
-            Debug.Log("RE");
+            audio.musicOn = false;
+            Debug.Log("stop");
             audio.Stop("MusicMenu", 0, true);
         }
     }
 
-    /*private void Start()
+    public void ToggleSound(bool val)
     {
-        if (gameObject.name == "Music_Toggle")
+        if (val)
         {
-            CheckBox = gameObject.GetComponent<Toggle>();
+            audio.soundOn = true;
+            Debug.Log("playSOUND");
         }
-        if (gameObject.name == "Sound_Toggle")
+        if (!val)
         {
-            CheckBox = gameObject.GetComponent<Toggle>();
+            audio.soundOn = false;
+            Debug.Log("stopSOUND");
         }
-
-        CheckBox.onValueChanged.AddListener((value) =>
-        {
-            Listener(value);
-        });
     }
-
-    public void Listener(bool value)
-    {
-        if (value)
-        {
-            if (gameObject.name == "Music_Toggle")
-            {
-                audio.Play("MusicMenu", 0, true);
-            }
-            if (gameObject.name == "Sound_Toggle")
-            {
-                audio.soundOn = true;
-            }
-        }
-        else
-        {
-            if (gameObject.name == "Music_Toggle")
-            {
-                audio.Stop("MusicMenu", 0, true);
-            }
-            if (gameObject.name == "Sound_Toggle")
-            {
-                audio.soundOn = false;
-            }
-        }
-    }*/
 }

@@ -28,36 +28,10 @@ public class MainMenu : MonoBehaviour
     public int playerNumber = 0;
 
     private int gameMode = 1;
-    private new AudioManager audio;
 
     private bool once;
 
     GameObject player1;
-
-    private void Start()
-    {
-        audio = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        //audio.Play("MusicMenu", 0, getMusic());
-
-        
-
-        //audio.musicOn = true;
-        //audio.soundOn = true;
-    }
-
-    private void Update()
-    {
-        //audio.soundOn = soundCheckBox.isOn;
-        //audio.musicOn = musicCheckBox.isOn;
-
-        
-
-        //if (audio.musicOn) { audio.Play("MusicMenu", 0, true); }
-        //else { audio.Stop("MusicMenu", 0, true); }
-
-    }
-
-   
 
     public void Awake()
     {
