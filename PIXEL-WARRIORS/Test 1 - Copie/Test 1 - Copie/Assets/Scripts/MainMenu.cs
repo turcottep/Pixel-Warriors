@@ -21,14 +21,16 @@ public class MainMenu : MonoBehaviour
     public Toggle togglePlayer4;
     public GameObject p4Background;
 
-    public Toggle sound;
-    public Toggle music;
+    public Toggle soundCheckBox;
+    public Toggle musicCheckBox;
 
     public int mapNumber;
     public int playerNumber = 0;
 
     private int gameMode = 1;
     private new AudioManager audio;
+
+    private bool once;
 
     GameObject player1;
 
@@ -38,17 +40,24 @@ public class MainMenu : MonoBehaviour
         //audio.Play("MusicMenu", 0, getMusic());
 
         
+
+        //audio.musicOn = true;
+        //audio.soundOn = true;
     }
 
     private void Update()
     {
-        audio.soundOn = sound.isOn;
-        audio.musicOn = music.isOn;
+        //audio.soundOn = soundCheckBox.isOn;
+        //audio.musicOn = musicCheckBox.isOn;
 
-        if (!audio.musicOn) { audio.Stop("MusicMenu", 0, true); }
-        else { audio.Play("MusicMenu", 0, true); }
+        
+
+        //if (audio.musicOn) { audio.Play("MusicMenu", 0, true); }
+        //else { audio.Stop("MusicMenu", 0, true); }
 
     }
+
+   
 
     public void Awake()
     {
@@ -207,12 +216,12 @@ public class MainMenu : MonoBehaviour
     public bool getMusic()
     {
 
-        return music.isOn;
+        return musicCheckBox.isOn;
     }
 
     public bool getSound()
     {
 
-        return sound.isOn;
+        return soundCheckBox.isOn;
     }
 }
