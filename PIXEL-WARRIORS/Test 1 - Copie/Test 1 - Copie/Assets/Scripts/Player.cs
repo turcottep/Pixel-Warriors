@@ -310,11 +310,11 @@ public class Player : Photon.PunBehaviour, IPunObservable
                 pressDown = false;
             }
 
-            if (Input.GetKeyDown(up)) // B + ↑
+            if (Input.GetKeyDown(up)) // ↑
             {
                 pressUp = true;
             }
-            else if (Input.GetKeyUp(up)) // B + ↑
+            else if (Input.GetKeyUp(up)) // ↑
             {
                 pressUp = false;
             }
@@ -346,18 +346,13 @@ public class Player : Photon.PunBehaviour, IPunObservable
             {
                 isPressingUp = true;
             }
-            if (Input.GetKeyDown(left))
-            {
-                isPressingLeft = true;
-            }
+          
             if (Input.GetKeyDown(down))
             {
                 isPressingDown = true;
             }
-            if (Input.GetKeyDown(right))
-            {
-                isPressingRight = true;
-            }
+          
+
             if (Input.GetKeyDown(A))
             {
                 isPressingA = true;
@@ -367,6 +362,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
                 isPressingB = true;
             }
 
+            //Gauche/Droite
+            if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { isPressingLeft = true; isPressingRight = false; }
+            else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { isPressingRight = true; isPressingLeft = false; }
+            else { x = 0; isPressingLeft = false; isPressingRight = false; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
         }
         ////Work in progress (à finir Mercredi)
         //if (isCharging)
@@ -675,28 +674,18 @@ public class Player : Photon.PunBehaviour, IPunObservable
         }
 
 
-        if (isPressingDown) // B + ↓
+        if (isPressingLeft)
         {
-            pressDown = true;
+            MoveLeft();
         }
-        else
+        else if (isPressingRight)
         {
-            pressDown = false;
+            MoveRight();
         }
-
-        if (isPressingUp) // B + ↑
-        {
-            pressUp = true;
-        }
-        else
-        {
-            pressUp = false;
-        }
-
-        //Gauche/Droite
         if (isPressingLeft && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
         else if (isPressingRight && rb2d.velocity.x < maxSpeed) { MoveRight(); }
         else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+
         #endregion
     }
 

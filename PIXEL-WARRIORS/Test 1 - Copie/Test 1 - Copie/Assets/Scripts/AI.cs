@@ -140,7 +140,6 @@ public class AI : MonoBehaviour
             if (avance)
             {
                 //Over Edge
-                Debug.Log("overEdge");
                 //si il est en train de redescendre
                 if (rb2d.velocity.y < -4.5)
                 {
@@ -157,7 +156,7 @@ public class AI : MonoBehaviour
                     }
                     else if (rb2d.velocity.y < 1)
                     {
-                        Debug.Log("Jumping for second timme");
+                        Debug.Log("Jumping for second time");
                         player.MoveUp();
                     }
                 }
@@ -186,7 +185,7 @@ public class AI : MonoBehaviour
                     player.x = 0;
                     player.Basic1();
                 }
-                player.MoveUp();
+                //player.MoveUp();
 
             }
             //}
