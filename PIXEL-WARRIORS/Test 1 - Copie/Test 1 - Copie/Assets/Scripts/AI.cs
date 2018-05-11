@@ -14,6 +14,8 @@ public class AI : MonoBehaviour
     public float dAttack1Min = 0.05f;
     public float speedAI = 1;
     public int direction = 0;
+    public bool overEdge;
+
     private bool avance;
 
     public float distanceToLeftEdge;
@@ -140,7 +142,7 @@ public class AI : MonoBehaviour
             if (avance)
             {
                 //Over Edge
-                Debug.Log("overEdge");
+                overEdge = true;
                 //si il est en train de redescendre
                 if (rb2d.velocity.y < -4.5)
                 {
@@ -172,6 +174,7 @@ public class AI : MonoBehaviour
             else
             {
                 firstJumpEdge = false;
+                overEdge = false;
                 if (Mathf.Abs(distance) > dAttack1Min)
                 {
 

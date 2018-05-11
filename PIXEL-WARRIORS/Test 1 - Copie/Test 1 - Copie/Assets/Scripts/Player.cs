@@ -200,10 +200,11 @@ public class Player : Photon.PunBehaviour, IPunObservable
         {
 
             charge = false;
-            this.rb2d.velocity = new Vector2(rb2d.velocity.x, percentage);
+            this.rb2d.velocity = new Vector2(rb2d.velocity.x, percentage / 4 + 6);
             this.maxJump = 2;
             Debug.Log("bounce =" + percentage);
-            this.percentage = 2*percentage+10;
+            if (percentage == 0) percentage = 2;
+            else percentage = 2 * percentage;
             manager.GetComponent<Manager>().UpdatePercentages(playerNum);
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("Whitecolor");

@@ -41,10 +41,10 @@ public class Manager : MonoBehaviour
 
     //endgame objects
     public TextMeshProUGUI initElo;
-    public GameObject panelWin;
-    public GameObject panelLost;
-    private int elo = 1200;
-    private int eloEnnemi = 1400;
+    public GameObject imageWin;
+    public GameObject imageLost;
+    private int elo = 1200;      // Lafleur il faut le cop
+    private int eloEnnemi = 1400;// Lafleur il faut le cop
     public TextMeshProUGUI deltaElo;
     public TextMeshProUGUI sumElo;
     public TextMeshProUGUI cash;
@@ -342,9 +342,11 @@ public class Manager : MonoBehaviour
             timer.text = timeLeftMin.ToString() + ":" + (timeLeftSec - (60 * timeLeftMin)).ToString("f0");
         }
 
-        if (timeLeftSec == 0)
+        if (timeLeftSec <= 0)
         {
             GameOver(0);
+            timeLeftSec = 0;
+
         }
     }
 
@@ -412,14 +414,16 @@ public class Manager : MonoBehaviour
     public void GameOver(int result)
     {
         Debug.Log("Game is over: Winner = player " + result);
+        player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         canvas.SetActive(true);
         if (result == 1)
         {
-            panelWin.SetActive(true);
+            imageWin.SetActive(true);
         }
         else
         {
-            panelLost.SetActive(true);
+            imageLost.SetActive(true);
         }
         initElo.SetText(elo.ToString());
         float temp = Mathf.Floor(20 * (result - 1 / (1 + Mathf.Pow(10, (-1 * (elo - eloEnnemi) / 40)))));
@@ -427,6 +431,11 @@ public class Manager : MonoBehaviour
         deltaElo.SetText(temp.ToString());
         sumElo.SetText((elo + temp).ToString());
         cash.SetText((200 + 10 * temp).ToString());
+    }
+
+    public void BackToMenu()
+    {
+        PhotonNetwork.LoadLevel("Menu");
     }
 
     public int getGameMode()
