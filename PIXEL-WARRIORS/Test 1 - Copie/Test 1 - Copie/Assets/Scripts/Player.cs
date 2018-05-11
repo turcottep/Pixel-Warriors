@@ -88,7 +88,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     //Audio
     private AudioManager audioManager;
-    
+
     private float stun = 0f;
 
     public Rigidbody2D rb2d;
@@ -98,7 +98,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
     private Vector2 pos;
     private Vector2 knockback;
 
-   
+
     #endregion
 
     void Start()
@@ -200,14 +200,15 @@ public class Player : Photon.PunBehaviour, IPunObservable
         {
 
             charge = false;
-            this.rb2d.velocity = new Vector2(rb2d.velocity.x, 6);
+            this.rb2d.velocity = new Vector2(rb2d.velocity.x, percentage);
             this.maxJump = 2;
-            this.percentage += 0.5f;
+            Debug.Log("bounce =" + percentage);
+            this.percentage = 2*percentage+10;
             manager.GetComponent<Manager>().UpdatePercentages(playerNum);
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("Whitecolor");
 
-            audioManager.Play("Lava", 0, muteSound); 
+            audioManager.Play("Lava", 0, muteSound);
 
         }
 
@@ -352,18 +353,13 @@ public class Player : Photon.PunBehaviour, IPunObservable
             {
                 isPressingUp = true;
             }
-            if (Input.GetKeyDown(left))
-            {
-                isPressingLeft = true;
-            }
+
             if (Input.GetKeyDown(down))
             {
                 isPressingDown = true;
             }
-            if (Input.GetKeyDown(right))
-            {
-                isPressingRight = true;
-            }
+
+
             if (Input.GetKeyDown(A))
             {
                 isPressingA = true;
@@ -373,44 +369,12 @@ public class Player : Photon.PunBehaviour, IPunObservable
                 isPressingB = true;
             }
 
+            //Gauche/Droite
+            if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { isPressingLeft = true; isPressingRight = false; }
+            else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { isPressingRight = true; isPressingLeft = false; }
+            else { isPressingLeft = false; isPressingRight = false; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+            #endregion
         }
-        ////Work in progress (à finir Mercredi)
-        //if (isCharging)
-        //{
-        //    chargeTime += Time.deltaTime;
-        //    //Debug.Log("Charging : " + chargeTime);
-
-        //    if (chargeTime < 1 && !isCreated1)
-        //    {
-        //        GameObject bar1 = Instantiate(Resources.Load("ChargeBar1"), new Vector2(player.pos.x - 0.034655f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
-        //        chargeBar1 = bar1;
-        //        chargeBar1.transform.position = new Vector2(player.pos.x - 0.034655f, player.pos.y + 0.2713515f);
-        //        isCreated1 = true;
-        //    }
-        //    if (chargeTime > 1 && chargeTime < 2 && !isCreated2)
-        //    {
-        //        GameObject bar2 = Instantiate(Resources.Load("ChargeBar2"), new Vector2(player.pos.x + 0.015345f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
-        //        chargeBar2 = bar2;
-        //        isCreated2 = true;
-        //    }
-        //    if (chargeTime > 2 && !isCreated3)
-        //    {
-        //        GameObject bar3 = Instantiate(Resources.Load("ChargeBar3"), new Vector2(player.pos.x + 0.065345f, player.pos.y + 0.2713515f), Quaternion.identity) as GameObject;
-        //        chargeBar3 = bar3;
-        //        isCreated3 = true;
-        //    }
-
-        //    if (chargeTime > 2.7f && chargeTime < 2.8f)
-        //    {
-        //        chargePercentage = 2.8f;
-        //        isCharging = false;
-        //    }
-        //    else
-        //    {
-        //        chargePercentage = chargeTime;
-        //    }
-        //}
-        #endregion
     }
 
     private void FixedUpdate()
@@ -608,6 +572,8 @@ public class Player : Photon.PunBehaviour, IPunObservable
             stream.SendNext(isPressingJump);
             stream.SendNext(isPressingA);
             stream.SendNext(isPressingB);
+            stream.SendNext(isDead);
+            stream.SendNext(percentage);
 
         }
         else
@@ -622,6 +588,8 @@ public class Player : Photon.PunBehaviour, IPunObservable
             isPressingJump = (bool)stream.ReceiveNext();
             isPressingA = (bool)stream.ReceiveNext();
             isPressingB = (bool)stream.ReceiveNext();
+            isDead = (bool)stream.ReceiveNext();
+            percentage = (float)stream.ReceiveNext();
         }
 
         #region control player
@@ -681,28 +649,18 @@ public class Player : Photon.PunBehaviour, IPunObservable
         }
 
 
-        if (isPressingDown) // B + ↓
+        if (isPressingLeft)
         {
-            pressDown = true;
+            MoveLeft();
         }
-        else
+        else if (isPressingRight)
         {
-            pressDown = false;
+            MoveRight();
         }
-
-        if (isPressingUp) // B + ↑
-        {
-            pressUp = true;
-        }
-        else
-        {
-            pressUp = false;
-        }
-
-        //Gauche/Droite
         if (isPressingLeft && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
         else if (isPressingRight && rb2d.velocity.x < maxSpeed) { MoveRight(); }
         else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+
         #endregion
     }
 

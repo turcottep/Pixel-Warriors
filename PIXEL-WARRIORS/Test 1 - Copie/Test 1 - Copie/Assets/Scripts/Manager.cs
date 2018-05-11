@@ -39,6 +39,17 @@ public class Manager : MonoBehaviour
     public Image cooldown_image2;
     public Image cooldown_image3;
 
+    //endgame objects
+    public TextMeshProUGUI initElo;
+    public GameObject panelWin;
+    public GameObject panelLost;
+    private int elo = 1200;
+    private int eloEnnemi = 1400;
+    public TextMeshProUGUI deltaElo;
+    public TextMeshProUGUI sumElo;
+    public TextMeshProUGUI cash;
+    public GameObject canvas;
+
     public bool coolingDown1;
     public bool coolingDown2;
     public bool coolingDown3;
@@ -401,23 +412,21 @@ public class Manager : MonoBehaviour
     public void GameOver(int result)
     {
         Debug.Log("Game is over: Winner = player " + result);
-        //Turcotte: to implement
+        canvas.SetActive(true);
+        if (result == 1)
+        {
+            panelWin.SetActive(true);
+        }
+        else
+        {
+            panelLost.SetActive(true);
+        }
+        initElo.SetText(elo.ToString());
+        float temp = Mathf.Floor(20 * (result - 1 / (1 + Mathf.Pow(10, (-1 * (elo - eloEnnemi) / 40)))));
 
-        //canvas.SetActive(true);
-        //if (result == 1)
-        //{
-        //    panelWin.SetActive(true);
-        //}
-        //else
-        //{
-        //    panelLost.SetActive(true);
-        //}
-        //initElo.SetText(elo.ToString());
-        //float temp = Mathf.Floor(20 * (result - 1 / (1 + Mathf.Pow(10, (-1 * (elo - eloEnnemi) / 40)))));
-
-        //deltaElo.SetText(temp.ToString());
-        //sumElo.SetText((elo + temp).ToString());
-        //cash.SetText((200 + 10 * temp).ToString());
+        deltaElo.SetText(temp.ToString());
+        sumElo.SetText((elo + temp).ToString());
+        cash.SetText((200 + 10 * temp).ToString());
     }
 
     public int getGameMode()
