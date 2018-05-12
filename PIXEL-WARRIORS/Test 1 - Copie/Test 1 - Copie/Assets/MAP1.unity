@@ -3008,6 +3008,8 @@ MonoBehaviour:
   mapN: 1
   sound: 0
   music: 0
+  isStarted: 0
+  gold: 0
 --- !u!4 &1121417335
 Transform:
   m_ObjectHideFlags: 0

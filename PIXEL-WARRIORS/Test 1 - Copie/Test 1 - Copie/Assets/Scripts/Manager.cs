@@ -246,7 +246,7 @@ public class Manager : MonoBehaviour
             else if (coolingDown1 == true)
             {
                 cooldown_image1.gameObject.SetActive(true);
-                coolDownTime = 1.0f;
+                coolDownTime = 2.0f;
                 cooldown_image1.fillAmount -= 1.0f / coolDownTime * Time.deltaTime;
             }
             //Cooldown2

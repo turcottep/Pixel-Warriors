@@ -190,7 +190,7 @@ public class Attacks : MonoBehaviour
         }
     }
 
-    public void LaunchSpecial1(int playerNum, bool state, float chargePercentage) //B
+    public void LaunchSpecial1(int playerNum, bool state) //B
     {
         if (canShootSp1 && !player.dead)
         {
@@ -203,8 +203,6 @@ public class Attacks : MonoBehaviour
             }
             else if (player.charge)
             {
-                //Debug.Log("Charge = " + chargePercentage);
-
                 audio.Stop("Charge", 0, muteSound);
 
                 player.charge = false;
@@ -221,9 +219,9 @@ public class Attacks : MonoBehaviour
                 player.gameManager.coolingDown1 = true;
                 GameObject go = (GameObject)Instantiate(special1, (Vector2)transform.position + offset_special1 * transform.localScale.x, Quaternion.Euler(0, direction, rotation));
 
-                if (chargePercentage < 1) { damage = 0.1f; }
-                if (chargePercentage > 1 && chargePercentage < 2) { damage = 0.2f; }
-                if (chargePercentage > 2) { damage = 0.3f; }
+                if (Charge.color == "green") { damage = 0.1f; }
+                if (Charge.color == "yellow") { damage = 0.2f; }
+                if (Charge.color == "red") { damage = 0.3f; }
                 go.GetComponent<Damage>().damage = damage;
 
                 if (playerNum == 1)

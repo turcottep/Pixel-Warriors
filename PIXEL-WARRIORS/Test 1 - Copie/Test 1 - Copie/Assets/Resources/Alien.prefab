@@ -268,6 +268,7 @@ MonoBehaviour:
   dAttack1Min: 0.05
   speedAI: 1
   direction: 0
+  overEdge: 0
   distanceToLeftEdge: 0
   distanceToRightEdge: 0
   heightDistanceToPlateform: 0
@@ -323,13 +324,14 @@ MonoBehaviour:
   isButtonRightPointerDown: 0
   isButtonDownPointerDown: 0
   isButtonAttackBPointerDown: 0
+  muteSound: 0
+  music: 0
   aiON: 0
   x: 0
-  initialPosition: {x: -2.7, y: 1.3, z: 0}
   isRight: 0
   isDead: 0
   playerNum: 0
-  manager: {fileID: 0}
+  gameManager: {fileID: 0}
   rb2d: {fileID: 0}
 --- !u!114 &114504901667053348
 MonoBehaviour:
@@ -402,12 +404,13 @@ MonoBehaviour:
   cooldown1: {fileID: 0}
   cooldown2: {fileID: 0}
   cooldown3: {fileID: 0}
+  muteSound: 0
   velocity_special1: {x: 3, y: 0}
   offset_basic1: {x: 0.0073, y: 0}
   offset_basic2: {x: -0.036, y: 0.021}
   offset_basic3: {x: 0.039, y: 0.01}
   offset_special1: {x: 0.3, y: 0}
-  cooldown_special1: 1
+  cooldown_special1: 2
   cooldown_special2: 4
   cooldown_special3: 6
 --- !u!212 &212976288398466460

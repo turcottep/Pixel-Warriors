@@ -182,7 +182,7 @@ public class AI : MonoBehaviour
                 if (Mathf.Abs(distance) > dAttack1Min && player.maxJump == 2)
                 {
 
-                    player.Special1(!player.charge, 0);
+                    player.Special1(!player.charge);
                     //Debug.Log("Avance vers joueur");
                     if (player.isRight) { player.MoveRight(); }
                     else { player.MoveLeft(); }
