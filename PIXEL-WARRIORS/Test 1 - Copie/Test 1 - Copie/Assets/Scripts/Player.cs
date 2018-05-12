@@ -17,9 +17,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
     public float percentage = 0f;
     public float multiplier = 1f;
 
-    private float chargeTime = 0;
+    public static float chargeTime = 0;
     private float chargePercentage = 0;
     private bool isCharging = false;
+    public static bool c = false;
 
     //Animations
     public bool grounded;
@@ -62,7 +63,9 @@ public class Player : Photon.PunBehaviour, IPunObservable
     public bool isButtonAttackBPointerDown;
 
     //audio
+    [HideInInspector]
     public bool muteSound;
+    [HideInInspector]
     public bool music;
 
     //misc variables
@@ -79,12 +82,6 @@ public class Player : Photon.PunBehaviour, IPunObservable
     #endregion
 
     #region private variables
-    private GameObject chargeBar1;
-    private bool isCreated1 = false;
-    private GameObject chargeBar2;
-    private bool isCreated2 = false;
-    private GameObject chargeBar3;
-    private bool isCreated3 = false;
 
     //Audio
     private AudioManager audioManager;
@@ -136,21 +133,28 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     void OnCollisionEnter2D(Collision2D col)
     {
-
         Color damageColor = Color.red;
+
         //Hit by attacks
-        if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2") || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1"))
+        if ((player.tag == "Player 1" && col.gameObject.tag == "AttPlayer2" && !player.isDead) || (player.tag == "Player 2" && col.gameObject.tag == "AttPlayer1" && !player.isDead))
         {
 
             //TEST
-            // CRASH HIT BOMB EXPLOSION
             Vector2 vecteurTest = new Vector2(0, 0);
-            if (!(col.gameObject.name == "Scientist_Poison(Clone)") && !(col.gameObject.name == "Ninja_Bomb(Clone)" && !(col.gameObject.name == "Ninja_Explosion(Clone)")))
+            if (!(col.gameObject.name == "Scientist_Poison(Clone)") && !(col.gameObject.name == "Ninja_Bomb(Clone)"))
             {
-                //Debug.Log("NAME:" + col.gameObject.name);
-                vecteurTest = rb2d.position - col.rigidbody.position;
-                vecteurTest = new Vector2(vecteurTest.x, (0.1f));
-                vecteurTest = vecteurTest * multiplier;
+                if (col.gameObject.name == "Ninja_Explosion(Clone)")
+                {
+                    vecteurTest = player.transform.position - col.transform.position;
+                    vecteurTest = new Vector2(vecteurTest.x, 0.1f);
+                    vecteurTest = vecteurTest * multiplier;
+                }
+                else
+                {
+                    vecteurTest = rb2d.position - col.rigidbody.position;
+                    vecteurTest = new Vector2(vecteurTest.x, (0.1f));
+                    vecteurTest = vecteurTest * multiplier;
+                }
             }
             //
 
@@ -166,7 +170,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
                 StartCoroutine("Poison", 2);
                 StartCoroutine("Poison", 3);
             }
-            else if (!(col.gameObject.name == "Demon_Small_Bone(Clone)") && !(col.gameObject.name == "Demon_Big_Bone(Clone)"))
+            else if (!(col.gameObject.name == "Demon_Small_Col(Clone)") && !(col.gameObject.name == "Demon_Big_Col(Clone)"))
             {
                 Destroy(col.gameObject);
             }
@@ -203,8 +207,8 @@ public class Player : Photon.PunBehaviour, IPunObservable
             this.rb2d.velocity = new Vector2(rb2d.velocity.x, percentage / 4 + 6);
             this.maxJump = 2;
             Debug.Log("bounce =" + percentage);
-            if (percentage == 0) percentage = 2;
-            else percentage = 2 * percentage;
+            if (percentage == 0) percentage = 1;
+            else percentage = 1.5f * percentage;
             manager.GetComponent<Manager>().UpdatePercentages(playerNum);
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("Whitecolor");
@@ -394,6 +398,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
         {
 
             player.isDead = true;
+            player.GetComponent<Collider2D>().enabled = false;
             manager.GetComponent<Manager>().PlayerDeath(playerNum);
 
             audioManager.Play("Death", 0, muteSound);
@@ -536,6 +541,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
         {
             //Debug.Log("revit");
             rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+            player.GetComponent<Collider2D>().enabled = true;
             player.isDead = false;
             player.dead = false;
         }
@@ -628,7 +634,24 @@ public class Player : Photon.PunBehaviour, IPunObservable
             basic_3 = false;
         }
 
-        //B
+        if (isCharging)
+        {
+            chargeTime += Time.deltaTime;
+            c = true;
+            Debug.Log("Charging : " + chargeTime);
+
+
+            if (chargeTime > 2.7f && chargeTime < 2.8f)
+            {
+                chargePercentage = 2.8f;
+                isCharging = false;
+            }
+            else
+            {
+                chargePercentage = chargeTime;
+            }
+        }
+
         if (isPressingB && isPressingUp) // B + ↑
         {
             Special2();
@@ -640,13 +663,21 @@ public class Player : Photon.PunBehaviour, IPunObservable
         }
         else if (isPressingB) // B + ← →
         {
+            isCharging = true;
+
             special_3 = false;
             Special1(true, chargePercentage);
         }
         else
         {
+            isCharging = false;
+            c = false;
+
             Special1(false, chargePercentage);
             special_1 = false;
+
+            chargePercentage = 0;
+            chargeTime = 0;
         }
 
 
@@ -704,6 +735,11 @@ public class Player : Photon.PunBehaviour, IPunObservable
     private void OnTriggerExit2D(Collider2D collision)
     {
         player.grounded = false;
+    }
+
+    public float getCharge()
+    {
+        return chargeTime;
     }
 
     #endregion
