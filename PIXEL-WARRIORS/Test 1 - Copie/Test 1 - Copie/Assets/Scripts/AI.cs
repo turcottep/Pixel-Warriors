@@ -83,6 +83,10 @@ public class AI : MonoBehaviour
 
         }
 
+        if (player.isDead)
+        {
+            StartCoroutine("Revive");
+        }
 
         //bool saute = false;
         //foreach (float d in distanceTrousX)
@@ -175,7 +179,7 @@ public class AI : MonoBehaviour
             {
                 firstJumpEdge = false;
                 overEdge = false;
-                if (Mathf.Abs(distance) > dAttack1Min)
+                if (Mathf.Abs(distance) > dAttack1Min && player.maxJump == 2)
                 {
 
                     player.Special1(!player.charge, 0);
@@ -189,12 +193,18 @@ public class AI : MonoBehaviour
                     player.x = 0;
                     player.Basic1();
                 }
-                player.MoveUp();
 
             }
             //}
         }
 
+        
+    }
+
+    IEnumerator Revive()
+    {
+        yield return new WaitForSeconds(1f);
+        player.Revive();
     }
 }
 

@@ -67,14 +67,15 @@ public class Manager : MonoBehaviour
     private new AudioManager audio;
     public bool sound;
     public bool music;
+    public bool isStarted = false;
 
+    public float gold;
     #endregion
 
     #region private variables
     private float timeLeftSec;
     private float timeLeftMin;
 
-    private bool isStarted = false;
     private bool canCountDown = true;
     private bool isConnected = false;
 
@@ -89,6 +90,7 @@ public class Manager : MonoBehaviour
 
     void Start()
     {
+
         timeLeftSec = 150 + 4.5f;
         timer.gameObject.SetActive(false);
 
@@ -131,8 +133,8 @@ public class Manager : MonoBehaviour
                     audio.Play("MusicMap2", 0, music);
                 }
 
-                initialPositionP1 = new Vector2(-2.1f, 1.3f);
-                initialPositionP2 = new Vector2(2.1f, 1.3f);
+                initialPositionP1 = new Vector3(-2, 1.6f, 0);
+                initialPositionP2 = new Vector3(2, 1.6f, 0);
             }
         }
         else
@@ -199,7 +201,6 @@ public class Manager : MonoBehaviour
             player1.GetComponent<Player>().left = KeyCode.A;
             player1.GetComponent<Player>().down = KeyCode.S;
             player1.GetComponent<Player>().right = KeyCode.D;
-            player1.GetComponent<Player>().initialPosition = initialPositionP1;
             GameObject piedsJ1 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP1);
             piedsJ1.layer = player1.layer;
             piedsJ1.tag = player1.tag;
@@ -214,7 +215,6 @@ public class Manager : MonoBehaviour
             player2.GetComponent<Player>().left = KeyCode.LeftArrow;
             player2.GetComponent<Player>().down = KeyCode.DownArrow;
             player2.GetComponent<Player>().right = KeyCode.RightArrow;
-            player2.GetComponent<Player>().initialPosition = initialPositionP2;
             GameObject piedsJ2 = GameObject.FindGameObjectWithTag("Feet" + playerNumberP2);
             piedsJ2.layer = player2.layer;
             piedsJ2.tag = player2.tag;
@@ -296,6 +296,7 @@ public class Manager : MonoBehaviour
             {
                 GameOver(2);
             }
+            player1.transform.position = initialPositionP1;
         }
         else if (playerNum == 2)
         {
@@ -304,6 +305,7 @@ public class Manager : MonoBehaviour
             {
                 GameOver(1);
             }
+            player2.transform.position = initialPositionP2;
         }
     }
 
@@ -344,8 +346,12 @@ public class Manager : MonoBehaviour
 
         if (timeLeftSec <= 0)
         {
-            GameOver(0);
-            timeLeftSec = 0;
+            if (isStarted)
+            {
+                GameOver(0);
+                timeLeftSec = 0;
+            }
+
 
         }
     }
@@ -411,30 +417,65 @@ public class Manager : MonoBehaviour
     }
 
 
-    public void GameOver(int result)
+    public void GameOver(int winner)
     {
-        Debug.Log("Game is over: Winner = player " + result);
+        isStarted = false;
+        canCountDown = false;
+        Debug.Log("Game is over: Winner = player " + winner);
         player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         canvas.SetActive(true);
-        if (result == 1)
+        int result;
+        if (winner != 1 && winner != 2)
         {
+            if (livesP1 > livesP2)
+            {
+                winner = 1;
+            }
+            else if (livesP1 < livesP2)
+            {
+                winner = 2;
+            }
+            else
+            {
+                if (player1.GetComponent<Player>().percentage > player2.GetComponent<Player>().percentage)
+                {
+                    winner = 2;
+                }
+                else winner = 1;
+            }
+        }
+        if (winner == 1)
+        {
+            Destroy(player2);
             imageWin.SetActive(true);
+            result = 1;
         }
         else
         {
+            Destroy(player1);
             imageLost.SetActive(true);
+            result = -1;
         }
+
         initElo.SetText(elo.ToString());
         float temp = Mathf.Floor(20 * (result - 1 / (1 + Mathf.Pow(10, (-1 * (elo - eloEnnemi) / 40)))));
 
         deltaElo.SetText(temp.ToString());
         sumElo.SetText((elo + temp).ToString());
-        cash.SetText((200 + 10 * temp).ToString());
+        Debug.Log("gold = " + gold);
+        if (10 * temp < -200)
+        {
+            temp = -19;
+        }
+        gold += 200 + 10 * temp;
+        Debug.Log("gold = " + gold);
+        cash.SetText(gold.ToString());
     }
 
     public void BackToMenu()
     {
+        PlayerPrefs.SetFloat("gold", gold);
         PhotonNetwork.LoadLevel("Menu");
     }
 
@@ -598,4 +639,14 @@ public class Manager : MonoBehaviour
         player1.GetComponent<Player>().pressUp = false;
     }
     #endregion
+
+    private void Awake()
+    {
+        gold = PlayerPrefs.GetFloat("gold", 0f);
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetFloat("gold", gold);
+    }
 }

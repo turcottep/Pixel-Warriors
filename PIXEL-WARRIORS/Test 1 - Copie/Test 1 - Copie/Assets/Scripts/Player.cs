@@ -71,11 +71,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
     //misc variables
     public bool aiON = true;
     public int x = 0;
-    public Vector3 initialPosition = new Vector3(-2, 1.6f, 0);
     public bool isRight;
     public bool isDead;
     public int playerNum;
-    public GameObject manager;
+    public Manager gameManager;
 
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
@@ -103,12 +102,12 @@ public class Player : Photon.PunBehaviour, IPunObservable
         rb2d = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
         player = gameObject.GetComponentInParent<Player>();
-        manager = GameObject.FindGameObjectWithTag("Manager");
+        gameManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<Manager>();
 
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         muteSound = audioManager.soundOn;
 
-        mapNumber = manager.GetComponent<Manager>().mapN;
+        mapNumber = gameManager.mapN;
         if (player.tag == "Player 1")
         {
             playerNum = 1;
@@ -125,7 +124,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
         //Solution temporaire. À changer selon la direction de l'attaque de l'autre joueur
         knockback.Set(-2, 1);
-        manager.GetComponent<Manager>().UpdatePercentages(playerNum);
+        gameManager.UpdatePercentages(playerNum);
 
         PhotonNetwork.sendRate = 100;
         PhotonNetwork.sendRateOnSerialize = 100;
@@ -209,7 +208,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
             Debug.Log("bounce =" + percentage);
             if (percentage == 0) percentage = 1;
             else percentage = 1.5f * percentage;
-            manager.GetComponent<Manager>().UpdatePercentages(playerNum);
+            gameManager.UpdatePercentages(playerNum);
             this.GetComponent<SpriteRenderer>().color = Color.red;
             StartCoroutine("Whitecolor");
 
@@ -228,203 +227,208 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     void Update()
     {
-
-        anim.SetBool("Grounded", grounded);
-        anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
-        anim.SetBool("Basic1", basic_1);
-        anim.SetBool("Basic2", basic_2);
-        anim.SetBool("Basic3", basic_3);
-        anim.SetBool("Special1", special_1);
-        anim.SetBool("Special2", special_2);
-        anim.SetBool("Special3", special_3);
-        anim.SetBool("Charge", charge);
-        anim.SetBool("GoingDown", goingDown);
-        anim.SetBool("Dead", dead);
-        anim.SetBool("Stunned", stunned);
-
-        //Flip character L/R
-        if (isRight == false)
+        if (gameManager.isStarted)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        if (isRight == true)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
+            anim.SetBool("Grounded", grounded);
+            anim.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
+            anim.SetBool("Basic1", basic_1);
+            anim.SetBool("Basic2", basic_2);
+            anim.SetBool("Basic3", basic_3);
+            anim.SetBool("Special1", special_1);
+            anim.SetBool("Special2", special_2);
+            anim.SetBool("Special3", special_3);
+            anim.SetBool("Charge", charge);
+            anim.SetBool("GoingDown", goingDown);
+            anim.SetBool("Dead", dead);
+            anim.SetBool("Stunned", stunned);
 
-        #region singleplayer input
-        if (!player.stunned && manager.GetComponent<Manager>().getGameMode() == 1)
-        {
-            //if in singleplayer, manage inputs normally
-            if (Input.GetKeyDown(jump))
+            //Flip character L/R
+            if (isRight == false)
             {
-                MoveUp();
+                transform.localScale = new Vector3(-1, 1, 1);
             }
-            if (Input.GetKeyDown(down))
+            if (isRight == true)
             {
-                //MoveDown();
-            }
-
-
-            //////////////////////////////////ATTACKS
-
-            //A
-
-            if (Input.GetKeyDown(A) && pressUp) // A + ↑
-            {
-                Basic2();
-            }
-            else if (Input.GetKeyDown(A) && pressDown) // A + ↓
-            {
-                basic_2 = false;
-                Basic3();
-            }
-            else if (Input.GetKeyDown(A)) // A + ← →
-            {
-                basic_3 = false;
-                Basic1();
-            }
-            else
-            {
-                basic_1 = false;
-                basic_2 = false;
-                basic_3 = false;
+                transform.localScale = new Vector3(1, 1, 1);
             }
 
-            //B
-            if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
+            #region singleplayer input
+            if (!player.stunned && gameManager.getGameMode() == 1)
             {
-                Special2();
-            }
-            else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressDown) // B + ↓
-            {
-                special_2 = false;
-                Special3();
-            }
-            else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
-            {
-                special_3 = false;
-                Special1(true, chargePercentage);
-            }
-            else if (Input.GetKeyUp(B)) // B + ← →
-            {
-                Special1(false, chargePercentage);
-                special_1 = false;
-            }
+                //if in singleplayer, manage inputs normally
+                if (Input.GetKeyDown(jump))
+                {
+                    MoveUp();
+                }
+                if (Input.GetKeyDown(down))
+                {
+                    //MoveDown();
+                }
 
 
-            if (Input.GetKeyDown(down)) // B + ↓
-            {
-                pressDown = true;
-            }
-            else if (Input.GetKeyUp(down)) // B + ↓
-            {
-                pressDown = false;
-            }
+                //////////////////////////////////ATTACKS
 
-            if (Input.GetKeyDown(up)) // B + ↑
-            {
-                pressUp = true;
-            }
-            else if (Input.GetKeyUp(up)) // B + ↑
-            {
-                pressUp = false;
-            }
+                //A
 
-            //Gauche/Droite
-            if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
-            else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
-            else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+                if (Input.GetKeyDown(A) && pressUp) // A + ↑
+                {
+                    Basic2();
+                }
+                else if (Input.GetKeyDown(A) && pressDown) // A + ↓
+                {
+                    basic_2 = false;
+                    Basic3();
+                }
+                else if (Input.GetKeyDown(A)) // A + ← →
+                {
+                    basic_3 = false;
+                    Basic1();
+                }
+                else
+                {
+                    basic_1 = false;
+                    basic_2 = false;
+                    basic_3 = false;
+                }
 
-        }
-        #endregion
-        #region multiplayer input
-        else if (!player.stunned && (photonView.isMine && PhotonNetwork.connected == true))
-        {
-            //manage inputs
-            isPressingUp = false;
-            isPressingLeft = false;
-            isPressingDown = false;
-            isPressingRight = false;
-            isPressingJump = false;
-            isPressingA = false;
-            isPressingB = false;
-
-            if (Input.GetKeyDown(jump))
-            {
-                isPressingJump = true;
-            }
-            if (Input.GetKeyDown(up))
-            {
-                isPressingUp = true;
-            }
-
-            if (Input.GetKeyDown(down))
-            {
-                isPressingDown = true;
-            }
+                //B
+                if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
+                {
+                    Special2();
+                }
+                else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressDown) // B + ↓
+                {
+                    special_2 = false;
+                    Special3();
+                }
+                else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
+                {
+                    special_3 = false;
+                    Special1(true, chargePercentage);
+                }
+                else if (Input.GetKeyUp(B)) // B + ← →
+                {
+                    Special1(false, chargePercentage);
+                    special_1 = false;
+                }
 
 
-            if (Input.GetKeyDown(A))
-            {
-                isPressingA = true;
-            }
-            if (Input.GetKeyDown(B))
-            {
-                isPressingB = true;
-            }
+                if (Input.GetKeyDown(down)) // B + ↓
+                {
+                    pressDown = true;
+                }
+                else if (Input.GetKeyUp(down)) // B + ↓
+                {
+                    pressDown = false;
+                }
 
-            //Gauche/Droite
-            if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { isPressingLeft = true; isPressingRight = false; }
-            else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { isPressingRight = true; isPressingLeft = false; }
-            else { isPressingLeft = false; isPressingRight = false; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+                if (Input.GetKeyDown(up)) // B + ↑
+                {
+                    pressUp = true;
+                }
+                else if (Input.GetKeyUp(up)) // B + ↑
+                {
+                    pressUp = false;
+                }
+
+                //Gauche/Droite
+                if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { MoveLeft(); }
+                else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { MoveRight(); }
+                else { x = 0; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+
+            }
             #endregion
+            #region multiplayer input
+            else if (!player.stunned && (photonView.isMine && PhotonNetwork.connected == true))
+            {
+                //manage inputs
+                isPressingUp = false;
+                isPressingLeft = false;
+                isPressingDown = false;
+                isPressingRight = false;
+                isPressingJump = false;
+                isPressingA = false;
+                isPressingB = false;
+
+                if (Input.GetKeyDown(jump))
+                {
+                    isPressingJump = true;
+                }
+                if (Input.GetKeyDown(up))
+                {
+                    isPressingUp = true;
+                }
+
+                if (Input.GetKeyDown(down))
+                {
+                    isPressingDown = true;
+                }
+
+
+                if (Input.GetKeyDown(A))
+                {
+                    isPressingA = true;
+                }
+                if (Input.GetKeyDown(B))
+                {
+                    isPressingB = true;
+                }
+
+                //Gauche/Droite
+                if ((Input.GetKey(left) || isButtonLeftPointerDown) && rb2d.velocity.x > -maxSpeed) { isPressingLeft = true; isPressingRight = false; }
+                else if ((Input.GetKey(right) || isButtonRightPointerDown) && rb2d.velocity.x < maxSpeed) { isPressingRight = true; isPressingLeft = false; }
+                else { isPressingLeft = false; isPressingRight = false; }//if (Input.GetKeyUp(left) || Input.GetKeyUp(right)) { x = 0; }
+                #endregion
+            }
         }
     }
 
     private void FixedUpdate()
     {
-
-        if (aiON) player.GetComponent<AI>().AIUpdate();
-
-
-        //float h = Input.GetAxisRaw("Horizontal");
-        float decay = 0.8f;
-
-        pos = transform.position;
-
-        //Out of map
-        if (((mapNumber == 1) && (rb2d.transform.position.y < -2.4f || rb2d.transform.position.y > 3.2f || rb2d.transform.position.x > 4.6f || rb2d.transform.position.x < -4.6f)) || ((mapNumber == 2) && (rb2d.transform.position.y < -2.5f || rb2d.transform.position.y > 3.4f || rb2d.transform.position.x > 4.8f || rb2d.transform.position.x < -4.8f)))
+        if (gameManager.isStarted)
         {
 
-            player.isDead = true;
-            player.GetComponent<Collider2D>().enabled = false;
-            manager.GetComponent<Manager>().PlayerDeath(playerNum);
 
-            audioManager.Play("Death", 0, muteSound);
+            if (aiON) player.GetComponent<AI>().AIUpdate();
+
+
+            //float h = Input.GetAxisRaw("Horizontal");
+            float decay = 0.8f;
+
+            pos = transform.position;
+
+            //Out of map
+            if (((mapNumber == 1) && (rb2d.transform.position.y < -2.4f || rb2d.transform.position.y > 3.2f || rb2d.transform.position.x > 4.6f || rb2d.transform.position.x < -4.6f)) || ((mapNumber == 2) && (rb2d.transform.position.y < -2.5f || rb2d.transform.position.y > 3.4f || rb2d.transform.position.x > 4.8f || rb2d.transform.position.x < -4.8f)))
+            {
+
+                player.isDead = true;
+                player.GetComponent<Collider2D>().enabled = false;
+                gameManager.PlayerDeath(playerNum);
+
+                audioManager.Play("Death", 0, muteSound);
+            }
+            if (player.isDead)
+            {
+                this.Reset();
+            }
+
+
+            //Going down
+            if (rb2d.velocity.y < 0) { player.goingDown = true; }
+            else { player.goingDown = false; }
+
+            //Move player
+
+            if (!player.stunned)
+            {
+                rb2d.AddForce(Vector2.right * x * 10 * speed, ForceMode2D.Force);
+                rb2d.velocity = new Vector2(rb2d.velocity.x * decay, rb2d.velocity.y);
+            }
+            else
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y);
+            }
         }
-        if (player.isDead)
-        {
-            this.Reset();
-        }
-
-
-        //Going down
-        if (rb2d.velocity.y < 0) { player.goingDown = true; }
-        else { player.goingDown = false; }
-
-        //Move player
-
-        if (!player.stunned)
-        {
-            rb2d.AddForce(Vector2.right * x * 10 * speed, ForceMode2D.Force);
-            rb2d.velocity = new Vector2(rb2d.velocity.x * decay, rb2d.velocity.y);
-        }
-        else
-        {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y);
-        }
-
     }
 
 
@@ -433,7 +437,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
     #region action functions
     public void MoveUp()
     {
-        if (this.isDead) ;// this.Revive();
+        if (this.isDead) this.Revive();
         if (maxJump > 0)
         {
 
@@ -459,7 +463,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     public void MoveDown()
     {
-        //if (this.isDead) this.Revive();
+        if (this.isDead) this.Revive();
     }
 
     public void Basic1()
@@ -515,7 +519,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
         player.stunned = true;
         this.gameObject.layer = 14 + playerNum;
         StartCoroutine("Stun", stun);
-        manager.GetComponent<Manager>().UpdatePercentages(playerNum);
+        gameManager.UpdatePercentages(playerNum);
     }
     IEnumerator Stun(float stunDuration)
     {
@@ -533,18 +537,22 @@ public class Player : Photon.PunBehaviour, IPunObservable
         player.special_3 = false;
         player.stunned = false;
         percentage = 0;
-        manager.GetComponent<Manager>().UpdatePercentages(playerNum);
-        player.transform.position = initialPosition;
+        gameManager.UpdatePercentages(playerNum);
         rb2d.velocity = new Vector2(0, 0);
         rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-        if (Input.GetKey(jump) || Input.GetKey(down))
-        {
-            //Debug.Log("revit");
-            rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
-            player.GetComponent<Collider2D>().enabled = true;
-            player.isDead = false;
-            player.dead = false;
-        }
+        //if (Input.GetKey(jump) || Input.GetKey(down))
+        //{
+        //    //Debug.Log("revit");
+           
+        //}
+    }
+
+    public void Revive()
+    {
+        rb2d.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+        player.GetComponent<Collider2D>().enabled = true;
+        player.isDead = false;
+        player.dead = false;
     }
 
     private void Awake()

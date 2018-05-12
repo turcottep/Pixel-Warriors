@@ -78,21 +78,21 @@ public class Attacks : MonoBehaviour
     {
         canShootSp1 = false;
         yield return new WaitForSeconds(cooldown_special1);
-        player.manager.GetComponent<Manager>().coolingDown1 = false;
+        player.gameManager.coolingDown1 = false;
         canShootSp1 = true;
     }
     IEnumerator CanShootSpecial2() //W-Y
     {
         canShootSp2 = false;
         yield return new WaitForSeconds(cooldown_special2);
-        player.manager.GetComponent<Manager>().coolingDown2 = false;
+        player.gameManager.coolingDown2 = false;
         canShootSp2 = true;
     }
     IEnumerator CanShootSpecial3() //s-y
     {
         canShootSp3 = false;
         yield return new WaitForSeconds(cooldown_special3);
-        player.manager.GetComponent<Manager>().coolingDown3 = false;
+        player.gameManager.coolingDown3 = false;
         canShootSp3 = true;
     }
     IEnumerator DelayAnim()
@@ -218,7 +218,7 @@ public class Attacks : MonoBehaviour
                 if (player.name == "Scientist(Clone)") { rotation = 90; }
                 else { rotation = 0; }
 
-                player.manager.GetComponent<Manager>().coolingDown1 = true;
+                player.gameManager.coolingDown1 = true;
                 GameObject go = (GameObject)Instantiate(special1, (Vector2)transform.position + offset_special1 * transform.localScale.x, Quaternion.Euler(0, direction, rotation));
 
                 if (chargePercentage < 1) { damage = 0.1f; }
@@ -253,7 +253,7 @@ public class Attacks : MonoBehaviour
         StartCoroutine("DelayAnim");
         if (player.name == "Demon(Clone)" && canShootSp2 && !player.dead && player.grounded)
         {
-            player.manager.GetComponent<Manager>().coolingDown2 = true;
+            player.gameManager.coolingDown2 = true;
             damage = 1.25f;
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
@@ -306,7 +306,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Alien(Clone)" && canShootSp2 && !player.dead)
         {
-            player.manager.GetComponent<Manager>().coolingDown2 = true;
+            player.gameManager.coolingDown2 = true;
             float posBallUpBottom;
             float posBallMiddle;
             Vector2 ballSpeedUp;
@@ -374,7 +374,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Ninja(Clone)" && canShootSp2 && !player.dead)
         {
-            player.manager.GetComponent<Manager>().coolingDown2 = true;
+            player.gameManager.coolingDown2 = true;
             damage = 1.25f;
             Vector2 offset;
             Vector2 velocity = new Vector2(1.8f, 2.3f);
@@ -411,7 +411,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Scientist(Clone)" && canShootSp2 && !player.dead)
         {
-            player.manager.GetComponent<Manager>().coolingDown2 = true;
+            player.gameManager.coolingDown2 = true;
             damage = 1.25f;
             Vector2 offset;
             Vector2 velocity = new Vector2(1.8f, 2.3f);
@@ -535,7 +535,7 @@ public class Attacks : MonoBehaviour
         StartCoroutine("DelayAnim");
         if (player.name == "Demon(Clone)" && canShootSp3 && !player.dead)
         {
-            player.manager.GetComponent<Manager>().coolingDown3 = true;
+            player.gameManager.coolingDown3 = true;
             Vector2 offsetShield = new Vector2(0.2900102f, 0.02229776f);
             float posShield;
 
@@ -571,7 +571,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Alien(Clone)" && canShootSp3 && !player.dead && !player.grounded)
         {
-            player.manager.GetComponent<Manager>().coolingDown3 = true;
+            player.gameManager.coolingDown3 = true;
 
             GameObject UFO = Instantiate(Resources.Load("Alien_UFO"), new Vector2(player.GetComponent<Rigidbody2D>().position.x + 0.019f, player.GetComponent<Rigidbody2D>().position.y - 0.307f), Quaternion.identity) as GameObject;
             if (playerNum == 1)
@@ -593,7 +593,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Ninja(Clone)" && canShootSp3 && !player.dead)
         {
-            player.manager.GetComponent<Manager>().coolingDown3 = true;
+            player.gameManager.coolingDown3 = true;
 
             Vector2 pos = new Vector2(player.GetComponent<Rigidbody2D>().position.x, player.GetComponent<Rigidbody2D>().position.y);
 
@@ -612,7 +612,7 @@ public class Attacks : MonoBehaviour
 
         if (player.name == "Scientist(Clone)" && canShootSp3 && !player.dead)
         {
-            player.manager.GetComponent<Manager>().coolingDown3 = true;
+            player.gameManager.coolingDown3 = true;
 
             Vector2 offset;
             Vector2 velocity = new Vector2(1.8f, 2.3f);
