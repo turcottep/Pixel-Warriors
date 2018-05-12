@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 #endif
@@ -23,11 +24,16 @@ public class MainMenu : MonoBehaviour
 
     public Toggle soundCheckBox;
     public Toggle musicCheckBox;
+    public TMP_Dropdown dropdownDifficultyAI;
+
+    public GameObject errorCharacter;
+
 
     public int mapNumber;
     public int playerNumber = 0;
 
     private int gameMode = 1;
+    private int aiDificulty = 0;
 
     private bool once;
 
@@ -36,6 +42,7 @@ public class MainMenu : MonoBehaviour
     public void Awake()
     {
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("MainMenuManager"));
+        DontDestroyOnLoad(GameObject.FindGameObjectWithTag("SettingsMenu"));
         //player1 = Instantiate(Resources.Load("Ninja"), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
         //player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         //DontDestroyOnLoad(GameObject.FindGameObjectWithTag("MainMenuManager"));
@@ -45,25 +52,38 @@ public class MainMenu : MonoBehaviour
     public void playAI()
     {
 
-        SelectPlayer();
-        gameMode = 1;
-
-        if (toggleMap1.isOn)
+        if (SelectPlayer())
         {
-            toggleMap2.isOn = false;
-            mapNumber = 1;
+            gameMode = 1;
 
-            PhotonNetwork.LoadLevel("MAP1");
+            if (toggleMap1.isOn)
+            {
+                toggleMap2.isOn = false;
+                mapNumber = 1;
+
+                PhotonNetwork.LoadLevel("MAP1");
+            }
+            else if (toggleMap2.isOn)
+            {
+                toggleMap1.isOn = false;
+                mapNumber = 2;
+
+                PhotonNetwork.LoadLevel("MAP2");
+
+            }
         }
-        else if (toggleMap2.isOn)
-        {
-            toggleMap1.isOn = false;
-            mapNumber = 2;
+        else errorCharacter.SetActive(true);
+    }
 
-            PhotonNetwork.LoadLevel("MAP2");
+    public void SelectAIDfficulty()
+    {
+        aiDificulty = dropdownDifficultyAI.value;
+        Debug.Log("CHOOSING: " + aiDificulty);
+    }
 
-        }
-
+    public int getAIDifficulty()
+    {
+        return aiDificulty;
     }
 
     public void playOnline()
@@ -147,30 +167,36 @@ public class MainMenu : MonoBehaviour
 
     private void UpdatePlayerBackground()
     {
+        errorCharacter.SetActive(false);
         p1Background.SetActive(togglePlayer1.isOn);
         p2Background.SetActive(togglePlayer2.isOn);
         p3Background.SetActive(togglePlayer3.isOn);
         p4Background.SetActive(togglePlayer4.isOn);
     }
 
-    public void SelectPlayer()
+    public bool SelectPlayer()
     {
         if (togglePlayer1.isOn)
         {
             playerNumber = 1;
+            return true;
         }
         else if (togglePlayer2.isOn)
         {
             playerNumber = 2;
+            return true;
         }
         else if (togglePlayer3.isOn)
         {
             playerNumber = 3;
+            return true;
         }
         else if (togglePlayer4.isOn)
         {
             playerNumber = 4;
+            return true;
         }
+        else return false;
     }
 
     public int getMapNumber()

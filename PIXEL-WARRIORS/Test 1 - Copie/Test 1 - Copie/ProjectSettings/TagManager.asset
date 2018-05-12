@@ -34,6 +34,7 @@ TagManager:
   - UnassignedPlayer
   - Plateform Left
   - Plateform Right
+  - SettingsMenu
   layers:
   - Default
   - TransparentFX

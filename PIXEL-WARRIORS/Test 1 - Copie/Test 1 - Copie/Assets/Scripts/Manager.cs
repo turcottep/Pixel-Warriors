@@ -100,6 +100,7 @@ public class Manager : MonoBehaviour
         int playerNumberP1 = 4;
         int playerNumberP2 = 1;
 
+        int aiDifficulty = 0;
         // get info from main menu
         GameObject mainMenuManager = GameObject.FindGameObjectWithTag("MainMenuManager");
 
@@ -113,6 +114,7 @@ public class Manager : MonoBehaviour
             playerNumberP1 = mainMenuManager.GetComponent<MainMenu>().getPlayerNumber();
             gameMode = mainMenuManager.GetComponent<MainMenu>().getGameMode();
             mapN = mainMenuManager.GetComponent<MainMenu>().getMapNumber();
+            aiDifficulty = mainMenuManager.GetComponent<MainMenu>().getAIDifficulty();
 
             if (mapN == 1)
             {
@@ -221,6 +223,9 @@ public class Manager : MonoBehaviour
 
             player2.GetComponent<Player>().aiON = true;
             player2.GetComponent<Player>().speed = 2.5f;
+            Debug.Log("managerDifficulty: " + aiDifficulty);
+            player2.GetComponent<AI>().difficulty = aiDifficulty;
+            eloEnnemi = 900 + 200 * aiDifficulty;
             setHeads(playerNumberP1, playerNumberP2);
         }
     }
@@ -421,6 +426,7 @@ public class Manager : MonoBehaviour
     {
         isStarted = false;
         canCountDown = false;
+        updateLifeDisplay();
         Debug.Log("Game is over: Winner = player " + winner);
         player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;

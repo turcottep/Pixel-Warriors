@@ -155,7 +155,12 @@ public class Player : Photon.PunBehaviour, IPunObservable
                     vecteurTest = vecteurTest * multiplier;
                 }
             }
-            //
+            //Debug.Log("vecteur test x :" + vecteurTest.x);
+            if (Mathf.Abs(vecteurTest.x) < 0.1)
+            {
+                if (vecteurTest.x < 0) vecteurTest.x = -0.1f;
+                else vecteurTest.x = 0.1f;
+            }
 
             player.transform.position = pos;
             if (col.gameObject.name == "Ninja_Bomb(Clone)")
@@ -205,7 +210,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
             charge = false;
             this.rb2d.velocity = new Vector2(rb2d.velocity.x, percentage / 4 + 6);
             this.maxJump = 2;
-            Debug.Log("bounce =" + percentage);
+            //Debug.Log("bounce =" + percentage);
             if (percentage == 0) percentage = 1;
             else percentage = 1.5f * percentage;
             gameManager.UpdatePercentages(playerNum);
@@ -543,7 +548,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
         //if (Input.GetKey(jump) || Input.GetKey(down))
         //{
         //    //Debug.Log("revit");
-           
+
         //}
     }
 
