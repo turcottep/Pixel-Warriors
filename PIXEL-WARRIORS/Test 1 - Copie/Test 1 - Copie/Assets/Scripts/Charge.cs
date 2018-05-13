@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Charge : MonoBehaviour {
-
+public class Charge : MonoBehaviour
+{
+    private Player player;
     Vector3 localScale;
-    Player player;
-    Color green = new Color(0, 199, 16, 255);
+    Color green = new Color(0, 199, 0, 255);
     Color orange = new Color(255, 135, 0, 255);
     Color red = new Color(255, 0, 0, 255);
-    public bool isCharging = false;
+    public static string color = "green";
 
-	void Start ()
+    void Start()
     {
+        player = gameObject.GetComponentInParent<Player>();
         localScale = transform.localScale;
-        player = GetComponentInParent<Player>();
         this.GetComponent<SpriteRenderer>().color = Color.white;
-
     }
-	
-	void Update ()
+
+    void Update()
+    {
+        Charging();
+    }
+
+    public void Charging()
     {
         if (Player.chargeTime != 0)
         {
@@ -29,13 +33,13 @@ public class Charge : MonoBehaviour {
         {
             this.GetComponent<Renderer>().enabled = false;
         }
-        if (Player.c == true)
+        if (Player.isCharging == true)
         {
-            Debug.Log("REEE");
             localScale.x = Player.chargeTime * 0.0607f;
-            if (localScale.x < 0.0607f) { this.GetComponent<SpriteRenderer>().color = green; }
-            if (localScale.x > 0.0607f && localScale.x < 0.1214f) { this.GetComponent<SpriteRenderer>().color = orange; }
-            if (localScale.x > 0.1214f) { this.GetComponent<SpriteRenderer>().color = red; }
+            if (localScale.x < 0.0607f) { this.GetComponent<SpriteRenderer>().color = green; color = "green"; }
+            if (localScale.x > 0.0607f && localScale.x < 0.1214f) { this.GetComponent<SpriteRenderer>().color = orange; color = "yellow"; }
+            if (localScale.x > 0.152f) { this.GetComponent<SpriteRenderer>().color = red; color = "red"; }
+            if (Player.fullyCharged == true) { localScale.x = 0.17f; color = "red"; }
             transform.localScale = localScale;
         }
     }

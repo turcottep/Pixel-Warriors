@@ -35,6 +35,8 @@ TagManager:
   - Plateform Left
   - Plateform Right
   - SettingsMenu
+  - ChargeBar4
+  - ChargeBar1
   layers:
   - Default
   - TransparentFX

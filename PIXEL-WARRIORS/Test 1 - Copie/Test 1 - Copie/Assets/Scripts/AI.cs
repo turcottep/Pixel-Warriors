@@ -191,11 +191,11 @@ public class AI : MonoBehaviour
                     {
                         if (player.charge && FaireLeBonMove())
                         {
-                            player.Special1(false, 0);
+                            player.Special1(false);
                         }
                         else
                         {
-                            player.Special1(true, 0);
+                            player.Special1(true);
                         }
                         //Debug.Log("Avance vers joueur");
                         if (player.isRight) { player.MoveRight(); }

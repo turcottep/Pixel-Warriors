@@ -31,7 +31,7 @@ GameObject:
   - component: {fileID: 114329508447119580}
   m_Layer: 9
   m_Name: Ninja
-  m_TagString: UnassignedPlayer
+  m_TagString: Player 2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,6 +52,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1945379184087356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4631466329964448}
+  - component: {fileID: 212703447527728024}
+  - component: {fileID: 114760680595144240}
+  m_Layer: 0
+  m_Name: ChargingBar1
+  m_TagString: ChargeBar1
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4094206944518686
 Transform:
   m_ObjectHideFlags: 1
@@ -59,10 +76,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1733465360978672}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.011, y: 0.145, z: 0}
+  m_LocalPosition: {x: -0.94737434, y: 0.0098082125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4278069791254858}
+  - {fileID: 4631466329964448}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -78,6 +96,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4094206944518686}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4631466329964448
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945379184087356}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.09262562, y: 0.24017915, z: 0}
+  m_LocalScale: {x: 0.17, y: 0.025, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4094206944518686}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &50029036916582940
 Rigidbody2D:
@@ -169,16 +200,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 653c6257e2c98dd47b999de65ae8a089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 0
+  distance: -1.8261477
   dAvanceMin: 0.5
   dSauteMin: 0.1
   dAttack1Min: 0.05
   speedAI: 1
   direction: 0
-  distanceToLeftEdge: 0
-  distanceToRightEdge: 0
-  heightDistanceToPlateform: 0
+  velocityY: -2.3544
+  overEdge: 0
+  distanceToLeftEdge: 2.2363591
+  distanceToRightEdge: 4.0636406
+  heightDistanceToPlateform: -0.45231435
   distanceTrouX1: 0
+  difficulty: 0
 --- !u!114 &114329508447119580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -325,6 +359,17 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &114760680595144240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945379184087356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e22935d5f23b504f938707c30ea1098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114786148205056698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -343,12 +388,13 @@ MonoBehaviour:
   cooldown1: {fileID: 0}
   cooldown2: {fileID: 0}
   cooldown3: {fileID: 0}
+  muteSound: 1
   velocity_special1: {x: 3, y: 0}
   offset_basic1: {x: 0.0073, y: 0}
   offset_basic2: {x: -0.034, y: 0.019}
   offset_basic3: {x: 0.044, y: 0.0285}
   offset_special1: {x: 0.2, y: 0}
-  cooldown_special1: 1
+  cooldown_special1: 2
   cooldown_special2: 4
   cooldown_special3: 6
 --- !u!114 &114908476170408814
@@ -363,14 +409,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 1
-  mapNumber: 0
+  mapNumber: 1
   maxSpeed: 2.5
-  speed: 8
+  speed: 2.5
   jumpPower: 175
   maxJump: 2
   percentage: 0
   multiplier: 1
-  grounded: 0
+  grounded: 1
   basic_1: 0
   basic_2: 0
   basic_3: 0
@@ -389,27 +435,72 @@ MonoBehaviour:
   isPressingA: 0
   isPressingB: 0
   controls: 1
-  up: 119
+  up: 273
   pressUp: 0
-  jump: 32
-  left: 97
-  down: 115
+  jump: 109
+  left: 276
+  down: 274
   pressDown: 0
-  right: 100
-  A: 114
-  B: 102
+  right: 275
+  A: 44
+  B: 46
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
   isButtonDownPointerDown: 0
   isButtonAttackBPointerDown: 0
+  muteSound: 1
+  music: 0
   aiON: 0
   x: 0
-  initialPosition: {x: -2.7, y: 1.3, z: 0}
-  isRight: 0
+  isRight: 1
   isDead: 0
-  playerNum: 0
-  manager: {fileID: 0}
-  rb2d: {fileID: 0}
+  playerNum: 2
+  gameManager: {fileID: 0}
+  rb2d: {fileID: 50029036916582940}
+--- !u!212 &212703447527728024
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945379184087356}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 075a89606defaef4c9659cd66cbd7191, type: 3}
+  m_Color: {r: 255, g: 0, b: 0, a: 255}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212741927714056260
 SpriteRenderer:
   m_ObjectHideFlags: 1

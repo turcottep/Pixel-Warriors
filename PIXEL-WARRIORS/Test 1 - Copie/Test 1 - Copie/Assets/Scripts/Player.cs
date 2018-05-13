@@ -17,10 +17,12 @@ public class Player : Photon.PunBehaviour, IPunObservable
     public float percentage = 0f;
     public float multiplier = 1f;
 
+    //Charge
     public static float chargeTime = 0;
     private float chargePercentage = 0;
-    private bool isCharging = false;
-    public static bool c = false;
+    public static bool isCharging = false;
+    public static bool fullyCharged = false;
+    private bool canShoot = true;
 
     //Animations
     public bool grounded;
@@ -230,6 +232,13 @@ public class Player : Photon.PunBehaviour, IPunObservable
         //}
     }
 
+    IEnumerator CooldownSpecial1()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(2);
+        canShoot = true;
+    }
+
     void Update()
     {
         if (gameManager.isStarted)
@@ -297,6 +306,15 @@ public class Player : Photon.PunBehaviour, IPunObservable
                 }
 
                 //B
+
+                if (isCharging)
+                {
+                    isCharging = true;
+                    chargeTime += Time.deltaTime;
+                    if (chargeTime > 2.7f) { fullyCharged = true; }
+                    else { fullyCharged = false; }
+                }
+
                 if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && pressUp) // B + ↑
                 {
                     Special2();
@@ -306,18 +324,25 @@ public class Player : Photon.PunBehaviour, IPunObservable
                     special_2 = false;
                     Special3();
                 }
-                else if ((Input.GetKeyDown(B) || isButtonAttackBPointerDown)) // B + ← →
+                else if (((Input.GetKeyDown(B) || isButtonAttackBPointerDown) && canShoot)) // B + ← →
                 {
+                    isCharging = true;
+
                     special_3 = false;
-                    Special1(true, chargePercentage);
+                    Special1(true);
                 }
                 else if (Input.GetKeyUp(B)) // B + ← →
                 {
-                    Special1(false, chargePercentage);
+                    Special1(false);
                     special_1 = false;
+
+                    StartCoroutine("CooldownSpecial1");
+
+                    Charge.color = "green";
+                    chargePercentage = 0;
+                    chargeTime = 0;
+                    isCharging = false;
                 }
-
-
                 if (Input.GetKeyDown(down)) // B + ↓
                 {
                     pressDown = true;
@@ -490,10 +515,10 @@ public class Player : Photon.PunBehaviour, IPunObservable
         player.GetComponent<Attacks>().LaunchBasic3(playerNum);
     }
 
-    public void Special1(bool state, float charge)
+    public void Special1(bool state)
     {
 
-        player.GetComponent<Attacks>().LaunchSpecial1(playerNum, state, charge);
+        player.GetComponent<Attacks>().LaunchSpecial1(playerNum, state);
 
     }
     public void Special2()
@@ -647,24 +672,6 @@ public class Player : Photon.PunBehaviour, IPunObservable
             basic_3 = false;
         }
 
-        if (isCharging)
-        {
-            chargeTime += Time.deltaTime;
-            c = true;
-            Debug.Log("Charging : " + chargeTime);
-
-
-            if (chargeTime > 2.7f && chargeTime < 2.8f)
-            {
-                chargePercentage = 2.8f;
-                isCharging = false;
-            }
-            else
-            {
-                chargePercentage = chargeTime;
-            }
-        }
-
         if (isPressingB && isPressingUp) // B + ↑
         {
             Special2();
@@ -676,21 +683,13 @@ public class Player : Photon.PunBehaviour, IPunObservable
         }
         else if (isPressingB) // B + ← →
         {
-            isCharging = true;
-
             special_3 = false;
-            Special1(true, chargePercentage);
+            Special1(true);
         }
         else
         {
-            isCharging = false;
-            c = false;
-
-            Special1(false, chargePercentage);
+            Special1(false);
             special_1 = false;
-
-            chargePercentage = 0;
-            chargeTime = 0;
         }
 
 
