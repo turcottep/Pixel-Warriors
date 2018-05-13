@@ -484,6 +484,9 @@ public class Manager : Photon.PunBehaviour
 
     public void BackToMenu()
     {
+        if (mapN == 1) audio.Stop("MusicMap1", 0, music);
+        else if (mapN == 2) audio.Stop("MusicMap2", 0, music);
+
         PlayerPrefs.SetFloat("gold", gold);
         PhotonNetwork.LoadLevel("Menu");
     }

@@ -16,6 +16,23 @@ public class MainMenu : MonoBehaviour
     public Toggle toggleMap1;
     public Toggle toggleMap2;
 
+    public bool boughtP2;
+    public bool boughtP3;
+    public bool boughtP4;
+
+    public GameObject lockP2;
+    public GameObject lockP3;
+    public GameObject lockP4;
+    public GameObject coinsDisplay;
+
+    public float gold;
+
+    private int priceP2 = 5000;
+    private int priceP3 = 7500;
+    private int priceP4 = 10000;
+
+    public GameObject errorNotEnoughMoney;
+
     public Toggle togglePlayer1;
     public GameObject p1Background;
     public Toggle togglePlayer2;
@@ -46,18 +63,29 @@ public class MainMenu : MonoBehaviour
     {
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("MainMenuManager"));
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("SettingsMenu"));
+
+        gold = PlayerPrefs.GetFloat("gold", 0f);
+        UpdateCoinsDisplay();
+        boughtP2 = PlayerPrefs.GetInt("boughtP2", 0) == 1;
+        boughtP3 = PlayerPrefs.GetInt("boughtP3", 0) == 1;
+        boughtP4 = PlayerPrefs.GetInt("boughtP4", 0) == 1;
+
         //player1 = Instantiate(Resources.Load("Ninja"), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
         //player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         //DontDestroyOnLoad(GameObject.FindGameObjectWithTag("MainMenuManager"));
 
     }
 
-    public void GoToMapsMenu()
+    public void GoToCharactersMenu()
     {
         if (toggleMap1.isOn || toggleMap2.isOn)
         {
             mapsMenu.SetActive(false);
             characterMenu.SetActive(true);
+            lockP2.SetActive(!boughtP2);
+            lockP3.SetActive(!boughtP3);
+            lockP4.SetActive(!boughtP4);
+
         }
         else
         {
@@ -126,6 +154,67 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    // SHOP 
+    public bool BuyP2()
+    {
+        Debug.Log("buying p2");
+        if (!boughtP2 && gold >= priceP2)
+        {
+            gold -= priceP2;
+            boughtP2 = true;
+            PlayerPrefs.SetInt("boughtP2", 1);
+            PlayerPrefs.SetFloat("gold", gold);
+            lockP2.SetActive(false);
+            UpdateCoinsDisplay();
+            return true;
+        }
+        else
+        {
+            StartCoroutine("NotEnoughMoney");
+            return false;
+        }
+    }
+
+    public bool BuyP3()
+    {
+        Debug.Log("buying p3");
+        if (!boughtP3 && gold >= priceP3)
+        {
+            gold -= priceP3;
+            boughtP3 = true;
+            PlayerPrefs.SetInt("boughtP3", 1);
+            PlayerPrefs.SetFloat("gold", gold);
+            lockP3.SetActive(false);
+            UpdateCoinsDisplay();
+            return true;
+        }
+        else
+        {
+            StartCoroutine("NotEnoughMoney");
+            return false;
+        }
+    }
+
+    public bool BuyP4()
+    {
+        Debug.Log("buying p4");
+        if (!boughtP4 && gold >= priceP4)
+        {
+            gold -= priceP4;
+            boughtP4 = true;
+            PlayerPrefs.SetInt("boughtP4", 1);
+            PlayerPrefs.SetFloat("gold", gold);
+            lockP4.SetActive(false);
+            UpdateCoinsDisplay();
+            return true;
+        }
+        else
+        {
+            StartCoroutine("NotEnoughMoney");
+            return false;
+        }
+    }
+
     public void unSelect1()
     {
         if (toggleMap2.isOn)
@@ -157,6 +246,14 @@ public class MainMenu : MonoBehaviour
     {
         if (togglePlayer2.isOn)
         {
+            if (!boughtP2)
+            {
+                if (!BuyP2())
+                {
+                    togglePlayer2.isOn = false;
+                    return;
+                }
+            }
             togglePlayer1.isOn = false;
             togglePlayer3.isOn = false;
             togglePlayer4.isOn = false;
@@ -167,6 +264,14 @@ public class MainMenu : MonoBehaviour
     {
         if (togglePlayer3.isOn)
         {
+            if (!boughtP3)
+            {
+                if (!BuyP3())
+                {
+                    togglePlayer3.isOn = false;
+                    return;
+                }
+            }
             togglePlayer1.isOn = false;
             togglePlayer2.isOn = false;
             togglePlayer4.isOn = false;
@@ -177,6 +282,14 @@ public class MainMenu : MonoBehaviour
     {
         if (togglePlayer4.isOn)
         {
+            if (!boughtP4)
+            {
+                if (!BuyP4())
+                {
+                    togglePlayer4.isOn = false;
+                    return;
+                }
+            }
             togglePlayer1.isOn = false;
             togglePlayer2.isOn = false;
             togglePlayer3.isOn = false;
@@ -218,6 +331,18 @@ public class MainMenu : MonoBehaviour
         else return false;
     }
 
+    IEnumerator NotEnoughMoney()
+    {
+        errorNotEnoughMoney.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        errorNotEnoughMoney.SetActive(false);
+    }
+
+    public void UpdateCoinsDisplay()
+    {
+        coinsDisplay.GetComponent<TextMeshProUGUI>().SetText(gold.ToString());
+    }
+
     public int getMapNumber()
     {
         return mapNumber;
@@ -243,4 +368,5 @@ public class MainMenu : MonoBehaviour
 
         return soundCheckBox.isOn;
     }
+
 }

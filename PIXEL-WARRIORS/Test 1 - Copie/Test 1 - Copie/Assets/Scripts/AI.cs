@@ -32,6 +32,8 @@ public class AI : MonoBehaviour
     private Transform plateformRight;
     private Transform plateformLeft;
 
+    private Transform lowestPLatform;
+
     private bool firstJump;
     private bool firstJumpEdge;
 
@@ -48,8 +50,10 @@ public class AI : MonoBehaviour
 
         plateformRight = GameObject.FindGameObjectWithTag("Plateform Right").transform;
         plateformLeft = GameObject.FindGameObjectWithTag("Plateform Left").transform;
+        lowestPLatform = GameObject.FindGameObjectWithTag("LowestPlatform").transform;
 
-        Debug.Log("difficulty = " + difficulty);
+
+        //Debug.Log("difficulty = " + difficulty);
     }
 
     // Update is called once per frame
@@ -207,7 +211,18 @@ public class AI : MonoBehaviour
                         player.x = 0;
                         player.Basic1();
                     }
-
+                    if (rb2d.position.y < lowestPLatform.position.y)
+                    {
+                        Debug.Log("En train de tOOOOOOOOOOOOMBER");
+                        if (player.maxJump == 2)
+                        {
+                            player.MoveUp();
+                        }
+                        else if (rb2d.velocity.y < 0)
+                        {
+                            player.MoveUp();
+                        }
+                    }
                 }
 
                 //}
@@ -219,8 +234,8 @@ public class AI : MonoBehaviour
     private bool FaireLeBonMove()
     {
         bool temp = Mathf.Floor(Random.Range(0, 20 * (2 - difficulty) + 1)) == 0;
-        Debug.Log("Range = 0," + 20 * (2 - difficulty) + 1);
-        Debug.Log("bool = " + temp);
+        //Debug.Log("Range = 0," + 20 * (2 - difficulty) + 1);
+        //Debug.Log("bool = " + temp);
         return temp;
     }
 

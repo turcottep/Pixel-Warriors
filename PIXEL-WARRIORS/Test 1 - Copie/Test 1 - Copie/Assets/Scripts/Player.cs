@@ -729,7 +729,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (rb2d.velocity.y <= 0)
+        if (rb2d.velocity.y <= 0 && col.gameObject.tag != "Lava" && col.gameObject.tag != "AttPlayer2" && col.gameObject.tag != "AttPlayer1" && col.gameObject.tag != "ShieldPlayer1" && col.gameObject.tag != "ShieldPlayer2")
         {
             player.grounded = true;
             maxJump = 2;
