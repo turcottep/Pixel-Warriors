@@ -26,11 +26,13 @@ public class Manager : Photon.PunBehaviour
     public GameObject headP2_3;
     public GameObject headP2_4;
 
+    public TextMeshProUGUI textNameP1;
     public TextMeshProUGUI textPercentageP1;
     public GameObject life1P1;
     public GameObject life2P1;
     public GameObject life3P1;
 
+    public TextMeshProUGUI textNameP2;
     public TextMeshProUGUI textPercentageP2;
     public GameObject life1P2;
     public GameObject life2P2;
@@ -86,8 +88,8 @@ public class Manager : Photon.PunBehaviour
     private Vector2 initialPositionP1;
     private Vector2 initialPositionP2;
 
-    private string nomEnnemi = "";
-
+    private string nomEnnemi = " ";
+    private string nom = " ";
     #endregion
 
 
@@ -456,13 +458,13 @@ public class Manager : Photon.PunBehaviour
         }
         if (winner == 1)
         {
-            Destroy(player2);
+            //Destroy(player2);
             imageWin.SetActive(true);
             result = 1;
         }
         else
         {
-            Destroy(player1);
+            //Destroy(player1);
             imageLost.SetActive(true);
             result = -1;
         }
@@ -597,6 +599,14 @@ public class Manager : Photon.PunBehaviour
         Debug.Log("OnPhotonPlayerConnected() " + other.NickName); // not seen if you're the player connecting
         nomEnnemi = other.NickName;
         eloEnnemi = other.GetScore();
+        elo = PhotonNetwork.player.GetScore();
+        nom = PhotonNetwork.player.NickName;
+
+        textNameP1.text = nom;
+        textNameP2.text = nomEnnemi;
+
+        Debug.Log("Player 1 elo = " + elo);
+        Debug.Log("Player 2 elo = " + eloEnnemi);
 
         if (PhotonNetwork.isMasterClient)
         {

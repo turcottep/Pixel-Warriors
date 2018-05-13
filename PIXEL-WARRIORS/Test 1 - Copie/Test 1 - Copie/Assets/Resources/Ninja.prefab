@@ -435,13 +435,13 @@ MonoBehaviour:
   isPressingA: 0
   isPressingB: 0
   controls: 1
-  up: 273
+  up: 119
   pressUp: 0
   jump: 32
-  left: 276
-  down: 274
+  left: 97
+  down: 115
   pressDown: 0
-  right: 275
+  right: 100
   A: 106
   B: 107
   isButtonLeftPointerDown: 0

@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 43409399}
   - component: {fileID: 43409398}
   - component: {fileID: 43409397}
+  - component: {fileID: 43409400}
   m_Layer: 5
   m_Name: TextMeshPro - InputField
   m_TagString: Untagged
@@ -235,12 +236,12 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 02ace0a582e36d54399e8c5e36bb7c0f, type: 3}
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 43409400}
+        m_MethodName: SetPlayerName
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -295,6 +296,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 43409395}
+--- !u!114 &43409400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 43409395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ace0a582e36d54399e8c5e36bb7c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &137955054
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,8 +821,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40815c0fec198fc47ba2ac28608e7f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1733465360978672, guid: 6ea63250444175247a4d6e522f949867,
-    type: 2}
 --- !u!4 &821940168
 Transform:
   m_ObjectHideFlags: 0
