@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 114153068986837350}
   m_Layer: 8
   m_Name: Demon
-  m_TagString: Player 1
+  m_TagString: UnassignedPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -346,13 +346,13 @@ MonoBehaviour:
   controls: 1
   up: 119
   pressUp: 0
-  jump: 114
+  jump: 32
   left: 97
   down: 115
   pressDown: 0
   right: 100
-  A: 116
-  B: 121
+  A: 106
+  B: 107
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
   isButtonDownPointerDown: 0

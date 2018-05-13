@@ -4,8 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
-public class Manager : MonoBehaviour
+public class Manager : Photon.PunBehaviour
 {
 
     #region public variables
@@ -84,6 +85,8 @@ public class Manager : MonoBehaviour
 
     private Vector2 initialPositionP1;
     private Vector2 initialPositionP2;
+
+    private string nomEnnemi = "";
 
     #endregion
 
@@ -575,6 +578,42 @@ public class Manager : MonoBehaviour
         GameObject piedsJ1 = GameObject.FindGameObjectWithTag("Feet" + player1Type);
         piedsJ1.layer = player1.layer;
         piedsJ1.tag = player1.tag;
+    }
+
+
+    /// <summary>
+    /// GAMEMANAGER DE LAFLEUR
+    /// </summary>
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public override void OnPhotonPlayerConnected(PhotonPlayer other)
+    {
+        Debug.Log("OnPhotonPlayerConnected() " + other.NickName); // not seen if you're the player connecting
+        nomEnnemi = other.NickName;
+        eloEnnemi = other.GetScore();
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            Debug.Log("OnPhotonPlayerConnected isMasterClient " + PhotonNetwork.isMasterClient); // called before OnPhotonPlayerDisconnected
+
+
+            //LoadArena();
+        }
+    }
+
+
+    public override void OnPhotonPlayerDisconnected(PhotonPlayer other)
+    {
+        Debug.Log("OnPhotonPlayerDisconnected() " + other.NickName); // seen when other disconnects
+        GameOver(1);
+    }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
     }
     #endregion
 

@@ -9,6 +9,9 @@ using UnityEditor.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject mapsMenu;
+    public GameObject characterMenu;
+    public GameObject errorMap;
 
     public Toggle toggleMap1;
     public Toggle toggleMap2;
@@ -46,6 +49,20 @@ public class MainMenu : MonoBehaviour
         //player1 = Instantiate(Resources.Load("Ninja"), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
         //player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         //DontDestroyOnLoad(GameObject.FindGameObjectWithTag("MainMenuManager"));
+
+    }
+
+    public void GoToMapsMenu()
+    {
+        if (toggleMap1.isOn || toggleMap2.isOn)
+        {
+            mapsMenu.SetActive(false);
+            characterMenu.SetActive(true);
+        }
+        else
+        {
+            errorMap.SetActive(true);
+        }
 
     }
 
@@ -115,6 +132,7 @@ public class MainMenu : MonoBehaviour
         {
             toggleMap1.isOn = false;
         }
+        errorMap.SetActive(false);
     }
     public void unSelect2()
     {
@@ -122,6 +140,7 @@ public class MainMenu : MonoBehaviour
         {
             toggleMap2.isOn = false;
         }
+        errorMap.SetActive(false);
     }
 
     public void SelectP1()

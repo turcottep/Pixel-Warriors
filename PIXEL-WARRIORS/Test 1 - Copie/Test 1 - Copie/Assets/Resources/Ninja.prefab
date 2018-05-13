@@ -31,7 +31,7 @@ GameObject:
   - component: {fileID: 114329508447119580}
   m_Layer: 9
   m_Name: Ninja
-  m_TagString: Player 2
+  m_TagString: UnassignedPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -437,13 +437,13 @@ MonoBehaviour:
   controls: 1
   up: 273
   pressUp: 0
-  jump: 109
+  jump: 32
   left: 276
   down: 274
   pressDown: 0
   right: 275
-  A: 44
-  B: 46
+  A: 106
+  B: 107
   isButtonLeftPointerDown: 0
   isButtonRightPointerDown: 0
   isButtonDownPointerDown: 0
