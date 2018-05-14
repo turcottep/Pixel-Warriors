@@ -129,7 +129,7 @@ public class Manager : Photon.PunBehaviour
                     audio.Play("MusicMap1", 0, music);
                 }
 
-                initialPositionP1 = new Vector2(-2.7f, 1.1f);
+                initialPositionP1 = new Vector2(-3f, 2f);
                 initialPositionP2 = new Vector2(2.7f, 1.1f);
             }
             else if (mapN == 2)
