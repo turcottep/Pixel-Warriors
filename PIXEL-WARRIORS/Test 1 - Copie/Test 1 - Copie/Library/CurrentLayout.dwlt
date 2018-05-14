@@ -110,7 +110,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 392}
   m_MaxSize: {x: 22012, y: 14042}
   vertical: 0
-  controlID: 11
+  controlID: 84
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_MinSize: {x: 436, y: 392}
   m_MaxSize: {x: 14006, y: 14042}
   vertical: 1
-  controlID: 12
+  controlID: 85
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_MinSize: {x: 436, y: 271}
   m_MaxSize: {x: 14006, y: 10021}
   vertical: 0
-  controlID: 13
+  controlID: 86
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -358,7 +358,7 @@ MonoBehaviour:
       width: 1280
       height: 924.31
     m_MinimalGUI: 1
-  m_defaultScale: 0.41328126
+  m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
   m_LastWindowPixelSize: {x: 529, y: 399}
@@ -410,13 +410,14 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: 82
-  m_LastProjectPath: C:\Users\Utilisateur\Desktop\Test 1 - Copie
+  m_LastProjectPath: C:\Users\Utilisateur\Documents\GitHub\Pixel-Warriors\PIXEL-WARRIORS\Test
+    1 - Copie\Test 1 - Copie
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 1c2a0000
-    m_LastClickedID: 10780
-    m_ExpandedIDs: 000000001c2a0000242b000000300000523100005c310000ffffff7f
+    m_SelectedIDs: bc370000
+    m_LastClickedID: 14268
+    m_ExpandedIDs: 00000000bc37000092380000ca3c0000cc3d0000d63d0000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -444,7 +445,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000001c2a0000242b000000300000523100005c310000
+    m_ExpandedIDs: 00000000bc37000092380000ca3c0000cc3d0000d63d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -532,9 +533,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.012662932, y: 0.19218178, z: -9.945709}
+    m_Target: {x: -0.32396707, y: -0.15689409, z: 0.16144925}
     speed: 2
-    m_Value: {x: -0.012662932, y: 0.19218178, z: -9.945709}
+    m_Value: {x: -0.32396707, y: -0.15689409, z: 0.16144925}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -562,9 +563,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 5.439491
+    m_Target: 12.085368
     speed: 2
-    m_Value: 5.439491
+    m_Value: 12.085368
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -816,9 +817,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 78310000
+    m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 965bfcff6e64fcfffa64fcff9867fcffae67fcffc467fcffe067fcfffc72fcff6acafcfff6cafcff98cdfcffb2cdfcffcccdfcffeccdfcff02d0fcffb0e8fcff62eefcffeeeefcff8cf1fcffa2f1fcffb8f1fcffd0f1fcff2805fdff0610fdffae51fdff3852fdffd654fdffec54fdff0c55fdff1855fdffc09ffdffb6bbfdff16d4fdffead9fdff76dafdff18ddfdff32ddfdff4cddfdff6cddfdff44defdffe2dffdff20e1fdff16e3fdff44e4fdff14f8fdffb69afeffa2d7feff3ae0feff8083ffff66cafffff0caffff8ecdffffa4cdffffc4cdffffd0cdffff4eeaffff34ebffffd2edffffe8edffff08eeffff14eeffff9efbffff00000000ba6f0000e26f0000c47c000080840000b88a00004a930000ec9c0000149d00003cba0000a4bd000012be0000a0c30000e2d700007adf0000b0e5000010fa0000a0020100
+    m_ExpandedIDs: 48b0ffff48f5ffff34f8ffff00000000be480000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
