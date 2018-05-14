@@ -201,9 +201,9 @@ public class Manager : Photon.PunBehaviour
             player1 = Instantiate(Resources.Load(character1), initialPositionP1, Quaternion.identity) as GameObject;
             player1.tag = "Player 1";
             player1.layer = 8;
-            player1.GetComponent<Player>().jump = KeyCode.R;
-            player1.GetComponent<Player>().A = KeyCode.T;
-            player1.GetComponent<Player>().B = KeyCode.Y;
+            player1.GetComponent<Player>().jump = KeyCode.Space;
+            player1.GetComponent<Player>().A = KeyCode.J;
+            player1.GetComponent<Player>().B = KeyCode.K;
             player1.GetComponent<Player>().up = KeyCode.W;
             player1.GetComponent<Player>().left = KeyCode.A;
             player1.GetComponent<Player>().down = KeyCode.S;
