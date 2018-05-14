@@ -654,6 +654,7 @@ public class Manager : Photon.PunBehaviour
     public void buttonAttackBPointerUpP1()
     {
         player1.GetComponent<Player>().isButtonAttackBPointerDown = false;
+        player1.GetComponent<Player>().isButtonAttackBShoot = true;
     }
 
     public void buttonLeftPointerDownP1()

@@ -63,6 +63,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
     public bool isButtonRightPointerDown;
     public bool isButtonDownPointerDown;
     public bool isButtonAttackBPointerDown;
+    public bool isButtonAttackBShoot = false;
 
     //audio
     [HideInInspector]
@@ -331,7 +332,7 @@ public class Player : Photon.PunBehaviour, IPunObservable
                     special_3 = false;
                     Special1(true);
                 }
-                else if (Input.GetKeyUp(B)) // B + ← →
+                else if (Input.GetKeyUp(B) || isButtonAttackBShoot) // B + ← →
                 {
                     Special1(false);
                     special_1 = false;
