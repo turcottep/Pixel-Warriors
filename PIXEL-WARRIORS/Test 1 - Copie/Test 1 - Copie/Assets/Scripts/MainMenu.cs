@@ -69,6 +69,11 @@ public class MainMenu : MonoBehaviour
         boughtP3 = PlayerPrefs.GetInt("boughtP3", 0) == 1;
         boughtP4 = PlayerPrefs.GetInt("boughtP4", 0) == 1;
 
+        PlayerPrefs.SetInt("boughtP2", 0);
+        PlayerPrefs.SetInt("boughtP3", 0);
+        PlayerPrefs.SetInt("boughtP4", 0);
+
+
         //player1 = Instantiate(Resources.Load("Ninja"), new Vector2(-2.7f, 0.9f), Quaternion.identity) as GameObject;
         //player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         //DontDestroyOnLoad(GameObject.FindGameObjectWithTag("MainMenuManager"));

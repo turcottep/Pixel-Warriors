@@ -2174,7 +2174,7 @@ MonoBehaviour:
   lockP3: {fileID: 1546232494}
   lockP4: {fileID: 161458080}
   coinsDisplay: {fileID: 1997741482}
-  gold: 0
+  gold: 10000
   errorNotEnoughMoney: {fileID: 212378140}
   togglePlayer1: {fileID: 317356314}
   p1Background: {fileID: 2114397623}
