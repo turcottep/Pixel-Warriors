@@ -56,7 +56,6 @@ public class MainMenu : MonoBehaviour
     private int aiDificulty = 0;
 
     private bool once;
-
     GameObject player1;
 
     public void Awake()
@@ -81,6 +80,7 @@ public class MainMenu : MonoBehaviour
         if (toggleMap1.isOn || toggleMap2.isOn)
         {
             mapsMenu.SetActive(false);
+            UpdateCoinsDisplay();
             characterMenu.SetActive(true);
             lockP2.SetActive(!boughtP2);
             lockP3.SetActive(!boughtP3);
