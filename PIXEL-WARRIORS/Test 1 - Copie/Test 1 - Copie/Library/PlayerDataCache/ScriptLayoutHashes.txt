@@ -253,7 +253,7 @@ c0ad1fb5d400aa83cb257e5f6c3714cf Assembly-CSharp.dll:.OnClickDestroy
 0e97a43e058838410bcd380f5f542153 Assembly-CSharp.dll:.Manager
 8a50d3d11bf0cc541f5c35347dd25633 Assembly-CSharp.dll:TMPro.Examples.ShaderPropAnimator
 30c6237931168f8b4c2f10a656a47aa8 Assembly-CSharp.dll:.PickupItem
-c6ce1fa55c32717203eac47db873c0a4 Assembly-CSharp.dll:.Player
+5f9f7348aa184144958e9932175932ac Assembly-CSharp.dll:.Player
 b9efe2a0d1c9ba7bc46e66a07a897115 Assembly-CSharp.dll:.ServerSettings
 32e8fe00b63ed946490b898f6024a2f2 Facebook.Unity.Settings.dll:Facebook.Unity.Settings.FacebookSettings
 76015de5fcb247eeb8df66c001d5a22d Assembly-CSharp.dll:TMPro.Examples.TMP_FrameRateCounter

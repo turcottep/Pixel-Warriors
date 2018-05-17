@@ -643,7 +643,13 @@ public class Manager : Photon.PunBehaviour
 
     public void buttonAttackAPointerDownP1()
     {
+        player1.GetComponent<Player>().isButtonAttackAPointerDown = true;
         player1.GetComponent<Player>().Basic1();
+    }
+
+    public void buttonAttackAPointerUpP1()
+    {
+        player1.GetComponent<Player>().isButtonAttackAPointerDown = false;
     }
 
     public void buttonAttackBPointerDownP1()
@@ -701,7 +707,8 @@ public class Manager : Photon.PunBehaviour
 
     private void Awake()
     {
-        gold = PlayerPrefs.GetFloat("gold", 0f);
+        gold += PlayerPrefs.GetFloat("gold");
+        Debug.Log("gold1 " + gold);
     }
 
     private void OnApplicationQuit()

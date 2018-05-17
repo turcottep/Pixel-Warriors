@@ -27,9 +27,9 @@ public class MainMenu : MonoBehaviour
 
     public float gold;
 
-    private int priceP2 = 5000;
-    private int priceP3 = 7500;
-    private int priceP4 = 10000;
+    private int priceP2 = 300;
+    private int priceP3 = 300;
+    private int priceP4 = 300;
 
     public GameObject errorNotEnoughMoney;
 
@@ -64,7 +64,8 @@ public class MainMenu : MonoBehaviour
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("MainMenuManager"));
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("SettingsMenu"));
 
-        gold = PlayerPrefs.GetFloat("gold", 0f);
+        gold += PlayerPrefs.GetFloat("gold");
+        Debug.Log("gold2 " + gold);
         UpdateCoinsDisplay();
         boughtP2 = PlayerPrefs.GetInt("boughtP2", 0) == 1;
         boughtP3 = PlayerPrefs.GetInt("boughtP3", 0) == 1;
